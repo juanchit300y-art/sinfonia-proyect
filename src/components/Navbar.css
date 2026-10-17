@@ -1,0 +1,288 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  color: var(--texto-principal);
+  background: var(--fondo-base);
+  border-bottom: 1px solid var(--borde-sutil);
+  font-family: var(--fuente-inter);
+}
+
+.navbar-interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+  padding-block: var(--espacio-3);
+}
+
+.navbar a {
+  text-decoration: none;
+  color: inherit;
+  font: inherit;
+}
+
+.navbar button,
+.navbar select {
+  font: inherit;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+.navbar :focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 3px;
+}
+
+/* Marca / Logo */
+.navbar-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  text-decoration: none;
+}
+
+.navbar-marca-texto {
+  font-family: var(--fuente-syne);
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: var(--texto-principal);
+}
+
+/* Acciones en móvil */
+.navbar-movil-acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+}
+
+.navbar .navbar-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-completo);
+  color: var(--texto-principal);
+  background: transparent;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.navbar .navbar-icono:hover,
+.navbar .navbar-icono[aria-pressed="true"] {
+  border-color: var(--borde-fuerte);
+  background: var(--fondo-sutil);
+}
+
+/* Panel de navegación */
+.navbar-panel {
+  display: none;
+  width: 100%;
+}
+
+.navbar-panel.is-abierto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--fondo-base);
+  border-bottom: 1px solid var(--borde-sutil);
+  padding: var(--espacio-4);
+}
+
+/* Enlaces */
+.navbar-enlaces {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar-enlaces a {
+  position: relative;
+  color: var(--texto-secundario);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding-block: var(--espacio-1);
+  transition: color 150ms ease;
+}
+
+.navbar-enlaces a:hover {
+  color: var(--texto-principal);
+}
+
+.navbar-enlaces a[aria-current="page"] {
+  color: var(--texto-principal);
+  font-weight: 600;
+}
+
+.navbar-enlaces a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--marca-primario);
+  border-radius: var(--radio-completo);
+}
+
+/* Utilidades a la derecha */
+.navbar-utilidades {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espacio-4);
+}
+
+/* Selector de idioma píldora */
+.navbar-idioma {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  height: 40px;
+  padding-inline: var(--espacio-3) var(--espacio-2);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-completo);
+  color: var(--texto-principal);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+
+.navbar-idioma:hover {
+  border-color: var(--borde-fuerte);
+  background: var(--fondo-sutil);
+}
+
+.navbar-idioma:focus-within {
+  border-color: var(--marca-primario);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--marca-primario) 25%, transparent);
+}
+
+.navbar-idioma svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.navbar-idioma select {
+  appearance: none;
+  border: 0;
+  outline: none;
+  padding-right: var(--espacio-1);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.navbar-idioma select option {
+  background: var(--fondo-superficie);
+  color: var(--texto-principal);
+}
+
+.navbar-chevron {
+  width: 14px;
+  height: 14px;
+}
+
+/* Botón de texto "Ingresar" */
+.navbar-boton-ingresar {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--espacio-2) var(--espacio-4);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--texto-principal);
+  transition: color 150ms ease;
+}
+
+.navbar-boton-ingresar:hover {
+  color: var(--marca-primario);
+}
+
+/* Botón píldora "Crear cuenta" */
+.navbar-boton-registro {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding-inline: var(--espacio-4);
+  border-radius: var(--radio-completo);
+  background: var(--marca-primario);
+  color: var(--texto-sobre-marca) !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color 150ms ease, transform 100ms ease;
+}
+
+.navbar-boton-registro:hover {
+  background: var(--marca-primario-hover);
+}
+
+.navbar-boton-registro:active {
+  background: var(--marca-primario-presionado);
+  transform: scale(0.98);
+}
+
+/* Estados de carga y error */
+.navbar-estado {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--texto-secundario);
+}
+
+.navbar-estado button {
+  margin-left: var(--espacio-2);
+  padding: var(--espacio-1) var(--espacio-2);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-sm);
+}
+
+/* Vista Desktop */
+@media (min-width: 900px) {
+  .navbar-interior {
+    gap: var(--espacio-8);
+  }
+
+  .navbar-movil-acciones {
+    display: none;
+  }
+
+  .navbar-panel,
+  .navbar-panel.is-abierto {
+    display: flex;
+    flex: 1;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .navbar-enlaces {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--espacio-6);
+  }
+
+  .navbar-utilidades {
+    margin-left: auto;
+    gap: var(--espacio-4);
+  }
+}
