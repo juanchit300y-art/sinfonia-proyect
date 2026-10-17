@@ -1,0 +1,104 @@
+/* Tokens de diseño de Sintonía, exportados del archivo de Figma. */
+/* Nombres iguales a las variables de Figma: "fondo/pagina" se usa como var(--fondo-pagina). */
+
+:root {
+  /* Color (modo Oscuro) */
+  --fondo-base: #0c0b10;
+  --fondo-superficie: #16151c;
+  --fondo-elevada: #201f29;
+  --fondo-sutil: #2a2935;
+  --fondo-inverso: #f4f2f7;
+  --marca-primario: #c6f24e;
+  --marca-primario-hover: #d6f97a;
+  --marca-primario-presionado: #aeda36;
+  --marca-suave: #2a3314;
+  --marca-secundario: #8e7bff;
+  --marca-secundario-suave: #221d40;
+  --texto-principal: #f4f2f7;
+  --texto-secundario: #a9a6b5;
+  --texto-terciario: #737081;
+  --texto-marca: #c6f24e;
+  --texto-sobre-marca: #10130a;
+  --texto-inverso: #15131c;
+  --borde-sutil: #272631;
+  --borde-fuerte: #3d3c4b;
+  --estado-exito: #4ade80;
+  --estado-exito-suave: #12301e;
+  --estado-alerta: #f5b544;
+  --estado-alerta-suave: #33270f;
+  --estado-error: #ff6b6b;
+  --estado-error-suave: #3a1517;
+  --portada-1: #8e7bff;
+  --portada-2: #ff6b5e;
+  --portada-3: #2bc4b6;
+  --portada-4: #f5b544;
+  --portada-5: #ff5fa2;
+  --portada-6: #4c8dff;
+  --fijo-negro: #0c0b10;
+  --fijo-blanco: #ffffff;
+  /* Medidas */
+  --espacio-1: 4px;
+  --espacio-2: 8px;
+  --espacio-3: 12px;
+  --espacio-4: 16px;
+  --espacio-6: 24px;
+  --espacio-8: 32px;
+  --espacio-12: 48px;
+  --espacio-16: 64px;
+  --radio-sm: 6px;
+  --radio-md: 10px;
+  --radio-lg: 16px;
+  --radio-xl: 24px;
+  --radio-completo: 999px;
+  /* Familias tipográficas (Google Fonts) */
+  --fuente-syne: 'Syne', system-ui, sans-serif;
+  --fuente-inter: 'Inter', system-ui, sans-serif;
+  /* Sombras */
+  --sombra-tarjeta: 0px 8px 24px 0px #00000059;
+  --sombra-flotante: 0px 24px 64px 0px #0000008c;
+  --brillo-marca: 0px 0px 28px 0px #c6f24e59;
+}
+
+/* Modo Claro: se activa con <html data-tema="claro"> */
+[data-tema="claro"] {
+  --fondo-base: #f6f4ee;
+  --fondo-superficie: #ffffff;
+  --fondo-elevada: #ffffff;
+  --fondo-sutil: #ece9e1;
+  --fondo-inverso: #15131c;
+  --marca-primario-hover: #b4e235;
+  --marca-primario-presionado: #9ccb1f;
+  --marca-suave: #eef8cc;
+  --marca-secundario: #6b55f0;
+  --marca-secundario-suave: #ece9ff;
+  --texto-principal: #15131c;
+  --texto-secundario: #5c596a;
+  --texto-terciario: #8b8898;
+  --texto-marca: #486200;
+  --texto-inverso: #f4f2f7;
+  --borde-sutil: #e3dfd5;
+  --borde-fuerte: #c9c4b8;
+  --estado-exito: #178a45;
+  --estado-exito-suave: #ddf5e5;
+  --estado-alerta: #a86a00;
+  --estado-alerta-suave: #fbefd3;
+  --estado-error: #c8322b;
+  --estado-error-suave: #fbe1df;
+}
+
+/* Estilos de texto de Figma como clases. */
+.titular-gigante { font-family: var(--fuente-syne); font-weight: 800; font-size: 120px; line-height: 108px; letter-spacing: -0.030em; }
+.titular-display { font-family: var(--fuente-syne); font-weight: 800; font-size: 64px; line-height: 68px; letter-spacing: -0.020em; }
+.titular-h1 { font-family: var(--fuente-syne); font-weight: 700; font-size: 40px; line-height: 46px; letter-spacing: -0.015em; }
+.titular-h2 { font-family: var(--fuente-syne); font-weight: 700; font-size: 28px; line-height: 34px; letter-spacing: -0.010em; }
+.titular-h3 { font-family: var(--fuente-syne); font-weight: 700; font-size: 20px; line-height: 26px; letter-spacing: -0.005em; }
+.titular-h4 { font-family: var(--fuente-syne); font-weight: 700; font-size: 16px; line-height: 22px; }
+.cuerpo-g { font-family: var(--fuente-inter); font-weight: 400; font-size: 18px; line-height: 28px; }
+.cuerpo-m { font-family: var(--fuente-inter); font-weight: 400; font-size: 16px; line-height: 24px; }
+.cuerpo-m-fuerte { font-family: var(--fuente-inter); font-weight: 600; font-size: 16px; line-height: 24px; }
+.cuerpo-p { font-family: var(--fuente-inter); font-weight: 400; font-size: 14px; line-height: 20px; }
+.cuerpo-p-fuerte { font-family: var(--fuente-inter); font-weight: 600; font-size: 14px; line-height: 20px; }
+.detalle-nota { font-family: var(--fuente-inter); font-weight: 400; font-size: 12px; line-height: 16px; }
+.detalle-nota-fuerte { font-family: var(--fuente-inter); font-weight: 600; font-size: 12px; line-height: 16px; }
+.detalle-etiqueta { font-family: var(--fuente-inter); font-weight: 600; font-size: 11px; line-height: 16px; letter-spacing: 0.080em; text-transform: uppercase; }
+.dato-cifra { font-family: var(--fuente-syne); font-weight: 700; font-size: 32px; line-height: 36px; letter-spacing: -0.010em; }
