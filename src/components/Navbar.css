@@ -36,7 +36,7 @@
   outline-offset: 3px;
 }
 
-/* Marca / Logo */
+/* Logo */
 .navbar-marca {
   display: inline-flex;
   align-items: center;
@@ -52,12 +52,6 @@
   color: var(--texto-principal);
 }
 
-/* Acciones en móvil */
-.navbar-movil-acciones {
-  display: flex;
-  align-items: center;
-  gap: var(--espacio-2);
-}
 
 .navbar .navbar-icono {
   display: inline-flex;
@@ -72,6 +66,41 @@
   background: transparent;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
+
+
+/* ESPECIFICACIONES MOVIL */
+
+/* boton del menu sin borde */
+.navbar-movil-acciones .navbar-icono{
+  border: none;
+}
+
+/* contenedor con texto ingresar e icono */
+.navbar-movil-acciones{
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+}
+
+/* para que el botón de cerrar el menu tenga estilo */
+.navbar .navbar-boton-cerrar {
+  background: var(--fondo-elevada);
+}
+
+/* boton para crear ciemta en movil */
+.navbar-movil-enlace-ingresar{
+  color: var(--texto-principal);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: var(--espacio-2) var(--espacio-3);
+  border-radius: var(--radio-sm);
+   transition: color 150ms ease;
+}
+
+.navbar-movil-enlace-ingresar:hover{
+  color: var(--marca-primario);
+}
+
 
 .navbar .navbar-icono:hover,
 .navbar .navbar-icono[aria-pressed="true"] {
@@ -88,11 +117,17 @@
 .navbar-panel.is-abierto {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-4);
-  position: absolute;
-  top: 100%;
+  gap: var(--espacio-4); 
+  /* para que ocupe la pantalla completa */
+  position: fixed;
+  /* para que vaya despues de la barra */
+  top: 72px;
   left: 0;
   right: 0;
+  /* hace que estire el panel hasta el fondo de la pantalla */
+  bottom: 0;
+  /* si la pantalla es muy pequeña y necesita scroll */
+  overflow-y: auto;
   background: var(--fondo-base);
   border-bottom: 1px solid var(--borde-sutil);
   padding: var(--espacio-4);
@@ -111,9 +146,9 @@
 .navbar-enlaces a {
   position: relative;
   color: var(--texto-secundario);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
-  padding-block: var(--espacio-1);
+  padding-block: var(--espacio-2);
   transition: color 150ms ease;
 }
 
@@ -126,23 +161,26 @@
   font-weight: 600;
 }
 
-.navbar-enlaces a[aria-current="page"]::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--marca-primario);
-  border-radius: var(--radio-completo);
-}
-
 /* Utilidades a la derecha */
 .navbar-utilidades {
+  /* para que se vea la division con ingresar y crear cuenta */
+  border-top: 1px solid var(--borde-sutil);
+  padding-top: var(--espacio-4);
+  margin-top: var(--espacio-6);
+
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--espacio-4);
+  /* para que ponga primero a crear cuenta y luego ingresar */
+  flex-direction: column-reverse;
+  gap: var(--espacio-3);
+  width: 100%;
+}
+
+
+
+/* oculto los controles de idioma, accesibilidad */
+.navbar-utilidades .navbar-idioma,
+.navbar-utilidades .navbar-accesibilidad {
+  display: none;
 }
 
 /* Selector de idioma píldora */
@@ -198,27 +236,22 @@
   height: 14px;
 }
 
-/* Botón de texto "Ingresar" */
-.navbar-boton-ingresar {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--espacio-2) var(--espacio-4);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--texto-principal);
-  transition: color 150ms ease;
+/* para estilo en "Idioma" del movil */
+.navbar-utilidad-etiqueta {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--texto-secundario);
 }
 
-.navbar-boton-ingresar:hover {
-  color: var(--marca-primario);
-}
+/* botones de accion*/
 
-/* Botón píldora "Crear cuenta" */
+/* Crear cuenta */
 .navbar-boton-registro {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 42px;
+  width: 100%;
+  height: 48px;
   padding-inline: var(--espacio-4);
   border-radius: var(--radio-completo);
   background: var(--marca-primario);
@@ -238,6 +271,28 @@
   transform: scale(0.98);
 }
 
+/* ingresar  */
+.navbar-boton-ingresar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  padding: var(--espacio-2) var(--espacio-4);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-completo);
+  background: var(--fondo-superficie);
+  color: var(--texto-principal);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.navbar-boton-ingresar:hover {
+  color: var(--marca-primario);
+  border-color: var(--borde-sutil);
+}
+
 /* Estados de carga y error */
 .navbar-estado {
   margin: 0;
@@ -250,6 +305,57 @@
   padding: var(--espacio-1) var(--espacio-2);
   border: 1px solid var(--borde-sutil);
   border-radius: var(--radio-sm);
+}
+
+/* estilos para las pildoras de idioma y apartado de idioma del navbar movil */
+.navbar-fila-utilidad {
+  /* para que se vea la diferencia con la accesibilidad e idiomas */
+  border-top: 1px solid var(--borde-sutil);
+  padding-top: var(--espacio-4);
+  /* empuja lo que es idioma, accesibilidad y demas botones al final de la pantalla */
+  margin-top: auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--espacio-2);
+}
+
+.navbar-idioma-segmentado {
+  display: inline-flex;
+  gap: var(--espacio-2);
+}
+.navbar-idioma-segmentado .navbar-idioma-pildora {
+  padding: 6px 14px;
+  border-radius: var(--radio-completo);
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--fondo-elevada);
+  color: var(--texto-principal);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+.navbar-idioma-segmentado .navbar-idioma-pildora.is-activo {
+  background: var(--fijo-blanco);
+  color: var(--fijo-negro);
+}
+
+/* fila de accesibilidad con icono y texto en movil */
+.navbar-fila-accesibilidad {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  width: 100%;
+  padding-block: var(--espacio-2);
+  color: var(--texto-secundario);
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.navbar-fila-accesibilidad:hover {
+  color: var(--texto-principal);
 }
 
 /* Vista Desktop */
@@ -281,8 +387,51 @@
     gap: var(--espacio-6);
   }
 
+  /* arriba estan para movil, las cambio aqui para web */
   .navbar-utilidades {
+    flex-direction: row;
+    width: auto;
     margin-left: auto;
-    gap: var(--espacio-4);
+
+    /* quito las divisiones que use en movil */
+    border-top: none;
+    padding-top: 0;
   }
+
+  .navbar-boton-registro {
+    width: auto;
+    height: 42px;
+  }
+  .navbar-boton-ingresar {
+    width: auto;
+    height: auto;
+    background: transparent;
+    border: none;
+  }
+
+  .navbar-fila-utilidad, .navbar-fila-accesibilidad{
+    display: none;
+  }
+
+  /* como mas atras quité la vilibilidad de los boyones de idioma y accesibilidad, lo agrego en el apartado web */
+  .navbar-utilidades .navbar-idioma,
+  .navbar-utilidades .navbar-accesibilidad {
+    display: inline-flex;
+  }
+
+  /* lo muevo aqui porq es lo q pone una barra verde debajo del menu en el que estoy, cosa que solo
+  va en web de escritorio */
+  .navbar-enlaces a[aria-current="page"]::after {
+  color: var(--texto-principal);
+  font-weight: 600;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--marca-primario);
+  border-radius: var(--radio-completo);
+  }
+
 }

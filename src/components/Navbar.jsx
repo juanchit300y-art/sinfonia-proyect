@@ -74,12 +74,22 @@ const Navbar = ({
           </span>
         </a>
 
-        {/* Acciones en móvil (botón hamburguesa) */}
+        {/* Acciones en móvil */}
+        {/* boton para registrarme*/}
         <div className="navbar-movil-acciones">
+          {!abierto && (
+            <a
+              href="/ingresar"
+              className="navbar-movil-enlace-ingresar"
+              onClick={(e) => manejarNavegacion(e, "/ingresar")}
+            >
+              {nav?.botones?.invitado?.ingresar ?? "Ingresar"}
+            </a>
+          )}
           <button
             type="button"
             ref={botonMenu}
-            className="navbar-icono"
+            className={`navbar-icono ${abierto ? "navbar-boton-cerrar": ""}`}
             aria-label={abierto ? cerrar : abrir}
             aria-expanded={abierto}
             aria-controls="navbar-panel"
@@ -139,6 +149,43 @@ const Navbar = ({
               ))}
             </ul>
           )}
+
+          {/* selector de idioma en movil, lo pongo luego de la lista de enlaces porque va hasta el final de ello*/}
+          <div className="navbar-fila-utilidad">
+            <span className="navbar-utilidad-etiqueta">
+              {ingles? "Lenguage" : "Idioma"}
+            </span>
+            <div className="navbar-idioma-segmentado" role="group" aria-label="Seleccionar idioma">
+              <button 
+                type="button" 
+                className={`navbar-idioma-pildora ${idioma === "es" ? "is-activo" : ""}`}
+                onClick={() => cambiarIdioma("es")}
+                aria-pressed={idioma === "es"}
+              >
+                ES
+              </button>
+              <button
+                type="button" 
+                className={`navbar-idioma-pildora ${idioma === "en" ? "is-activo" : ""}`}
+                onClick={() => cambiarIdioma("en")}
+                aria-pressed={idioma === "en"}
+              >
+                EN
+              </button>
+            </div>
+          </div>
+
+          {/* fila de accesibilidad en movil */}
+          <button 
+            type="button"
+            className="navbar-fila-accesibilidad"
+            onClick={alternarTexto}
+            aria-pressed={textoGrande}
+            aria-label={nav?.aria?.accesibilidad ?? (ingles ? "Enlarge text" : "Aumentar texto")}
+          >
+            <Icono nombre="accesibilidad" />
+            <span>{ingles ? "Accessibility" : "Accesibilidad"}</span>
+          </button>
 
           {/* Utilidades y botones a la derecha */}
           <div className="navbar-utilidades">
