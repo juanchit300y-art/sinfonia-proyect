@@ -130,14 +130,14 @@
   overflow-y: auto;
   background: var(--fondo-base);
   border-bottom: 1px solid var(--borde-sutil);
-  padding: var(--espacio-4);
+  padding: var(--espacio-6);
 }
 
 /* Enlaces */
 .navbar-enlaces {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-4);
+  gap: var(--espacio-6);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -146,8 +146,8 @@
 .navbar-enlaces a {
   position: relative;
   color: var(--texto-secundario);
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 600;
   padding-block: var(--espacio-2);
   transition: color 150ms ease;
 }
@@ -161,18 +161,25 @@
   font-weight: 600;
 }
 
-/* Utilidades a la derecha */
+/* botones de indioma, acc, ingreso y cuenta */
 .navbar-utilidades {
-  /* para que se vea la division con ingresar y crear cuenta */
-  border-top: 1px solid var(--borde-sutil);
-  padding-top: var(--espacio-4);
-  margin-top: var(--espacio-6);
-
+  /* sirve para ordenar crear cuenta e ingresar */
   display: flex;
-  /* para que ponga primero a crear cuenta y luego ingresar */
+  /* pone a crear cuenta de primero, luego ingresar */
   flex-direction: column-reverse;
   gap: var(--espacio-3);
-  width: 100%;
+  width: calc(100% + var(--espacio-6) * 2);
+  /* Se estira de borde a borde */
+  margin-inline: calc(var(--espacio-6) * -1); 
+  /* Se pega al piso del panel */
+  margin-bottom: calc(var(--espacio-4) * -1); 
+  /* Espacio equilibrado debajo de Accesibilidad */
+  margin-top: var(--espacio-4);     
+  /* 16px de colchón parejo para que Ingresar respire */          
+  padding: var(--espacio-4) var(--espacio-6);                  
+  background: var(--fondo-superficie);      
+  /* linea superior */
+  border-top: 1px solid var(--borde-sutil);
 }
 
 
@@ -311,6 +318,8 @@
 .navbar-fila-utilidad {
   /* para que se vea la diferencia con la accesibilidad e idiomas */
   border-top: 1px solid var(--borde-sutil);
+  margin-inline: calc(var(--espacio-6) * -1);
+  padding-inline: var(--espacio-6);
   padding-top: var(--espacio-4);
   /* empuja lo que es idioma, accesibilidad y demas botones al final de la pantalla */
   margin-top: auto;
@@ -318,7 +327,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-block: var(--espacio-2);
+  padding-block: var(--espacio-3);
+
 }
 
 .navbar-idioma-segmentado {
@@ -345,6 +355,7 @@
   align-items: center;
   gap: var(--espacio-3);
   width: 100%;
+  padding: 0;
   padding-block: var(--espacio-2);
   color: var(--texto-secundario);
   font-size: 1rem;
@@ -379,6 +390,9 @@
     padding: 0;
     border: 0;
     background: transparent;
+    /* para quitar las barras de scroll */
+    overflow: visible;
+    height: auto;
   }
 
   .navbar-enlaces {
@@ -391,8 +405,11 @@
   .navbar-utilidades {
     flex-direction: row;
     width: auto;
+    /* reseteo algunos valores a lo que deberia verse en la web, no en movil */
+    margin: 0;
     margin-left: auto;
-
+    padding: 0;
+    background: transparent;
     /* quito las divisiones que use en movil */
     border-top: none;
     padding-top: 0;
