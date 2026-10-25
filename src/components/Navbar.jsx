@@ -39,8 +39,20 @@ const Navbar = ({
   const cerrar =
     textos?.menuMovil?.cerrar ?? (ingles ? "Close menu" : "Cerrar menú");
 
-  // Enlaces de la vista pública / invitado
-  const enlaces = Object.entries(nav?.enlaces?.invitado ?? {});
+  // guardo en enlaces un arreglo de objetos con los 2 enlaces disponibles
+  const enlaces = [
+    {
+      clave:"inicio", //identificador unico del enlace
+      ruta:"/",
+      //la etiqueta es lo que verá el usuario, primero intento sacarlo de la API, si no responde tomo Home si está en ingles, e Inicio si está en español
+      etiqueta: nav?.enlaces?.conSesion?.inicio ?? (ingles? "Home" : "Inicio"),
+    },
+    {
+      clave: "catalogo", //clave para el segundo enlace
+      ruta: "/catalogo",
+      etiqueta: ingles? "Catalog" : "Catálogo", //Catalog si está en ingles, Catálogo si está en español
+    },
+  ];
 
   // Cerrar menú con la tecla Escape
   useEffect(() => {
@@ -54,6 +66,27 @@ const Navbar = ({
     document.addEventListener("keydown", cerrarConEscape);
     return () => document.removeEventListener("keydown", cerrarConEscape);
   }, [abierto]);
+
+  const selectorIdioma = (
+    <div className="navbar-idioma-segmentado" role="group" aria-label="Seleccionar idioma">
+      <button 
+        type="button" 
+        className={`navbar-idioma-pildora ${idioma === "es" ? "is-activo" : ""}`}
+        onClick={() => cambiarIdioma("es")}
+        aria-pressed={idioma === "es"}
+      >
+        ES
+      </button>
+      <button 
+        type="button" 
+        className={`navbar-idioma-pildora ${idioma === "en" ? "is-activo" : ""}`}
+        onClick={() => cambiarIdioma("en")}
+        aria-pressed={idioma === "en"}
+      >
+        EN
+      </button>
+    </div>
+  );
 
   return (
     <header className="navbar">
@@ -123,29 +156,26 @@ const Navbar = ({
               </button>
             </div>
           )}
-
+          
+          {/* solo dibuja el menu si nav ya cargó de la API para evitar errores */}
           {nav && (
             <ul className="navbar-enlaces">
-              {enlaces.map(([clave, etiqueta]) => (
-                <li key={clave}>
+              {/* recorre el arreglo de 2 enlaces y ejecuta esta funcion por cada uno */}
+              {enlaces.map((enlace) =>(
+                // cada li necesita una key para que react sepa que elemento redibujar
+                <li key={enlace.clave}>
                   <a
-                    href={DESTINOS[clave] ?? `/${clave}`}
+                    href={enlace.ruta}
+                    // si está activo pinta la barrita verde abajo, 
                     aria-current={
-                      activo === clave ||
-                      `/${activo}` === (DESTINOS[clave] ?? `/${clave}`)
-                        ? "page"
-                        : undefined
+                      activo === enlace.clave || window.location.pathname === enlace.ruta ? "page" : undefined
                     }
-                    onClick={(evento) =>
-                      manejarNavegacion(
-                        evento,
-                        DESTINOS[clave] ?? `/${clave}`
-                      )
-                    }
+                    // cuando hay un clic encima maneja el cambio de pagina
+                    onClick={(evento) => manejarNavegacion(evento, enlace.ruta)}
                   >
-                    {etiqueta}
+                    {enlace.etiqueta}
                   </a>
-                </li>
+                </li>  
               ))}
             </ul>
           )}
@@ -155,65 +185,14 @@ const Navbar = ({
             <span className="navbar-utilidad-etiqueta">
               {ingles? "Lenguage" : "Idioma"}
             </span>
-            <div className="navbar-idioma-segmentado" role="group" aria-label="Seleccionar idioma">
-              <button 
-                type="button" 
-                className={`navbar-idioma-pildora ${idioma === "es" ? "is-activo" : ""}`}
-                onClick={() => cambiarIdioma("es")}
-                aria-pressed={idioma === "es"}
-              >
-                ES
-              </button>
-              <button
-                type="button" 
-                className={`navbar-idioma-pildora ${idioma === "en" ? "is-activo" : ""}`}
-                onClick={() => cambiarIdioma("en")}
-                aria-pressed={idioma === "en"}
-              >
-                EN
-              </button>
-            </div>
+            {/* llamo a mi variable que tiene todo el sistema de idioma */}
+            {selectorIdioma} 
           </div>
-
-          {/* fila de accesibilidad en movil */}
-          <button 
-            type="button"
-            className="navbar-fila-accesibilidad"
-            onClick={alternarTexto}
-            aria-pressed={textoGrande}
-            aria-label={nav?.aria?.accesibilidad ?? (ingles ? "Enlarge text" : "Aumentar texto")}
-          >
-            <Icono nombre="accesibilidad" />
-            <span>{ingles ? "Accessibility" : "Accesibilidad"}</span>
-          </button>
 
           {/* Utilidades y botones a la derecha */}
           <div className="navbar-utilidades">
-            <label className="navbar-idioma">
-              <Icono nombre="idioma" />
-              <select
-                value={idioma}
-                onChange={(evento) => cambiarIdioma(evento.target.value)}
-                aria-label={nav?.aria?.idioma ?? "Cambiar idioma"}
-              >
-                <option value="es">ES</option>
-                <option value="en">EN</option>
-              </select>
-              <Icono nombre="chevronAbajo" className="navbar-chevron" />
-            </label>
-
-            <button
-              className="navbar-icono navbar-accesibilidad"
-              type="button"
-              aria-label={
-                nav?.aria?.accesibilidad ??
-                (ingles ? "Enlarge text" : "Aumentar texto")
-              }
-              aria-pressed={textoGrande}
-              onClick={alternarTexto}
-            >
-              <Icono nombre="accesibilidad" />
-            </button>
+            {/* llamo a la variable de la pildora de idioma */}
+            {selectorIdioma}
 
             {nav && (
               <>
