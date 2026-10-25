@@ -174,7 +174,7 @@
   /* Se pega al piso del panel */
   margin-bottom: calc(var(--espacio-4) * -1); 
   /* Espacio equilibrado debajo de Accesibilidad */
-  margin-top: var(--espacio-4);     
+  margin-top: 0;     
   /* 16px de colchón parejo para que Ingresar respire */          
   padding: var(--espacio-4) var(--espacio-6);                  
   background: var(--fondo-superficie);      
@@ -185,7 +185,7 @@
 
 
 /* oculto los controles de idioma, accesibilidad */
-.navbar-utilidades .navbar-idioma,
+.navbar-utilidades .navbar-idioma-segmentado,
 .navbar-utilidades .navbar-accesibilidad {
   display: none;
 }
@@ -259,6 +259,7 @@
   justify-content: center;
   width: 100%;
   height: 48px;
+  height: var(--espacio-12);
   padding-inline: var(--espacio-4);
   border-radius: var(--radio-completo);
   background: var(--marca-primario);
@@ -285,6 +286,7 @@
   justify-content: center;
   width: 100%;
   height: 48px;
+  height: var(--espacio-12);
   padding: var(--espacio-2) var(--espacio-4);
   border: 1px solid var(--borde-fuerte);
   border-radius: var(--radio-completo);
@@ -316,37 +318,36 @@
 
 /* estilos para las pildoras de idioma y apartado de idioma del navbar movil */
 .navbar-fila-utilidad {
-  /* para que se vea la diferencia con la accesibilidad e idiomas */
-  border-top: 1px solid var(--borde-sutil);
-  margin-inline: calc(var(--espacio-6) * -1);
-  padding-inline: var(--espacio-6);
-  padding-top: var(--espacio-4);
-  /* empuja lo que es idioma, accesibilidad y demas botones al final de la pantalla */
   margin-top: auto;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-block: var(--espacio-3);
-
+  padding-block: var(--espacio-2);
 }
 
 .navbar-idioma-segmentado {
   display: inline-flex;
-  gap: var(--espacio-2);
+  align-items: center;
+  background: var(--fondo-elevada);
+  border: 1px solid var(--borde-fuerte);
+  padding: 3px;
+  border-radius: var(--radio-completo);
+  gap: 2px;
 }
 .navbar-idioma-segmentado .navbar-idioma-pildora {
+  border: none;
   padding: 6px 14px;
   border-radius: var(--radio-completo);
   font-size: 0.85rem;
   font-weight: 700;
-  background: var(--fondo-elevada);
+  background: transparent;
   color: var(--texto-principal);
-  transition: background-color 150ms ease, color 150ms ease;
+  cursor: pointer;
+  transition: all 150ms ease;
 }
 .navbar-idioma-segmentado .navbar-idioma-pildora.is-activo {
-  background: var(--fijo-blanco);
-  color: var(--fijo-negro);
+  background: var(--marca-primario);
+  color: var(--texto-sobre-marca);
 }
 
 /* fila de accesibilidad con icono y texto en movil */
@@ -431,7 +432,7 @@
   }
 
   /* como mas atras quité la vilibilidad de los boyones de idioma y accesibilidad, lo agrego en el apartado web */
-  .navbar-utilidades .navbar-idioma,
+  .navbar-utilidades .navbar-idioma-segmentado,
   .navbar-utilidades .navbar-accesibilidad {
     display: inline-flex;
   }
