@@ -2,6 +2,7 @@ import {useTextos} from "./hooks/useTextos.js";
 import "./App.css"
 import Navbar from "./components/Navbar";
 import {useEffect, useState} from "react";
+import Footer from "./components/Footer.jsx";
 
 function leerRuta(){
     const ruta = window.location.pathname.replace(/^\//, "");
@@ -69,9 +70,14 @@ function App() {
                 onNavegar={navegar}
             />
             <main className="contenido contenedor">
-                {(activo === "descubrir" || activo === "") && (
-                    <section id="descubrir" className="seccion">
-                        <h2>{datos.textos?.navbar?.enlaces?.invitado?.descubrir ?? "Descubrir"}</h2>
+                {(activo === "inicio" || activo === "descubrir" || activo === "") && (
+                    <section id="inicio" className="seccion">
+                        <h2>{ingles ? "Home" : "Inicio"}</h2>
+                    </section>
+                )}
+                {activo === "catalogo" && (
+                    <section id="catalogo" className="seccion">
+                        <h2>{ingles ? "Catalog" : "Catálogo"}</h2>
                     </section>
                 )}
                 {activo === "planes" && (
@@ -100,6 +106,11 @@ function App() {
                     </section>
                 )}
             </main>
+            <Footer
+                textos={datos.textos}
+                idioma={idioma}
+                onNavegar={navegar}
+            />
         </div>
     )
 }
