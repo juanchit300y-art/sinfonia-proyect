@@ -34,6 +34,7 @@
 .navbar :focus-visible {
   outline: 2px solid var(--marca-primario);
   outline-offset: 3px;
+  border-radius: var(--radio-sm);
 }
 
 /* Logo */
@@ -45,10 +46,6 @@
 }
 
 .navbar-marca-texto {
-  font-family: var(--fuente-syne);
-  font-weight: 800;
-  font-size: 1.35rem;
-  letter-spacing: -0.02em;
   color: var(--texto-principal);
 }
 
@@ -129,6 +126,8 @@
   /* si la pantalla es muy pequeña y necesita scroll */
   overflow-y: auto;
   background: var(--fondo-base);
+  /* Dibuja la línea divisoria superior para que no quede tapada por el fondo del panel */
+  border-top: 1px solid var(--borde-sutil);
   border-bottom: 1px solid var(--borde-sutil);
   padding: var(--espacio-6);
 }
@@ -190,21 +189,6 @@
   display: none;
 }
 
-/* Selector de idioma píldora */
-.navbar-idioma {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--espacio-2);
-  height: 40px;
-  padding-inline: var(--espacio-3) var(--espacio-2);
-  border: 1px solid var(--borde-sutil);
-  border-radius: var(--radio-completo);
-  color: var(--texto-principal);
-  background: transparent;
-  cursor: pointer;
-  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
-}
 
 .navbar-idioma:hover {
   border-color: var(--borde-fuerte);
@@ -221,27 +205,11 @@
   flex-shrink: 0;
 }
 
-.navbar-idioma select {
-  appearance: none;
-  border: 0;
-  outline: none;
-  padding-right: var(--espacio-1);
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: inherit;
-  background: transparent;
-  cursor: pointer;
-}
-
 .navbar-idioma select option {
   background: var(--fondo-superficie);
   color: var(--texto-principal);
 }
 
-.navbar-chevron {
-  width: 14px;
-  height: 14px;
-}
 
 /* para estilo en "Idioma" del movil */
 .navbar-utilidad-etiqueta {
@@ -258,7 +226,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 48px;
   height: var(--espacio-12);
   padding-inline: var(--espacio-4);
   border-radius: var(--radio-completo);
@@ -336,38 +303,23 @@
 }
 .navbar-idioma-segmentado .navbar-idioma-pildora {
   border: none;
+  /* 6px arriba/abajo y 14px a los lados para que la cápsula quede redonda y con cuerpo */
   padding: 6px 14px;
   border-radius: var(--radio-completo);
+  /* Tipografía Inter de tokens en tamaño 0.85rem y negrita */
+  font-family: var(--fuente-inter);
   font-size: 0.85rem;
   font-weight: 700;
   background: transparent;
+  /* Texto nítido (#f4f2f7) para el botón inactivo */
   color: var(--texto-principal);
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: background-color 150ms ease, color 150ms ease;
 }
+
 .navbar-idioma-segmentado .navbar-idioma-pildora.is-activo {
   background: var(--marca-primario);
   color: var(--texto-sobre-marca);
-}
-
-/* fila de accesibilidad con icono y texto en movil */
-.navbar-fila-accesibilidad {
-  display: flex;
-  align-items: center;
-  gap: var(--espacio-3);
-  width: 100%;
-  padding: 0;
-  padding-block: var(--espacio-2);
-  color: var(--texto-secundario);
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: left;
-  cursor: pointer;
-  transition: color 150ms ease;
-}
-
-.navbar-fila-accesibilidad:hover {
-  color: var(--texto-principal);
 }
 
 /* Vista Desktop */
@@ -400,6 +352,15 @@
     flex-direction: row;
     align-items: center;
     gap: var(--espacio-6);
+  }
+
+  /* escritorio, los enlaces usan las medidas del token .cuerpo-p*/
+  .navbar-enlaces a {
+    font-size: 14px;
+    /* altura de línea de 20px */
+    line-height: 20px;
+    /* grosor medio para no competir con el logo */
+    font-weight: 500;
   }
 
   /* arriba estan para movil, las cambio aqui para web */
