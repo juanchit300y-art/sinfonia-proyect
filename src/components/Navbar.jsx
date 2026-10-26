@@ -96,13 +96,13 @@ const Navbar = ({
       >
         {/* Logo con icono de ondas de Sintonía */}
         <a
-          href="/descubrir"
+          href="/"
           className="navbar-marca"
-          aria-label={nav?.logo?.aria ?? "Sintonía, ir al inicio"}
-          onClick={(evento) => manejarNavegacion(evento, "/descubrir")}
+          aria-label={nav?.logo?.aria ?? (ingles ? "Sintonía, go to home" : "Sintonía, ir al inicio")}
+          onClick={(evento) => manejarNavegacion(evento, "/")}
         >
           <Icono nombre="logo" />
-          <span className="navbar-marca-texto">
+          <span className="titular-h3 navbar-marca-texto">
             {nav?.logo?.texto?.toLowerCase() ?? "sintonía"}
           </span>
         </a>
@@ -116,7 +116,7 @@ const Navbar = ({
               className="navbar-movil-enlace-ingresar"
               onClick={(e) => manejarNavegacion(e, "/ingresar")}
             >
-              {nav?.botones?.invitado?.ingresar ?? "Ingresar"}
+              {nav?.botones?.invitado?.ingresar ?? (ingles ? "Log in" : "Ingresar")}
             </a>
           )}
           <button
@@ -183,7 +183,7 @@ const Navbar = ({
           {/* selector de idioma en movil, lo pongo luego de la lista de enlaces porque va hasta el final de ello*/}
           <div className="navbar-fila-utilidad">
             <span className="navbar-utilidad-etiqueta">
-              {ingles? "Lenguage" : "Idioma"}
+              {textos?.menuMovil?.secciones?.idioma ?? (ingles? "Language" : "Idioma")}
             </span>
             {/* llamo a mi variable que tiene todo el sistema de idioma */}
             {selectorIdioma} 
@@ -211,7 +211,7 @@ const Navbar = ({
                     manejarNavegacion(evento, "/crear-cuenta")
                   }
                 >
-                  {nav?.botones?.invitado?.crearCuenta ?? "Crear cuenta"}
+                  {nav?.botones?.invitado?.crearCuenta ?? (ingles ? "Sign up" : "Crear cuenta")}
                 </a>
               </>
             )}
