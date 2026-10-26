@@ -45,13 +45,13 @@ export default function Footer({textos, idioma, onNavegar}){
                             aria-label="sintonía"
                         >
                             <Icono nombre="logo"/>
-                            <span className="footer-logo-texto">sintonía</span>
+                            <span className="titular-h3 footer-logo-texto">sintonía</span>
                         </a>
                         {/* descripcion debajo del logo */}
                         <p className="cuerpo-p footer-lema">
                             {pie?.lema?? (
                                 ingles ? "Albums and artist from all genres, in one place."
-                                : "Álbunes y artistas de todos los géneros, en un solo lugar."
+                                : "Álbumes y artistas de todos los géneros, en un solo lugar."
                             )}
                         </p>
                     </div>
