@@ -1,416 +1,494 @@
+/* BLOQUE 1 - estructura base y barra */
+
+/* contenedor principal que envuelve todo el header superior */
 .navbar {
+  /* fija la barra en la parte superior de la ventana al hacer scroll */
   position: sticky;
-  top: 0;
+  /* se pega al borde superior exacto de la pantalla */
+  top:0;
+  /* capa de profundidad alta para mantenerse por encima del contenido */
   z-index: 50;
+  /* color dle texto */
   color: var(--texto-principal);
-  background: var(--fondo-base);
+  /* mismo color del sitio */
+  background-color: var(--fondo-base);
+  /* linea divisoria inferior que delimita la barra */
   border-bottom: 1px solid var(--borde-sutil);
+  /* tipografia */
   font-family: var(--fuente-inter);
 }
 
-.navbar-interior {
+/* contenedor interior centrado con los limites de ancho de la aplicacion */
+.navbar-interior{
+  /* distribuye logo, enlaces y acciones en una sola fila */
   display: flex;
+  /* centra verticalmente los elementos de la fila */
   align-items: center;
   justify-content: space-between;
   min-height: 72px;
+  /* relleno vertical arriba y abajo */
   padding-block: var(--espacio-3);
 }
 
-.navbar a {
+/* reseteo de todos los enlaces dentro del navbar */
+.navbar a{
+  /* quita el subrayado de los enlaces html */
   text-decoration: none;
+  /* hereda el color del texto del elemento padre sin teñirse de verde */
   color: inherit;
+  /* hereda la tipografia, tamaño y peso del padre - que es .navbar */
   font: inherit;
 }
 
-.navbar button,
-.navbar select {
+/* reseteo a todos los botones nativos dentro del navbar */
+.navbar button{
   font: inherit;
+  /* quita bordes grises de los botones html */
   border: 0;
   background: transparent;
+  /* muestr al manito al pasar por el botón */
   cursor: pointer;
   color: inherit;
 }
 
-.navbar :focus-visible {
+/* contorno de accesibilidad universal par navegacion por teclado - TAB */
+.navbar :focus-visible{
+  /* contorno visible de color verde como la marca */
   outline: 2px solid var(--marca-primario);
   outline-offset: 3px;
+  /* redondea las esquinas */
   border-radius: var(--radio-sm);
 }
 
-/* Logo */
-.navbar-marca {
+/* BLOQUE 2 - logotipo de la marca */
+
+/* enlace que contiene el icono y nombre de sintonia */
+.navbar-marca{
+  /* coloca al icono y texto en la misma linea ajustados a su contenido */
   display: inline-flex;
   align-items: center;
+  /* espacio entre icono y texto */
   gap: var(--espacio-3);
   text-decoration: none;
 }
 
-.navbar-marca-texto {
+/* texto de la palabra sintonia al lado del icono */
+.navbar-marca-texto{
   color: var(--texto-principal);
 }
 
+/* BLOQUE 3 - botones ingresa y menu */
 
-.navbar .navbar-icono {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 1px solid var(--borde-sutil);
-  border-radius: var(--radio-completo);
-  color: var(--texto-principal);
-  background: transparent;
-  transition: background-color 150ms ease, border-color 150ms ease;
-}
-
-
-/* ESPECIFICACIONES MOVIL */
-
-/* boton del menu sin borde */
-.navbar-movil-acciones .navbar-icono{
-  border: none;
-}
-
-/* contenedor con texto ingresar e icono */
+/* contenedor de la derecha visible en celulares junto al logo */
 .navbar-movil-acciones{
+  /* coloca boton ingresar y hamburguesa en fila */
   display: flex;
   align-items: center;
+  /* espacio entre el boton de ingresa y el icono del menu */
   gap: var(--espacio-3);
 }
 
-/* para que el botón de cerrar el menu tenga estilo */
-.navbar .navbar-boton-cerrar {
-  background: var(--fondo-elevada);
-}
-
-/* boton para crear ciemta en movil */
+/* enlace rapido de Ingresar que se muestra en moviles */
 .navbar-movil-enlace-ingresar{
   color: var(--texto-principal);
   font-size: 0.95rem;
   font-weight: 600;
   padding: var(--espacio-2) var(--espacio-3);
   border-radius: var(--radio-sm);
-   transition: color 150ms ease;
+  /* transicion suave al pasar el cursor */
+  transition: color 150ms ease;
 }
 
+/* efecto hover sobre el enlace ingresar en movil */
 .navbar-movil-enlace-ingresar:hover{
   color: var(--marca-primario);
 }
 
-
-.navbar .navbar-icono:hover,
-.navbar .navbar-icono[aria-pressed="true"] {
-  border-color: var(--borde-fuerte);
-  background: var(--fondo-sutil);
+/* estilo base de los botones circulares con icono en el navbar */
+.navbar .navbar-icono{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* cumplir el area minima de toque tactil */
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-completo);
+  color: var(--texto-principal);
+  background-color: transparent;
+  /* transicion suave para cambios de color y fondo */
+  transition: background-color 150ms ease, border-color 150ms ease;
 }
 
-/* Panel de navegación */
-.navbar-panel {
+/* en el navbar movil el boton hamburguesa no lleva borde */
+.navbar-movil-acciones .navbar-icono{
+  border: none;
+}
+
+/* efecto hover o activo en los botones de icono */
+.navbar .navbar-icono:hover,
+.navbar .navbar-icono[aria-pressed="true"] {
+  /* borde más brillante al pasar el mouse */
+  border-color: var(--borde-fuerte);
+  /* fondo aclarado */
+  background-color: var(--fondo-sutil);
+}
+
+/* estilo cuando el boton hamburguesa cambia al icono de cerrar "X" */
+.navbar .navbar-boton-cerrar{
+  background-color: var(--fondo-elevada);
+}
+
+
+/* BLOQUE 4 - panel desplegable del menu movil tipo cortina */
+
+/* estado inicial del panel de navegacion en pantalla moviles */
+.navbar-panel{
+  /* oculto mientras el usuario no toque el boton hamburguesa */
   display: none;
+  /* ocupa el 100% del ancho */
   width: 100%;
 }
 
-.navbar-panel.is-abierto {
+/* estado activo cuando el usuario abre el menu movil */
+.navbar-panel.is-abierto{
+  /* se convierte en contenedor flex vertical*/
   display: flex;
+  /* apila enlaces y controles uno debajo de otro */
   flex-direction: column;
-  gap: var(--espacio-4); 
-  /* para que ocupe la pantalla completa */
+  gap: var(--espacio-4);
+  /* posicion fija en pantalla para actuar como cortina completa */
   position: fixed;
-  /* para que vaya despues de la barra */
-  top: 72px;
+  /* comienza justo debajo de la barra superior */
+  top:72px;
+  /* estiramientos por todos los lados */
   left: 0;
   right: 0;
-  /* hace que estire el panel hasta el fondo de la pantalla */
   bottom: 0;
-  /* si la pantalla es muy pequeña y necesita scroll */
+  /* permite scroll */
   overflow-y: auto;
-  background: var(--fondo-base);
-  /* Dibuja la línea divisoria superior para que no quede tapada por el fondo del panel */
+  background-color: var(--fondo-base);
+  /* linea divisoria superior para no tapar la linea del navbar*/
   border-top: 1px solid var(--borde-sutil);
+  /* linea divisoria en el fondo */
   border-bottom: 1px solid var(--borde-sutil);
   padding: var(--espacio-6);
 }
 
-/* Enlaces */
-.navbar-enlaces {
+
+/* BLOQUE 5 - mensajes de estado (cargando y error de la API) */
+
+/* parrafo de texto de carga o error */
+.navbar-estado{
+  margin: 0;
+  font-size: 0.875;
+  color: var(--texto-secundario);
+}
+
+/* boton de reintentar si la llamada a la api falló */
+.navbar-estado button{
+  margin-left: var(--espacio-2);
+  /* relleno interno arriba y abajo */
+  padding: var(--espacio-1) var(--espacio-2);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-sm);
+}
+
+
+/* BLOQUE 6 - enlaces de navegacion (inicio y catalogo) */
+
+/* lista no ordenada de enlaces de navegacion */
+.navbar-enlaces{
+  /* activa flexbox para organizar la lista */
   display: flex;
   flex-direction: column;
+  /* separacion entre cada enlace */
   gap: var(--espacio-6);
   margin: 0;
+  /* quita la sangria nativa de ul */
   padding: 0;
+  /* quita viñetas */
   list-style: none;
 }
 
-.navbar-enlaces a {
+/* cada enlace individual dentro de la lista */
+.navbar-enlaces a{
   position: relative;
   color: var(--texto-secundario);
+  /* para facil toque en movil */
   font-size: 1.15rem;
   font-weight: 600;
   padding-block: var(--espacio-2);
   transition: color 150ms ease;
 }
 
-.navbar-enlaces a:hover {
+/* color al pasar el cursor sobre cualquier enlace de la lista */
+.navbar-enlaces a:hover{
   color: var(--texto-principal);
 }
 
-.navbar-enlaces a[aria-current="page"] {
+/* estilo cuando el enlace corresponde a la pagina activa actual */
+.navbar-enlaces a[aria-current="page"]{
   color: var(--texto-principal);
   font-weight: 600;
 }
 
-/* botones de indioma, acc, ingreso y cuenta */
-.navbar-utilidades {
-  /* sirve para ordenar crear cuenta e ingresar */
+
+/* BLOQUE 7 - selector de idioma segmentado */
+
+/* fila de utilidad dentro del panel movil para ubicar el selector de idioma */
+.navbar-fila-utilidad{
+  /* empuja la fila al fondo del menu movil */
+  margin-top: auto;
+  /* organiza la etiqueta y la pildora de idioma de forma horizontal */
   display: flex;
-  /* pone a crear cuenta de primero, luego ingresar */
-  flex-direction: column-reverse;
-  gap: var(--espacio-3);
-  width: calc(100% + var(--espacio-6) * 2);
-  /* Se estira de borde a borde */
-  margin-inline: calc(var(--espacio-6) * -1); 
-  /* Se pega al piso del panel */
-  margin-bottom: calc(var(--espacio-4) * -1); 
-  /* Espacio equilibrado debajo de Accesibilidad */
-  margin-top: 0;     
-  /* 16px de colchón parejo para que Ingresar respire */          
-  padding: var(--espacio-4) var(--espacio-6);                  
-  background: var(--fondo-superficie);      
-  /* linea superior */
-  border-top: 1px solid var(--borde-sutil);
+  /* manda el texto a un lado y la pildora la otro */
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--espacio-2);
 }
 
-
-
-/* oculto los controles de idioma, accesibilidad */
-.navbar-utilidades .navbar-idioma-segmentado,
-.navbar-utilidades .navbar-accesibilidad {
-  display: none;
-}
-
-
-.navbar-idioma:hover {
-  border-color: var(--borde-fuerte);
-  background: var(--fondo-sutil);
-}
-
-.navbar-idioma:focus-within {
-  border-color: var(--marca-primario);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--marca-primario) 25%, transparent);
-}
-
-.navbar-idioma svg {
-  pointer-events: none;
-  flex-shrink: 0;
-}
-
-.navbar-idioma select option {
-  background: var(--fondo-superficie);
-  color: var(--texto-principal);
-}
-
-
-/* para estilo en "Idioma" del movil */
-.navbar-utilidad-etiqueta {
+/* etiqueta de texto "Idioma" en la fila movil */
+.navbar-utilidad-etiqueta{
   font-size: 1rem;
   font-weight: 500;
   color: var(--texto-secundario);
 }
 
-/* botones de accion*/
+/* capsula exterior que contiene los dos boontes ES/EN */
+.navbar-idioma-segmentado{
+  /* mantiene los botones en linea horizontal ajustados al contenido */
+  display: inline-flex;
+  /* centra verticalmente los botones interiores */
+  align-items: center;
+  background-color: var(--fondo-elevada);
+  border: 1px solid var(--borde-fuerte);
+  padding: 4px;
+  /* borde redondeado en forma de capsula */
+  border-radius: var(--radio-completo);
+  /* separacion minima entre las dos mitades */
+  gap: 4px;
+}
 
-/* Crear cuenta */
-.navbar-boton-registro {
+/* botones individuales (mitad ES y mitad EN) dentro del selector */
+.navbar-idioma-segmentado .navbar-idioma-pildora{
+  border:none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* ancho amplio para que la capsula verde sea alargada y no una esfera */
+  min-width: 48px;
+  height: 34px;
+  padding: 0 var(--espacio-3);
+  border-radius: var(--radio-completo);
+  font-family: var(--fuente-inter);
+  font-size: 14px;
+  font-weight: 700;
+  background-color: transparent;
+  color: var(--texto-principal);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+/* estado de la pildora activa seleccionada */
+.navbar-idioma-segmentado .navbar-idioma-pildora.is-activo{
+  background-color: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+}
+
+
+/* BLOQUE 8 - contenedor de utilidades y botones de cuenta */
+
+/* contenedor de acciones al pie del menu movil */
+.navbar-utilidades{
+  display: flex;
+  /* para que invierta el corden y quede Crear cuenta arriba e ingresar abajo */
+  flex-direction: column-reverse;
+  gap: var(--espacio-3);
+  width: calc(100% + var(--espacio-6) * 2);
+  margin-inline: calc(var(--espacio-6) * -1);
+  margin-bottom: calc(var(--espacio-4) * -1);
+  margin-top: 0;
+  padding: var(--espacio-4) var(--espacio-6);
+  /* fondo para distinguirse de la zona de enlaces */
+  background-color: var(--fondo-superficie);
+  /* linea divisoria que separa los botones del resto del menu */
+  border-top: 1px solid var(--borde-sutil);
+}
+
+/* en la vista movil se oculta el selector de idioma que vive en utilidades */
+.navbar-utilidades .navbar-idioma-segmentado{
+  display: none;
+}
+
+/* boton principal para registrarme */
+.navbar-boton-registro{
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: var(--espacio-12);
   padding-inline: var(--espacio-4);
+  /* forma de píldora redonda */
   border-radius: var(--radio-completo);
-  background: var(--marca-primario);
+  /* fondo verde lima de la marca */
+  background-color: var(--marca-primario);
+  /* texto oscuro sobre fondo verde */
   color: var(--texto-sobre-marca) !important;
   font-size: 0.95rem;
   font-weight: 700;
+  /* evita que el texto se divida en dos renglones */
   white-space: nowrap;
   transition: background-color 150ms ease, transform 100ms ease;
 }
 
+/* efecto hover sobre el botón de registro */
 .navbar-boton-registro:hover {
-  background: var(--marca-primario-hover);
+  background-color: var(--marca-primario-hover);
 }
 
+/* efecto al hacer clic o presionar el botón de registro */
 .navbar-boton-registro:active {
-  background: var(--marca-primario-presionado);
+  background-color: var(--marca-primario-presionado);
+  /* Ligera reducción de tamaño táctil del 2% */
   transform: scale(0.98);
 }
 
-/* ingresar  */
+/* boton secundario de iniciar sesion o ingresar*/
 .navbar-boton-ingresar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 48px;
   height: var(--espacio-12);
   padding: var(--espacio-2) var(--espacio-4);
+  /* borde visible */
   border: 1px solid var(--borde-fuerte);
   border-radius: var(--radio-completo);
-  background: var(--fondo-superficie);
+  background-color: var(--fondo-superficie);
   color: var(--texto-principal);
   font-size: 0.95rem;
   font-weight: 600;
   transition: color 150ms ease, border-color 150ms ease;
 }
 
+/* efecto hover sobre el botón ingresar en móvil */
 .navbar-boton-ingresar:hover {
   color: var(--marca-primario);
   border-color: var(--borde-sutil);
 }
 
-/* Estados de carga y error */
-.navbar-estado {
-  margin: 0;
-  font-size: 0.875rem;
-  color: var(--texto-secundario);
-}
+/* BLOQUE 9 - como se presenta en la web */
 
-.navbar-estado button {
-  margin-left: var(--espacio-2);
-  padding: var(--espacio-1) var(--espacio-2);
-  border: 1px solid var(--borde-sutil);
-  border-radius: var(--radio-sm);
-}
-
-/* estilos para las pildoras de idioma y apartado de idioma del navbar movil */
-.navbar-fila-utilidad {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-block: var(--espacio-2);
-}
-
-.navbar-idioma-segmentado {
-  display: inline-flex;
-  align-items: center;
-  background: var(--fondo-elevada);
-  border: 1px solid var(--borde-fuerte);
-  padding: 3px;
-  border-radius: var(--radio-completo);
-  gap: 2px;
-}
-.navbar-idioma-segmentado .navbar-idioma-pildora {
-  border: none;
-  /* 6px arriba/abajo y 14px a los lados para que la cápsula quede redonda y con cuerpo */
-  padding: 6px 14px;
-  border-radius: var(--radio-completo);
-  /* Tipografía Inter de tokens en tamaño 0.85rem y negrita */
-  font-family: var(--fuente-inter);
-  font-size: 0.85rem;
-  font-weight: 700;
-  background: transparent;
-  /* Texto nítido (#f4f2f7) para el botón inactivo */
-  color: var(--texto-principal);
-  cursor: pointer;
-  transition: background-color 150ms ease, color 150ms ease;
-}
-
-.navbar-idioma-segmentado .navbar-idioma-pildora.is-activo {
-  background: var(--marca-primario);
-  color: var(--texto-sobre-marca);
-}
-
-/* Vista Desktop */
 @media (min-width: 900px) {
+  /* separacion horizontal mas amplia entre logo y navegacion */
   .navbar-interior {
     gap: var(--espacio-8);
   }
 
+  /* Oculta los controles exclusivos de celulares (botón ingresar y hamburguesa) */
   .navbar-movil-acciones {
+    /* Desaparece en escritorio */
     display: none;
   }
 
+  /* en escritorio el panel deja de ser cortina fija y se convierte en barra horizontal */
   .navbar-panel,
   .navbar-panel.is-abierto {
+    /* siempre visible en escritorio */
     display: flex;
+    /* ocupa el espacio restante disponible */
     flex: 1;
+    /* vuelve al flujo normal de la página (anula el position: fixed) */
     position: static;
+    /* coloca los enlaces a la izquierda y utilidades a la derecha en fila */
     flex-direction: row;
     align-items: center;
+    /* distribuye extremos */
     justify-content: space-between;
     padding: 0;
     border: 0;
+    /* fondo transparente (usa el fondo del navbar) */
     background: transparent;
-    /* para quitar las barras de scroll */
+    /* elimina barras de scroll */
     overflow: visible;
     height: auto;
   }
 
+  /* lista de enlaces en fila horizontal */
   .navbar-enlaces {
+    /* cambia de columna a fila horizontal */
     flex-direction: row;
     align-items: center;
     gap: var(--espacio-6);
   }
 
-  /* escritorio, los enlaces usan las medidas del token .cuerpo-p*/
+  /* tipografía de los enlaces en escritorio */
   .navbar-enlaces a {
     font-size: 14px;
-    /* altura de línea de 20px */
     line-height: 20px;
-    /* grosor medio para no competir con el logo */
     font-weight: 500;
   }
 
-  /* arriba estan para movil, las cambio aqui para web */
-  .navbar-utilidades {
-    flex-direction: row;
-    width: auto;
-    /* reseteo algunos valores a lo que deberia verse en la web, no en movil */
-    margin: 0;
-    margin-left: auto;
-    padding: 0;
-    background: transparent;
-    /* quito las divisiones que use en movil */
-    border-top: none;
-    padding-top: 0;
+  /* línea indicadora verde debajo del enlace activo de la página actual */
+  .navbar-enlaces a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    /* se coloca pegado al fondo del enlace */
+    bottom: 0;
+    /* se estira desde la izquierda */
+    left: 0;
+    /* se estira hasta la derecha */
+    right: 0;
+    /* grosor de 2px para la línea */
+    height: 2px;
+    /* color verde lima de la marca */
+    background-color: var(--marca-primario);
+    border-radius: var(--radio-completo);
   }
 
+  /* oculta la fila de idioma que se usaba en el menú móvil */
+  .navbar-fila-utilidad {
+    display: none;
+  }
+
+  /* reseteo del contenedor de utilidades para escritorio */
+  .navbar-utilidades {
+    /* cambia a fila horizontal */
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    margin: 0;
+    /* empuja todo el bloque a la derecha del navbar */
+    margin-left: auto;
+    /* quita rellenos de cortina */
+    padding: 0;
+    background: transparent;
+    /* quita la línea divisoria superior de móvil */
+    border-top: none;
+  }
+
+  /* muestra el selector de idioma dentro de utilidades en escritorio */
+  .navbar-utilidades .navbar-idioma-segmentado {
+    /* se hace visible al lado de los botones */
+    display: inline-flex;
+  }
+
+  /* ajuste del botón Ingresar en escritorio */
+  .navbar-boton-ingresar {
+    width: auto;
+    height: auto;
+    /* fondo transparente - sin caja */
+    background: transparent;
+    /* quita el borde de caja */
+    border: none;
+  }
+
+  /* ajuste del botón Crear cuenta en escritorio */
   .navbar-boton-registro {
     width: auto;
     height: 42px;
   }
-  .navbar-boton-ingresar {
-    width: auto;
-    height: auto;
-    background: transparent;
-    border: none;
-  }
-
-  .navbar-fila-utilidad, .navbar-fila-accesibilidad{
-    display: none;
-  }
-
-  /* como mas atras quité la vilibilidad de los boyones de idioma y accesibilidad, lo agrego en el apartado web */
-  .navbar-utilidades .navbar-idioma-segmentado,
-  .navbar-utilidades .navbar-accesibilidad {
-    display: inline-flex;
-  }
-
-  /* lo muevo aqui porq es lo q pone una barra verde debajo del menu en el que estoy, cosa que solo
-  va en web de escritorio */
-  .navbar-enlaces a[aria-current="page"]::after {
-  color: var(--texto-principal);
-  font-weight: 600;
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--marca-primario);
-  border-radius: var(--radio-completo);
-  }
-
 }
+
