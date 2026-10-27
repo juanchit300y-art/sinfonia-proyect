@@ -2,13 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import Icono from "./Icono.jsx";
 
-const DESTINOS = {
-  descubrir: "/descubrir",
-  planes: "/planes",
-  paraArtistas: "/para-artistas",
-  ayuda: "/ayuda",
-};
-
 const Navbar = ({
   textos,
   cargando,
@@ -16,8 +9,6 @@ const Navbar = ({
   recargar,
   idioma,
   activo,
-  textoGrande,
-  alternarTexto,
   cambiarIdioma,
   onNavegar,
 }) => {
@@ -45,12 +36,12 @@ const Navbar = ({
       clave:"inicio", //identificador unico del enlace
       ruta:"/",
       //la etiqueta es lo que verá el usuario, primero intento sacarlo de la API, si no responde tomo Home si está en ingles, e Inicio si está en español
-      etiqueta: nav?.enlaces?.conSesion?.inicio ?? (ingles? "Home" : "Inicio"),
+      etiqueta: nav?.enlaces?.inicio ?? (ingles? "Home" : "Inicio"),
     },
     {
       clave: "catalogo", //clave para el segundo enlace
       ruta: "/catalogo",
-      etiqueta: ingles? "Catalog" : "Catálogo", //Catalog si está en ingles, Catálogo si está en español
+      etiqueta: nav?.enlaces?.catalogo ?? (ingles? "Catalog" : "Catálogo"), //Catalog si está en ingles, Catálogo si está en español
     },
   ];
 
@@ -67,15 +58,16 @@ const Navbar = ({
     return () => document.removeEventListener("keydown", cerrarConEscape);
   }, [abierto]);
 
+  // componente reutilizable para la pildora de idioma
   const selectorIdioma = (
-    <div className="navbar-idioma-segmentado" role="group" aria-label="Seleccionar idioma">
+    <div className="navbar-idioma-segmentado" role="group" aria-label={nav?.aria?.idioma ?? (ingles ? "Change language" : "Cambiar idioma")}>
       <button 
         type="button" 
         className={`navbar-idioma-pildora ${idioma === "es" ? "is-activo" : ""}`}
         onClick={() => cambiarIdioma("es")}
         aria-pressed={idioma === "es"}
       >
-        ES
+        {textos?.idioma?.codigos?.es ?? "ES"}
       </button>
       <button 
         type="button" 
@@ -83,7 +75,7 @@ const Navbar = ({
         onClick={() => cambiarIdioma("en")}
         aria-pressed={idioma === "en"}
       >
-        EN
+        {textos?.idioma?.codigos?.en ?? "EN"}
       </button>
     </div>
   );
@@ -140,19 +132,17 @@ const Navbar = ({
         >
           {cargando && (
             <p className="navbar-estado" role="status">
-              {ingles ? "Loading navigation…" : "Cargando navegación…"}
+              {textos?.estados?.cargando?.titulo ?? (ingles ? "Loading..." : "Cargando...")}
             </p>
           )}
 
           {error && (
             <div className="navbar-estado" role="alert">
               <p>
-                {ingles
-                  ? "Navigation could not be loaded."
-                  : "No pudimos cargar el menú."}
+                {textos?.estados?.error?.titulo ?? (ingles ? "Navigation could not be loaded" : "No pudimos cargar el menú.")}
               </p>
               <button type="button" onClick={recargar}>
-                {ingles ? "Try again" : "Reintentar"}
+                {textos?.general?.acciones?.reintentar ?? (ingles ? "Try again" : "Reintentar")}
               </button>
             </div>
           )}
@@ -201,7 +191,7 @@ const Navbar = ({
                   href="/ingresar"
                   onClick={(evento) => manejarNavegacion(evento, "/ingresar")}
                 >
-                  {nav?.botones?.invitado?.ingresar ?? "Ingresar"}
+                  {nav?.botones?.invitado?.ingresar ?? (ingles ? "Log in" : "Ingresar")}
                 </a>
 
                 <a
