@@ -6,25 +6,18 @@ import Footer from "./components/Footer.jsx";
 
 function leerRuta(){
     const ruta = window.location.pathname.replace(/^\//, "");
-    return ruta || "descubrir";
+    return ruta || "inicio";
 }
-
 
 function App() {
     const [idioma, setIdioma] = useState("es");
     const [activo, setActivo] = useState(leerRuta);
-    const [consulta, setConsulta] = useState("");
     const [textoGrande, setTextoGrande] = useState(false);
-
 
     const datos = useTextos(idioma);
     console.log(datos);
 
     const ingles = idioma === "en";
-    const titulo =
-        activo === "favoritos"
-        ? datos.textos?.navbar?.botones?.favoritos
-        : datos.textos?.navbar?.enlaces?.[activo];
     
     function navegar(destino) {
         window.history.pushState(null, "", destino);
@@ -35,7 +28,6 @@ function App() {
     useEffect(() => {
         function actualizar(){
             setActivo(leerRuta());
-            setConsulta("");
         }
         window.addEventListener("popstate", actualizar);
         return () => window.removeEventListener("popstate", actualizar);
@@ -50,13 +42,6 @@ function App() {
         return () => {document.documentElement.style.fontSize = ""}
     },[textoGrande])
 
-    function buscar(valor){
-        setConsulta(valor);
-        setActivo("heroes");
-        //window.history es el que da acceso al hsitorial de la pestaña
-        window.history.replaceState(null, "", "#heroes");
-    }
-
     return (
         <div className="sitio">
             <Navbar 
@@ -64,47 +49,46 @@ function App() {
                 idioma={idioma} 
                 cambiarIdioma={setIdioma} 
                 activo={activo}
-                onBuscar={buscar}
                 textoGrande={textoGrande}
                 alternarTexto={() => setTextoGrande((valor) => !valor)}
                 onNavegar={navegar}
             />
             <main className="contenido contenedor">
+                {/* vista de inicio */}
                 {(activo === "inicio" || activo === "descubrir" || activo === "") && (
                     <section id="inicio" className="seccion">
-                        <h2>{ingles ? "Home" : "Inicio"}</h2>
+                        <h2>{datos.textos?.navbar?.enlaces?.inicio ?? (ingles ? "Home" : "Inicio")}</h2>
                     </section>
                 )}
+
+                {/* vista del catalogo */}
                 {activo === "catalogo" && (
                     <section id="catalogo" className="seccion">
-                        <h2>{ingles ? "Catalog" : "Catálogo"}</h2>
+                        <h2>{datos.textos?.navbar?.enlaces?.catalogo ?? (ingles ? "Catalog" : "Catálogo")}</h2>
                     </section>
                 )}
-                {activo === "planes" && (
-                    <section id="planes" className="seccion">
-                        <h2>{datos.textos?.navbar?.enlaces?.invitado?.planes ?? "Planes"}</h2>
-                    </section>
-                )}
-                {(activo === "para-artistas" || activo === "paraArtistas") && (
-                    <section id="para-artistas" className="seccion">
-                        <h2>{datos.textos?.navbar?.enlaces?.invitado?.paraArtistas ?? "Para artistas"}</h2>
-                    </section>
-                )}
-                {activo === "ayuda" && (
-                    <section id="ayuda" className="seccion">
-                        <h2>{datos.textos?.navbar?.enlaces?.invitado?.ayuda ?? "Ayuda"}</h2>
-                    </section>
-                )}
+
+                {/* vista para inisiar sesion*/}
                 {activo === "ingresar" && (
                     <section id="ingresar" className="seccion">
                         <h2>{datos.textos?.navbar?.botones?.invitado?.ingresar ?? "Ingresar"}</h2>
                     </section>
                 )}
+
+                {/* vista para crear cuenta */}
                 {(activo === "crear-cuenta" || activo === "crearCuenta") && (
                     <section id="crear-cuenta" className="seccion">
                         <h2>{datos.textos?.navbar?.botones?.invitado?.crearCuenta ?? "Crear cuenta"}</h2>
                     </section>
                 )}
+
+                {/* vista de terminos legales del footer */}
+                {activo === "terminos" && (
+                <section id="terminos" className="seccion">
+                    <h2>{datos.textos?.footer?.columnas?.legal?.enlaces?.terminos ?? (ingles ? "Terms of use" : "Términos de uso")}</h2>
+                </section>
+                )}
+
             </main>
             <Footer
                 textos={datos.textos}
