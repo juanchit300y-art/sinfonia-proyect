@@ -12,7 +12,6 @@ function leerRuta(){
 function App() {
     const [idioma, setIdioma] = useState("es");
     const [activo, setActivo] = useState(leerRuta);
-    const [textoGrande, setTextoGrande] = useState(false);
 
     const datos = useTextos(idioma);
     console.log(datos);
@@ -37,11 +36,6 @@ function App() {
         document.documentElement.lang = idioma;
     },[idioma])
 
-    useEffect(() => {
-        document.documentElement.style.fontSize = textoGrande ? "112%" : "";
-        return () => {document.documentElement.style.fontSize = ""}
-    },[textoGrande])
-
     return (
         <div className="sitio">
             <Navbar 
@@ -49,8 +43,6 @@ function App() {
                 idioma={idioma} 
                 cambiarIdioma={setIdioma} 
                 activo={activo}
-                textoGrande={textoGrande}
-                alternarTexto={() => setTextoGrande((valor) => !valor)}
                 onNavegar={navegar}
             />
             <main className="contenido contenedor">
