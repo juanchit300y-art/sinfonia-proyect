@@ -1,7 +1,7 @@
 import "./Portada.css"
 
 // funcion que traduce los nombres de color de la API a variables CSS
-function resolverColor(colorApi, fallback = "transparent"){
+export function resolverColor(colorApi, fallback = "transparent"){
     // si no se proporciona color, devuelve color de respaldo
     if(!colorApi) return fallback;
     // si viene en formato oficial de la API
@@ -16,7 +16,7 @@ function resolverColor(colorApi, fallback = "transparent"){
 // componente principal portada, dibuja la caratula mediante SVG
 export default function Portada({
     // puede recibir un objeto completo "portada" de la API o de las propiedades sueltas
-    Portada,
+    portada,
     // numero del 0 al 5 qeu define la figura geometrica
     patron,
     // arreglo de 2 o 3 colores para fondo y figuras
@@ -29,7 +29,7 @@ export default function Portada({
     // extrae el patron desde el objeto o la propiedad directa (por defecto 0)
     const numPatron = portada?.patron ?? patron ?? 0;
     // extrae la lista de colores
-    const listaColores = portada.colores ?? colores ?? [];
+    const listaColores = portada?.colores ?? colores ?? [];
     
     // color 1: fondo base de la caratula
     const colorFondo = resolverColor(listaColores[0], "var(--portada-1)")
