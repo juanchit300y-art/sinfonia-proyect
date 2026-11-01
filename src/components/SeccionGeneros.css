@@ -1,0 +1,223 @@
+/* contenedor principal de la seccino de generos */
+.seccion-generos{
+    /* separacion verticular superior e inferior */
+    margin-block: var(--espacio-12);
+    width: 100%;
+}
+
+/* cabecera que alinea el titulo a la izquierda y enlace a la derecha */
+.seccion-generos-cabecera{
+    /* flexbox en fila */
+    display: flex;
+    align-items: center;
+    /* manda uno a cada esquina */
+    justify-content: space-between;
+    /* espacio antes de las targetas */
+    margin-bottom: var(--espacio-6);
+    /* separacion minima entre titulo y enlace */
+    gap: var(--espacio-4);
+}
+
+/* titulo principal de la seccion  */
+.seccion-generos-titulo{
+    margin: 0;
+    color: var(--texto-principal);
+}
+
+/* enlace derecho */
+.seccion-generos-enlace{
+    color: var(--marca-primario);
+    text-decoration: none;
+    /* caja inline-flex para alinear texto y flecha */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--espacio-1);
+    font-family: var(--fuente-inter);
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+/* efecto al pasar el raton o enfocar con teclado en el enlace */
+.seccion-generos-enlace:hover,
+.seccion-generos-enlace:focus-visible{
+    color: var(--marca-primario-hover);
+    text-decoration: underline;
+}
+
+/* caja para los estados de carga y error */
+.seccion-generos-estado{
+    padding: var(--espacio-8);
+    text-align: center;
+    color: var(--texto-secundario);
+    background-color: var(--fondo-superficie);
+    border-radius: var(--radio-lg);
+    margin-block: var(--espacio-4);
+}
+
+/* botón para reintentar carga en caso de error */
+.seccion-generos-boton-reintentar {
+    background: transparent;
+    /* borde de 1px */
+    border: 1px solid var(--marca-primario);
+    color: var(--marca-primario);
+    /* relleno vertical y horizontal */
+    padding: var(--espacio-2) var(--espacio-6);
+    border-radius: var(--radio-completo);
+    font-family: var(--fuente-inter);
+    font-weight: 600;
+    /* cursor de mano */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* estado hover del botón de reintentar */
+.seccion-generos-boton-reintentar:hover {
+    background-color: var(--marca-primario);
+    color: var(--texto-sobre-marca);
+}
+
+/* cuadricula de targetas (en movil 2 columnas para que quepa perfecto) */
+.seccion-generos-cuadricula{
+    display: grid;
+    /* 2 columnas de igual ancho en pantallas moviles */
+    grid-template-columns: repeat(2, 1fr);
+    /* separacion entre targetas */
+    gap: var(--espacio-3);
+}
+
+/* targeta individual de cada genero */
+.seccion-genero-tarjeta{
+    /* posicionamiento relativo para anclar la portada decorativa de la esquina */
+    position: relative;
+    overflow: hidden;
+    min-height: 108px;
+    /* relleno para ubicar el titulo arriba a la izquierda */
+    padding: var(--espacio-4);
+    border-radius: var(--radio-lg);
+    cursor: pointer;
+    /* permite que el contenido se ajuste sin desbordar la columna */
+    min-width: 0;
+    /* transicion suave para elevacion, sombra y borde */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    /* evita que el usuario seleccione el texto accidentalmente al hacer clic rapido */
+    user-select: none;
+}       
+
+/* efecto hover al pasar el cursor sobre una targeta*/
+.seccion-genero-tarjeta:hover{
+    /* eleva la targeta 3px hacia arriba */
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-tarjeta);
+}
+
+/* estado activo cuando el genero está seleccionado como filtro en el catalogo */
+.seccion-genero-tarjeta--activo{
+    /* dibuja el borde blanco de 2px hacia ADENTRO*/
+    box-shadow: inset 0 0 0 2px var(--texto-principal), var(--sombra-tarjeta);
+}
+
+/* contorno accesible al navegar con la tecla tab */
+.seccion-genero-tarjeta:focus-visible{
+    outline: 2px solid var(--texto-principal);
+    outline-offset: 2px;
+}
+
+/* en movil oculta desde la targeta 5 dejandolo solo 4 visibles mientras esté en inicio */
+#inicio .seccion-genero-tarjeta:nth-child(n+5),
+/* dentro de catalogo muestra solo 8 y oculta de la 9na en adelante */
+#catalogo .seccion-genero-tarjeta:nth-child(n+9){
+    display: none;
+}
+
+/* nombre del genero */
+.seccion-genero-nombre{
+    /* posicion relativa con z-index para estar siempre por encima de la figura decorativa */
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    color: var(--texto-inverso);
+    font-family: var(--fuente-syne);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.25;
+    /* limita el ancho maximo del texto para no chocar con la esquina derecha */
+    max-width: 75%;
+    /* permite partir palabras largas si la pantalla es muy estrecha */
+    overflow-wrap: break-word;
+}
+
+/* recuadro decorativo en la esquina inferior derecha */
+.seccion-genero-decoracion{
+    /* posicion absoluta respecto a .seccion-genero-tarjeta */
+    position: absolute;
+    /* ubicado a 10px del borde derecho */
+    right: 10px;
+    /* undido 22px por debajo del bnorde inferior para que solo asome la mitad superior */
+    bottom: -22px;
+    width: 76px;
+    height: 76px;
+    /* inclinacion de 20 grados en sentido horario */
+    transform: rotate(20deg);
+    border-radius: var(--radio-md);
+    overflow: hidden;
+    /* sombra suave para despegar la miniatura dle fondo de la targeta */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    /* para que no interfiera con el clic en la targeta */
+    pointer-events: none;
+    z-index: 1;
+    /* animar la miniatura al hacer hover en la targeta */
+    transition: transform 0.25s ease;
+}
+
+/* pequeño efecto dinamico al pasar el raton por la targeta, la miniatura se asoma un poquito mas */
+.seccion-genero-tarjeta:hover .seccion-genero-decoracion{
+    transform: rotate(15deg) translateY(-4px) scale(1.03);
+}
+
+/* svg de la portada dentro del recuadro decorativo */
+.seccion-genero-portada-svg{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* responsive en escritorio y pantallas grandes */
+@media (min-width: 900px){
+    /* cuadricula en escritorio */
+    .seccion-generos-cuadricula{
+        /* 4 columnas iguales */
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--espacio-4);
+        /* limita el ancho de las 4 columnas para dejar el espacio libre a la derecha debajo de ver catalogo */
+        max-width: 86%;
+    }
+
+    /* targeta de genero en escritorio */
+    .seccion-genero-tarjeta{
+        /* hago mas grande la targeta */
+        min-height: 132px;
+        padding: 20px;
+    }
+
+    /* titulo del genero en escritorio */
+    .seccion-genero-nombre{
+        font-size: 20px;
+        line-height: 26px;
+    }
+
+    /* miniatura decorativa en escritorio */
+    .seccion-genero-decoracion {
+        width: 92px;
+        height: 92px;
+        right: 14px;
+        bottom: -26px;
+    }
+
+    /* en escritorio vuelvo a mostrar las targetas tanto en inicio 8 como en catalogo 12 */
+    #inicio .seccion-genero-tarjeta:nth-child(n+5),
+    #catalogo .seccion-genero-tarjeta:nth-child(n+9){
+        display: block;
+    }
+}
