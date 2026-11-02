@@ -1,0 +1,209 @@
+/* contenedor principal del footer */
+.footer{
+    /* fondo base */
+    background-color: var(--fondo-superficie); 
+    /* linea superior que separa el contenido del footer */
+    border-top: 1px solid var(--borde-sutil);
+    /* color texto principal para el contenido */
+    color: var(--texto-principal);
+    /* espaciado interno, 48px arriba, 32px abajo */
+    padding-block: var(--espacio-12) var(--espacio-8);
+    /* si el contenido de la pagina es corto, empuja el footer siempre al fondo */
+    margin-top: auto;
+    /* para que ocupe el ancho completo */
+    width: 100%;
+}
+/* contenedor interior centrado con separacion vertical */
+.footer-interior{
+    /* alineacion en columna para aplicar la parte principal y la barra inferior - principal, divisor e inferior */
+    display: flex;
+    /* apila los 3 bloques uno debajo de otro */
+    flex-direction: column;
+    /* separacion de 32px entre bloques */
+    gap: var(--espacio-8);
+}
+
+/* seccion principal, la de marca a la izquierda y columnas a la derecha */
+.footer-principal{
+    /* para controlar la disposicion entre la marca y las columnas */
+    display: flex;
+    /* en movil apila la marca arriba y las 3 columnas debajo */
+    flex-direction: column;
+    /* separacion entre marca y columnas */
+    gap: var(--espacio-8);
+}
+
+/* en pantallas de escritorio */
+@media (min-width:900px){
+    /* alinea la marca a la izquierda y las columnas a la derecha */
+    .footer-principal{
+        /* cambia a fila horizontal */
+        flex-direction: row; /* izquierda a derecha */
+        justify-content: space-between; /* extremos en las esquinas, marca izquierda, columnas derecha */
+        align-items: flex-start; /* alinea los items al inicio del eje transversal, en flex-direction:row es el vertical, so los alinea desde la parte superior del contenedor */
+        /* espacio minimo entre izquierda y derecha */
+        gap: var(--espacio-12)
+    }
+}
+
+/* columna de la marca */
+.footer-columna-marca{
+    display: flex;
+    /* logo arriba y lema debajo en columna */
+    flex-direction: column;
+    /* espacio entre el logo y el lema */
+    gap: var(--espacio-3);
+    /* ancho maximo para que el lema quepa en 2 lineas */
+    max-width: 280px;
+}
+
+/* enlace interactivo del logo */
+.footer-logo{
+    /* pone el icono y el texto en fila ocupando el ancho de su propio contenido */
+    display: inline-flex;
+    /* centra el icono circular con respecto al texto sintonia */
+    align-items: center;
+    /* espacio entre el icono y la palabra sintonia */
+    gap: var(--espacio-3);
+    /* elimina el subrayado de los enlaces html */
+    text-decoration: none;
+    /* le quita el color verde de los enlaces globales */
+    color: var(--texto-principal);
+    /* ajusta la caja clicable al tamaño del logo sin estirarse a los lados */
+    width: fit-content;
+}
+
+/* foco accesible por teclado en el logo con TAB */
+.footer-logo:focus-visible{
+    /* contorno de accesibilidad */
+    outline: 2px solid var(--marca-primario);
+    /* separa el contorno del logo */
+    outline-offset: var(--espacio-1);
+    /* redondea las esquimas del contorno */
+    border-radius: var(--radio-sm);
+}
+
+/* como en span de la palabra sintonia tengo ya la clase .titular-h3 aqui solo me aseguro que tenga el color principal */
+.footer-logo-texto{
+    color: var(--texto-principal);
+}
+
+/* descripcion debajo del logo - este ya tiene .cuerpo-p so me aseguro de cosas basicas */
+.footer-lema{
+    color: var(--texto-secundario);
+    margin: 0;
+}
+
+/* contenedor de las 3 columnas en móvil con grid para que no se descuadren */
+.footer-columnas-navegacion {
+  /* activa la cuadrícula en pantallas móviles */
+  display: grid;
+  /* crea columnas automaticas que reparten el espacio*/
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  /* espacio entre filas y columnas del movil */
+  gap: var(--espacio-6);
+}
+
+/* en excritorio se alinean horizontalmente con espacio generoso */
+@media (min-width: 900px){
+    .footer-columnas-navegacion{
+        display: flex;
+        /* separacion entre las 3 columnas */
+        gap: var(--espacio-16);
+    }
+}
+
+/* cada columna individual - titulo + enlaces*/
+.footer-columna{
+    /* par aodernar el titulo y la lista */
+    display: flex;
+    /* titulo arriba y debajo la lista de enlaces en vertical */
+    flex-direction: column;
+    /* espacio entre titulo y el primer enlace */
+    gap: var(--espacio-3);
+}
+
+/* titulo de cada columna, que ya tiene .detalle-etiqueta */
+.footer-columna-titulo{
+    color: var(--texto-secundario);
+    margin: 0;
+}
+
+/* lista de los enlaces de cada columna */
+.footer-lista{
+    /* quita las viñetas */
+    list-style: none;
+    margin: 0;
+    /* elimina la sangria */
+    padding: 0;
+    /* activa flexbox para apilar los elementos de la lista */
+    display: flex;
+    /* cada elementos uno debajo de otro en columna */
+    flex-direction: column;
+    /* separa cada enlace de la columna */
+    gap: var(--espacio-2);
+}
+
+/* tomamos los enlaces dentro de las listas, que ya tienen .cuerpo-p */
+.footer-lista a{
+    /* quita el subrayado de enlaces */
+    text-decoration: none;
+    color: var(--texto-principal);
+    /* suavisa el color cuando el usuari pasa el cursor */
+    transition: color 150ms ease;
+}
+
+/* se activa cuando se pasa el cursor por encima de cualquier enlace de las columnas */
+.footer-lista a:hover{
+    color: var(--texto-marca);
+}
+
+/* se activa cuando se navega hasta un enlace de las columnas usando TAB */
+.footer-lista a:focus-visible{
+    outline: 2px solid var(--marca-primario);
+    outline-offset: var(--espacio-1);
+    border-radius: var(--radio-sm);
+}
+
+/* div que dibuja la linea divisoria horizontal entre las columnas y los textos legales */
+.footer-divisor{
+    /* grosor de la linea */
+    height: 1px;
+    /* hace que ocupe el 100% del ancho */
+    width: 100%;
+    /* pinta la linea */
+    background-color: var(--borde-sutil);
+    margin: 0;
+}
+
+/* dentro de la barra inferior que contiene el copyright y el aviso de audio libre */
+.footer-inferior{
+    display: flex;
+    /* en movil apila el copy arriba y el aviso debajo */
+    flex-direction: column;
+    /* en movil separa ambos textos */
+    gap: var(--espacio-2);
+    /* ambos textos a la izquierda */
+    align-items: flex-start;
+}
+
+@media (min-width: 768px){
+    /* modificamos la barra inferior en pantallas amplias */
+    .footer-inferior{
+        /* ambos textos en la misma fila horizontal */
+        flex-direction: row;
+        /* manda copy a la izquierda y aviso a la derecha */
+        justify-content: space-between;
+        /* centra verticalmente ambos textos en la misma linea */
+        align-items: center;
+        /* espacio minimo */
+        gap: var(--espacio-4);
+    }
+}
+
+/* seleccionamos los parrafos de derechos y aviso. que ya tienen .detalle-nota */
+.footer-derechos,
+.footer-aviso{
+    color: var(--texto-terciario);
+    margin: 0;
+}

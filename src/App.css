@@ -1,0 +1,14 @@
+.sitio{
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenido{
+    flex: 1;
+    display: grid;
+    /* traba el ancho al 100% de la pantalla movil para qeu los carruseles no hagan qeu se estire la pantalla */
+    grid-template-columns: minmax(0, 1fr);
+}
+

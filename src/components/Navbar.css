@@ -55,7 +55,7 @@
 .navbar :focus-visible{
   /* contorno visible de color verde como la marca */
   outline: 2px solid var(--marca-primario);
-  outline-offset: 3px;
+  outline-offset: var(--espacio-1);
   /* redondea las esquinas */
   border-radius: var(--radio-sm);
 }
@@ -182,7 +182,7 @@
 /* parrafo de texto de carga o error */
 .navbar-estado{
   margin: 0;
-  font-size: 0.875;
+  font-size: 0.875rem;
   color: var(--texto-secundario);
 }
 
@@ -264,11 +264,11 @@
   align-items: center;
   background-color: var(--fondo-elevada);
   border: 1px solid var(--borde-fuerte);
-  padding: 4px;
+  padding: var(--espacio-1);
   /* borde redondeado en forma de capsula */
   border-radius: var(--radio-completo);
   /* separacion minima entre las dos mitades */
-  gap: 4px;
+  gap: var(--espacio-1);
 }
 
 /* botones individuales (mitad ES y mitad EN) dentro del selector */
@@ -278,7 +278,7 @@
   align-items: center;
   justify-content: center;
   /* ancho amplio para que la capsula verde sea alargada y no una esfera */
-  min-width: 48px;
+  min-width: var(--espacio-12);
   height: 34px;
   padding: 0 var(--espacio-3);
   border-radius: var(--radio-completo);
