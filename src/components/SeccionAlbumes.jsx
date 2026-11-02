@@ -60,7 +60,7 @@ export default function SeccionAlbumes({
                     // enlace interactivo hacia la vista completa
                     <a
                         href={enlaceHref} //direccion de destino por parametro 
-                        className="seccion albumes-enlace"
+                        className="seccion-albumes-enlace"
                         onClick={manejarClickEnlace}
                     >
                         {/* texto del enlace seguido de una flecha */}
@@ -112,7 +112,7 @@ export default function SeccionAlbumes({
                                 // Evaluamos si la tecla presionada es Enter o barra espaciadora
                                 if (evento.key === "Enter" || evento.key === " ") {
                                     // Disparamos la acción de la tarjeta
-                                    manejarClickTarjeta(evento, album);
+                                    manejarClickTargeta(evento, album);
                                 }
                             }}
                         >
@@ -131,7 +131,7 @@ export default function SeccionAlbumes({
                             <div className="seccion-album-info">
 
                                 {/* titulo del album */}
-                                <h3 className="seccion-album-titulo titular-h4">
+                                <h3 className="seccion-album-titulo cuerpo-m-fuerte">
                                     {album.titulo}
                                 </h3>
 

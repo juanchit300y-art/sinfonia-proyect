@@ -15,7 +15,7 @@ export default function CollagePortadas(){
                 <Portada 
                     className="collage-portada-svg"
                     patron={3}
-                    colores={["portada/3", "#000000", "#ffffff"]}
+                    colores={["portada/3", "var(--fijo-negro)", "var(--fijo-blanco)"]}
                 >
                 </Portada>
             </div>

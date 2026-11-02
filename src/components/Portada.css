@@ -7,7 +7,7 @@
     /* oculta cualquier trazo SVG que desborde fuera del marco */
     overflow: hidden;
     border-radius: var(--radio-md);
-    box-shadow: var(--sombra-targeta);
+    box-shadow: var(--sombra-tarjeta);
     transition: transform 200ms ease, box-shadow 200ms ease;
 }
 

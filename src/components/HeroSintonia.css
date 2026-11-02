@@ -1,0 +1,219 @@
+/* en este caso voy a modelar primero en escritorio y luego en movil, puesto que en movil debo quitar una que otra cosa */
+
+/* contenedor principal */
+.hero-sintonia{
+    /* activa css grid para poner el texto a la izquierda y el colalge a la derecha */
+    display: grid;
+    /* da 1.18fr para el texto y 1fr para el collage de portadas */
+    grid-template-columns: 1.18fr 1fr;
+    /* separacion entre ambas columnas */
+    gap: var(--espacio-12);
+    align-items: center;
+    padding-top: var(--espacio-6);
+    padding-bottom: var(--espacio-2);
+}
+
+/* pastilla superior de catalogo ejemplo 2026 */
+.etiqueta-sintonia{
+    /* permite aplicar relleno y bordes redondeados */
+    display: inline-block;
+    border-radius: var(--radio-completo);
+    background: var(--marca-suave);
+    color: var(--marca-primario);
+    /* relleno vertical y horizontal */
+    padding: var(--espacio-1) var(--espacio-3);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* titulo principal */
+.hero-sintonia h1{
+    margin: var(--espacio-6) 0;
+    /* ancho maximo para asegurar qeu corte en 3 lineas */
+    max-width: 8ch;
+    font-family: var(--fuente-syne);
+    /* tamaño fluido segun el ancho de la pantalla */
+    font-size: clamp(64px, 7.2vw, 104px);
+    font-weight: 800;
+    /* interlineado compacto */
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--texto-principal);
+}
+
+/* parrafo descriptivo debajo del titulo principal */
+.hero-sintonia .texto-hero > p{
+    /* ancho maximo para que corte en 2 lineas */
+    max-width: 540px;
+    font-size: 18px;
+    color: var(--texto-secundario);
+    line-height: 1.6;
+    /* separacion inferior antes de los botones */
+    margin: 0 0 var(--espacio-6);
+}
+
+/* contenedor con los dos botones de accion */
+.hero-sintonia .grupo-botones {
+  /* alinea los botones en fila horizontal en escritorio */
+  display: flex;
+  /* permite que salten de línea si la ventana se reduce mucho */
+  flex-wrap: wrap;
+  /* separación de 16px entre ambos botones */
+  gap: var(--espacio-4);
+  align-items: center;
+}
+
+/* estilo base compartido por ambos botones del hero */
+.boton-hero {
+  /* caja flexible centrada para el texto del botón */
+  display: inline-flex;
+  align-items: center; /* vertical */
+  justify-content: center; /* horizontal */
+  min-height: 54px;
+  /* relleno lateral amplio */
+  padding: 0 var(--espacio-6);
+  border-radius: var(--radio-completo);
+  font-family: var(--fuente-inter);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  /* transición suave de color, fondo y borde */
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+/* boton primario - crear cuenta gratis */
+.boton-hero--primario {
+  background: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+  border: 1px solid var(--marca-primario);
+}
+
+/* efecto hover dle boton primario */
+.boton-hero--primario:hover {
+  background: var(--marca-primario-hover);
+  border-color: var(--marca-primario-hover);
+  color: var(--texto-sobre-marca);
+}
+
+/* boton secundario - explorar el catalogo */
+.boton-hero--secundario {
+  background: transparent;
+  color: var(--texto-principal);
+  border: 1px solid var(--borde-fuerte);
+}
+
+/* efecto hover sobre el boton secundario */
+.boton-hero--secundario:hover {
+  background: var(--fondo-elevada);
+  color: var(--texto-principal);
+}
+
+/* foco accesible con teclado para ambos botones */
+.boton-hero:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 2px;
+}
+
+/* lista de definiciones con las 3 cifras interiores - dl*/
+.cifras-sintonia {
+  /* disposición en fila horizontal para las 3 métricas */
+  display: flex;
+  gap: 40px;
+  /* separación superior */
+  margin: var(--espacio-8) 0 0;
+  padding: 0;
+}
+
+/* numero grande de cada metrica - dt */
+.cifras-sintonia dt {
+  font-family: var(--fuente-syne);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.1;
+  color: var(--marca-primario);
+}
+
+/* etiqueta descriptiva debajo de cada numero - dd */
+.cifras-sintonia dd {
+  /* elimina el margen izquierdo nativo de <dd> y deja 4px arriba */
+  margin: var(--espacio-1) 0 0;
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+/* ajuste intermedio para pantallas medianas */
+@media (max-width: 1000px) {
+
+  /* eeduce la separación entre columnas del Hero */
+  .hero-sintonia {
+    gap: var(--espacio-6);
+  }
+
+  /* reduce ligeramente el tamaño del título H1 */
+  .hero-sintonia h1 {
+    font-size: 64px;
+  }
+
+  /* reduce la separación entre las 3 cifras */
+  .cifras-sintonia {
+    gap: var(--espacio-6);
+  }
+}
+
+
+/* adaptacion para pantallas moviles */
+@media (max-width: 899px) {
+
+  /* en móvil pasa a una sola columna vertical */
+  .hero-sintonia {
+    /* contenedor de bloque simple */
+    display: block;
+    /* espaciado superior e inferior reducido */
+    padding-top: var(--espacio-6);
+    padding-bottom: var(--espacio-4);
+  }
+
+  /* tamaño del título H1 en móvil */
+  .hero-sintonia h1 {
+    /* en móvil permite usar todo el ancho de la columna */
+    max-width: none;
+    /* escala fluida */
+    font-size: clamp(42px, 10vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    /* margen inferior antes del párrafo */
+    margin: 0 0 var(--espacio-4);
+  }
+
+  /* párrafo descriptivo en móvil */
+  .hero-sintonia .texto-hero > p {
+    font-size: 15px;
+    line-height: 1.6;
+    /* separación antes de los botones apilados */
+    margin-bottom: var(--espacio-6);
+  }
+
+  /* botones apilados uno debajo del otro ocupando el 100% del ancho en móvil */
+  .hero-sintonia .grupo-botones {
+    /* dirección en columna vertical */
+    flex-direction: column;
+    /* estira ambos botones al ancho completo */
+    align-items: stretch;
+    /* separación vertical de 12px entre los dos botones */
+    gap: var(--espacio-3);
+  }
+
+  /* altura de los botones en móvil */
+  .boton-hero {
+    /* ocupa todo el ancho disponible */
+    width: 100%;
+    min-height: var(--espacio-12);
+  }
+
+  /* en móvil se ocultan las cifras y la pastilla superior */
+  .cifras-sintonia,
+  .etiqueta-sintonia {
+    display: none;
+  }
+}

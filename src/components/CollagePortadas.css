@@ -60,7 +60,7 @@
   /* tamaño equivalente al 34% del lienzo */
   width: 34%;
   aspect-ratio: 1 / 1;
-  border-radius: 22px;
+  border-radius: 20px;
   transform: rotate(-8deg);
   z-index: 2;
 }
@@ -84,7 +84,7 @@
     background: var(--marca-primario);
     color: var(--texto-sobre-marca);
     /* relleno interno de la tarjeta */
-    padding: 16px 42px 16px 20px;
+    padding: var(--espacio-4) 42px var(--espacio-4) 20px;
     border-radius: var(--radio-lg);
     /* apila las 3 líneas de texto en columna */
     display: flex;
@@ -107,7 +107,7 @@
 
 /* tercera linea pequeña de la targeta verde lima (coincide con <span className="collage-letra-secundaria"> de la línea 58 del JSX) */
 .collage-letra-secundaria {
-  margin-top: 4px; /* Separación superior de 4px respecto al párrafo */
+  margin-top: var(--espacio-1); /* Separación superior de 4px respecto al párrafo */
   font-family: var(--fuente-inter); /* Fuente Inter regular */
   font-size: 12px; /* Tamaño más pequeño para el remate */
   opacity: 0.85; /* Opacidad sutil para jerarquía visual */

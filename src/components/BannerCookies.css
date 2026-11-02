@@ -1,0 +1,166 @@
+/* aqui tambien voy a trabajar primero en escritorio y al final adapto a moviles */
+
+/* contenedor flotante fijado en la parte inferior de la ventana */
+.banner-cookies{
+    /* posicionamiento fijo flotante en pantalla */
+    position: fixed;
+    /* separacion desde el fondo */
+    bottom: var(--espacio-6);
+    /* centrado horizontal */
+    left: 0;
+    right: 0;
+    /* capa superior para flotar por encima de cualquier contenido */
+    z-index: 100;
+    max-width: 1440px;
+    margin-inline: auto;
+    /* espaciado lateral */
+    padding-inline: var(--espacio-4);
+    /* para que no bloquee clics fuera de la targeta */
+    pointer-events: none;
+}
+
+/* targeta flotante interior */
+.banner-cookies-caja{
+    /* permite recibir clics unicamente dentro de la targeta */
+    pointer-events: auto;
+    background: var(--fondo-elevada);
+    border: 1px solid var(--borde-fuerte);
+    border-radius: var(--radio-xl);
+    box-shadow: var(--sombra-flotante);
+    /* relleno interno */
+    padding: var(--espacio-6) var(--espacio-8);
+    /* distribucion flexible en fila horizontal */
+    display: flex;
+    /* manda los textos a la izquierda y los botones a la derecha */
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--espacio-6);
+}       
+
+/* columna de texto a la izquierda */
+.banner-cookies-textos{
+    /* ocupa el espacio disponible */
+    flex: 1;
+}
+
+/* titulo del aviso de cookies */
+.banner-cookies-titulo{
+    font-family: var(--fuente-inter);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    color: var(--texto-principal);
+    /* separacion inferior hacia la descripcion */
+    margin: 0 0 var(--espacio-1) 0;
+}
+
+/* descripcion de las cookies */
+.banner-cookies-descripcion{
+    font-family: var(--fuente-inter);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--texto-secundario);
+    margin: 0;
+}
+
+/* contenedor de botones a la derecha */
+.banner-cookies-botones{
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-3);
+    /* evita que los botones se enojan */
+    flex-shrink: 0;
+}
+
+/* estilo base compartido por ambos botones de cookies */
+.banner-cookies-boton{
+    min-height: var(--espacio-12);
+    /* relleno lateral */
+    padding: 0 var(--espacio-6);
+    border-radius: var(--radio-completo);
+    font-family: var(--fuente-inter);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    /* para que no haga saltos de linea */
+    white-space: nowrap;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+/* foco accesible para teclado en ambos botones */
+.banner-cookies-boton:focus-visible{
+    outline: 2px solid var(--marca-primario);
+    outline-offset: var(--espacio-1);
+}
+
+/* efecto al hacer clic en cualquiera de los dos botones */
+.banner-cookies-boton:active {
+  transform: scale(0.98);
+}
+
+/* boton secundario - rechazar */
+.banner-cookies-boton--rechazar {
+  background: var(--fondo-elevada);
+  color: var(--texto-principal);
+  border: 1px solid var(--borde-fuerte);
+}
+
+/* hover - rechazar */
+.banner-cookies-boton--rechazar:hover {
+  background: var(--fondo-superficie);
+  border-color: var(--texto-secundario);
+}
+
+/* boton primario - aceptar */
+.banner-cookies-boton--aceptar {
+  background: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+  border: 1px solid var(--marca-primario);
+}
+
+/* hover - aceptar */
+.banner-cookies-boton--aceptar:hover {
+  background: var(--marca-primario-hover);
+  border-color: var(--marca-primario-hover);
+}
+
+/* adaptacion para pantallas moviles */
+@media (max-width: 768px) {
+    
+    .banner-cookies{
+        /* separa la targeta del borde inferior */
+        bottom: var(--espacio-3);
+        /* relleno lateral pora no chocar con los bordes de la pantalla */
+        padding-inline: var(--espacio-2);
+    }
+
+    /* la tarjeta pasa a apilarse en columna vertical */
+    .banner-cookies-caja{
+        /* cambia la distribucion de fila horizontal a columna vertical */
+        flex-direction: column;
+        /* para que ocupe todo el ancho */
+        align-items: stretch;
+        /* relleno interno compacto */
+        padding: var(--espacio-4);
+        gap: var(--espacio-4);
+    }
+
+    /* los botones ocupan el 100% del ancho repartidos en partes iguales */
+    .banner-cookies-botones{
+        width: 100%;
+        /* cuadricula css para colocar los dos botones lado a lado */
+        display: grid;
+        /* crea dos columnas de igual tamaño */
+        grid-template-columns: 1fr 1fr;
+        gap: var(--espacio-2);
+    }
+
+    /* botones adaptados a cuadricula movil */
+    .banner-cookies-boton {
+        min-height: 42px;
+        /* relleno lateral */
+        padding: 0 var(--espacio-2);
+        /* centra el texto dentro del boton */
+        text-align: center;
+    }
+}

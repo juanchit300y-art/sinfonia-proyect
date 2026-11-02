@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 
 // direccion base de la API
-const API_BASE = "https://yanethm-sintonia-api.fly.dev/api/v1";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 // lista de IDs de los generos representativos que consultaremos para "suena esta semana"
 const GENEROS_DESTACADOS = [

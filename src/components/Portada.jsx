@@ -36,7 +36,7 @@ export default function Portada({
     // colo 2: primera figura geometrica destacada
     const colorFigura1 = resolverColor(listaColores[1], "var(--portada-4)")
     // color 3: segunda figura o detalles contrastantes - blanco por defecto
-    const colorFigura2 = resolverColor(listaColores[2], "#ffffff")
+    const colorFigura2 = resolverColor(listaColores[2], "var(--fijo-blanco)")
 
     // funcion que genera los trazados SVG vectoriales segun el numero del patron
     function renderizarTrazos(){
@@ -86,19 +86,17 @@ export default function Portada({
                     </g>
                 );
             
-            // patron 3 - arco / tunel en la base con luna / citculo en la parte superior derecha
+            // patron 3 - domo en la base y círculo blanco en la parte superior derecha
             case 3:
                 return (
                 <g>
-                    {/* Arco / túnel centrado en la parte inferior */}
-                    <path
-                    d="M 18 100 A 32 32 0 0 1 82 100 Z"
-                    fill={colorFigura1}
-                    />
-                    {/* Círculo flotante en la esquina superior derecha */}
-                    <circle cx="75" cy="28" r="9" fill={colorFigura2} />
+                    {/* Círculo grande en la base que rebasa y=100 */}
+                    <circle cx="50" cy="86" r="35" fill={colorFigura1} />
+                    {/* Círculo flotante en la esquina superior derecha*/}
+                    <circle cx="75" cy="27" r="11" fill={colorFigura2} />
                 </g>
                 );
+
             
             // patron 4 - rayas diagonales gruesas alternadas con dos colores
             case 4:
@@ -112,19 +110,17 @@ export default function Portada({
                 </g>
                 );
             
-            // patron 5 - arcos concentricos desde la esquina derecha con circulo de acento a la izquierda
-                  case 5:
-                    default:
-                        return (
-                        <g fill="none">
-                            {/* Arco amplio desde la esquina inferior derecha */}
-                            <circle cx="100" cy="100" r="75" stroke={colorFigura1} strokeWidth="16" />
-                            {/* Arco interior */}
-                            <circle cx="100" cy="100" r="45" stroke={colorFigura2} strokeWidth="16" />
-                            {/* Círculo sólido de acento en la esquina superior izquierda */}
-                            <circle cx="28" cy="28" r="9" fill={colorFigura2} />
-                        </g>
-                        );
+            // patron 5 - arco exterior grueso y cuarto de círculo relleno en la esquina inferior derecha
+            case 5:
+            default:
+                return (
+                <g>
+                    {/* arco exterior morado grueso centrado en la esquina inferior derecha */}
+                    <circle cx="100" cy="100" r="72" stroke={colorFigura1} strokeWidth="20" fill="none" />
+                    {/* cuarto de círculo interior relleno en la esquina inferior derecha*/}
+                    <circle cx="100" cy="100" r="38" fill={colorFigura1} />
+                </g>
+                );
         }
     }
 

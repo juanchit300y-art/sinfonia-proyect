@@ -1,0 +1,125 @@
+/* aqui como en HeroSintonia voy a trabajar como se veria en escritorio y luego en movil */
+
+/* contenedor exterior del banner con separacion vertical */
+.banner-cta{
+    width: 100%;
+    /* separacion superior e inferior respecto a las demas secciones */
+    margin-top: var(--espacio-8);
+    margin-bottom: var(--espacio-8);
+}
+
+/* targeta interior dle banner en escritorio */
+.banner-cta-caja {
+  background: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+  border-radius: 28px;
+  /* relleno interno amplio */
+  padding: 48px 56px;
+  /* disposición en fila con textos a la izquierda y botón a la derecha */
+  display: flex;
+  /* manda a los textos a la izuqierda t boton a la derecha */
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espacio-6);
+}
+
+/* bloque contenedor de los textos a la izquierda */
+.banner-cta-textos{
+    /* permite qeu el contenedor de texto use el espacio libre sin cortar el titulo */
+    flex: 1;
+}
+
+/* titulo principal de la targeta */
+.banner-cta-titulo {
+  font-family: var(--fuente-syne);
+  font-weight: 700;
+  /* tamaño fluido adaptable */
+  font-size: clamp(22px, 2.2vw, 32px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--texto-sobre-marca);
+  margin: 0 0 var(--espacio-2) 0;
+}
+
+/* parrafo descriptivo debajo del titulo */
+.banner-cta-descripcion {
+  font-family: var(--fuente-inter);
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--texto-sobre-marca);
+  margin: 0;
+}
+
+/* boton negro contraste a la derecha */
+.banner-cta-boton {
+  background: var(--fijo-negro);
+  color: var(--fijo-blanco);
+  border: none;
+  border-radius: var(--radio-completo);
+  padding: 16px 32px;
+  font-family: var(--fuente-inter);
+  font-size: 14px;
+  font-weight: 600;
+  /* evita que el texto del botón salte de línea */
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+/* efecto hover sobre el boton */
+.banner-cta-boton:hover {
+  background: var(--fondo-elevada);
+  transform: translateY(-1px);
+}
+
+/* foco accesible para teclado */
+.banner-cta-boton:focus-visible {
+  outline: 2px solid var(--fijo-negro);
+  outline-offset: var(--espacio-1);
+}
+
+/* adaptacion a pantallas moviles */
+@media (max-width: 899px) {
+
+  /* margen vertical reducido en móvil */
+  .banner-cta {
+    margin-top: var(--espacio-6);
+    margin-bottom: var(--espacio-6);
+  }
+
+  /* tarjeta oscura elevada en móvil según el diseño móvil de Figma */
+  .banner-cta-caja {
+    background: var(--fondo-elevada);
+    border: 1px solid var(--borde-fuerte);
+    border-radius: var(--radio-xl);
+    padding: var(--espacio-6) 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--espacio-4);
+  }
+
+  /* título blanco en móvil */
+  .banner-cta-titulo {
+    color: var(--texto-principal);
+    font-size: 22px;
+  }
+
+  /* descripción gris en móvil */
+  .banner-cta-descripcion {
+    color: var(--texto-secundario);
+    font-size: 14px;
+  }
+
+  /* botón verde lima en móvil ocupando todo el ancho */
+  .banner-cta-boton {
+    width: 100%;
+    background: var(--marca-primario);
+    color: var(--texto-sobre-marca);
+    text-align: center;
+  }
+
+  /* efecto hover en móvil */
+  .banner-cta-boton:hover {
+    background: var(--marca-primario-hover);
+  }
+}

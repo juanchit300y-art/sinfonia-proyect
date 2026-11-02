@@ -152,10 +152,10 @@
 .seccion-genero-decoracion{
     /* posicion absoluta respecto a .seccion-genero-tarjeta */
     position: absolute;
-    /* ubicado a 10px del borde derecho */
-    right: 10px;
+    /* ubicado a 12px del borde derecho */
+    right: var(--espacio-3);
     /* undido 22px por debajo del bnorde inferior para que solo asome la mitad superior */
-    bottom: -22px;
+    bottom: calc(var(--espacio-6) * -1);
     width: 76px;
     height: 76px;
     /* inclinacion de 20 grados en sentido horario */
@@ -163,7 +163,7 @@
     border-radius: var(--radio-md);
     overflow: hidden;
     /* sombra suave para despegar la miniatura dle fondo de la targeta */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--sombra-tarjeta);
     /* para que no interfiera con el clic en la targeta */
     pointer-events: none;
     z-index: 1;
@@ -198,7 +198,7 @@
     .seccion-genero-tarjeta{
         /* hago mas grande la targeta */
         min-height: 132px;
-        padding: 20px;
+        padding: var(--espacio-6);
     }
 
     /* titulo del genero en escritorio */
@@ -211,7 +211,7 @@
     .seccion-genero-decoracion {
         width: 92px;
         height: 92px;
-        right: 14px;
+        right: var(--espacio-4);
         bottom: -26px;
     }
 
