@@ -25,5 +25,5 @@ a:hover{color: var(--marca-primario-hover);}
 .contenedor{
     max-width: 1440px;
     margin-inline:auto;
-    width: calc(100% - 2rem);
+    width: calc(100% - var(--espacio-8));
 }
