@@ -74,6 +74,11 @@
 
 /* estilo base compartido por ambos botones de cookies */
 .banner-cookies-boton{
+    /* centrado y ancho minimo uniforme para que Aceptar y Rechazar midan igual */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 132px;
     min-height: var(--espacio-12);
     /* relleno lateral */
     padding: 0 var(--espacio-6);
@@ -157,6 +162,7 @@
 
     /* botones adaptados a cuadricula movil */
     .banner-cookies-boton {
+        min-width: 0;
         min-height: 42px;
         /* relleno lateral */
         padding: 0 var(--espacio-2);

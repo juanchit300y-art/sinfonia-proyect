@@ -8,6 +8,7 @@ import BannerCta from "./BannerCta";
 // definimos y exportamos el componente de la pagina de inicio principal
 export default function InicioPublico({
     textosInicio,
+    textosEstados,
     albumes = [],
     generos = [],
     cargando = false,
@@ -16,7 +17,10 @@ export default function InicioPublico({
     onNavegar
 }) {
     // tomo los primeros 8 generos para mostrarlos en el inicio
-    const generosInicio = generos.slice(0, 8)
+    const generosInicio = generos.slice(0, 8);
+    // textos de estado traducidos desde la API
+    const textoCargando = textosEstados?.cargando?.titulo;
+    const textoReintentar = textosEstados?.error?.botones?.reintentar;
     
     return(
         // seccion principal contenedora
@@ -37,6 +41,8 @@ export default function InicioPublico({
                 albumes={albumes}
                 cargando={cargando}
                 error={error}
+                textoCargando={textoCargando}
+                textoReintentar={textoReintentar}
                 onRecargar={onRecargar}
                 onNavegar={onNavegar}
             />
@@ -49,6 +55,8 @@ export default function InicioPublico({
                 generos={generosInicio}
                 cargando={cargando}
                 error={error}
+                textoCargando={textoCargando}
+                textoReintentar={textoReintentar}
                 onRecargar={onRecargar}
                 onNavegar={onNavegar}
             />

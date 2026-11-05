@@ -1,0 +1,563 @@
+/* BLOQUE 1 - contenedor y boton circular disparador en el navbar */
+
+/* contenedor en linea que envuelve el boton de accesibilidad */
+.accesibilidad-contenedor {
+  /* mantiene el boton alineado con el resto de controles */
+  display: inline-flex;
+  /* centra verticalmente el boton */
+  align-items: center;
+}
+
+/* en pantallas moviles ocultamos el boton que vive dentro de navbar-utilidades (igual que el selector de idioma) */
+.navbar-utilidades .accesibilidad-contenedor {
+  /* se oculta en el bloque de botones de cuenta movil porque ya aparece en su propia fila de utilidad */
+  display: none;
+}
+
+/* cuando hay dos filas de utilidad seguidas en movil (Idioma y Accesibilidad), evita que la segunda tenga margin-top auto */
+.navbar-fila-utilidad + .navbar-fila-utilidad {
+  /* se pega justo debajo de la fila de Idioma como en el diseno de Figma movil */
+  margin-top: 0;
+}
+
+/* estilo del boton redondo con el icono de accesibilidad */
+.navbar .accesibilidad-boton-disparador {
+  /* ancho fijo circular de 40px */
+  width: 40px;
+  /* alto fijo circular de 40px */
+  height: 40px;
+  /* fondo oscuro elevado como en el diseno de Figma */
+  background-color: var(--fondo-elevada);
+  /* borde visible sutilmente marcado */
+  border: 1px solid var(--borde-fuerte);
+  /* forma circular completa */
+  border-radius: var(--radio-completo);
+  /* color del icono en reposo */
+  color: var(--texto-secundario);
+  /* centrado del icono interior */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* transicion suave al interactuar */
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+/* estado hover o activo cuando el panel de accesibilidad esta desplegado */
+.navbar .accesibilidad-boton-disparador:hover,
+.navbar .accesibilidad-boton-disparador[aria-expanded="true"] {
+  /* aclara el icono al color principal */
+  color: var(--texto-principal);
+  /* fondo ligeramente mas claro */
+  background-color: var(--fondo-sutil);
+  /* resalta el borde */
+  border-color: var(--borde-fuerte);
+}
+
+
+/* BLOQUE 2 - capa envolvente y panel desplegable (en movil hoja inferior, en escritorio flotante 360px) */
+
+/* capa fija sobre la aplicacion (en movil oscurece el fondo detras del panel) */
+.accesibilidad-capa {
+  /* posicion fija cubriendo toda la ventana */
+  position: fixed;
+  /* estira a los 4 bordes */
+  inset: 0;
+  /* por encima del navbar y de los modales inferiores */
+  z-index: 200;
+  /* velo oscuro semitransparente en vista movil */
+  background-color: rgba(0, 0, 0, 0.65);
+  /* alinea el panel en la parte inferior de la pantalla movil */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* caja principal del panel de accesibilidad */
+.accesibilidad-panel {
+  /* ocupa el ancho completo en movil */
+  width: 100%;
+  /* limite maximo en pantallas moviles anchas */
+  max-width: 480px;
+  /* altura maxima para permitir scroll interno en pantallas pequeñas */
+  max-height: 90dvh;
+  /* scroll vertical suave si el contenido excede el alto */
+  overflow-y: auto;
+  /* color de superficie elevada fiel a Figma */
+  background-color: var(--fondo-elevada);
+  /* color del texto principal */
+  color: var(--texto-principal);
+  /* familia tipografica base */
+  font-family: var(--fuente-inter);
+  /* borde superior sutil en movil */
+  border-top: 1px solid var(--borde-fuerte);
+  /* esquinas superiores redondeadas tipo hoja movil */
+  border-radius: var(--radio-xl) var(--radio-xl) 0 0;
+  /* relleno interno de 24px en todas las direcciones */
+  padding: var(--espacio-6);
+  /* sombra profunda flotante */
+  box-shadow: var(--sombra-flotante);
+  /* organizacion interna en columna vertical */
+  display: flex;
+  flex-direction: column;
+  /* separacion vertical entre cada bloque del panel */
+  gap: var(--espacio-6);
+}
+
+
+/* BLOQUE 3 - cabecera del panel (titulo y boton cerrar) */
+
+/* fila superior con el titulo Accesibilidad y el boton X */
+.accesibilidad-cabecera {
+  /* distribucion horizontal en los extremos */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* separacion minima */
+  gap: var(--espacio-3);
+}
+
+/* titulo h2 del panel */
+.accesibilidad-titulo {
+  /* elimina margenes por defecto */
+  margin: 0;
+  /* color blanco principal */
+  color: var(--texto-principal);
+}
+
+/* boton X para cerrar el panel */
+.accesibilidad-boton-cerrar {
+  /* contenedor cuadrado compacto */
+  width: 32px;
+  height: 32px;
+  /* sin relleno extra */
+  padding: 0;
+  /* sin borde */
+  border: none;
+  /* fondo transparente */
+  background: transparent;
+  /* color del icono X */
+  color: var(--texto-principal);
+  /* esquinas redondeadas */
+  border-radius: var(--radio-sm);
+  /* centra el icono X */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* manito al pasar el cursor */
+  cursor: pointer;
+  /* transicion de fondo */
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+/* efecto hover del boton cerrar */
+.accesibilidad-boton-cerrar:hover {
+  /* fondo sutil al pasar el raton */
+  background-color: var(--fondo-sutil);
+}
+
+
+/* BLOQUE 4 - control de tamaño del texto (- 100 % +) */
+
+/* contenedor vertical de la seccion Tamaño del texto */
+.accesibilidad-bloque-tamano {
+  /* apila la etiqueta y la barra de control */
+  display: flex;
+  flex-direction: column;
+  /* espacio entre el titulo y la caja de botones */
+  gap: var(--espacio-2);
+}
+
+/* etiqueta Tamaño del texto */
+.accesibilidad-etiqueta-seccion {
+  /* tamaño de fuente de 16px */
+  font-size: 16px;
+  /* peso seminegrita */
+  font-weight: 600;
+  /* color principal */
+  color: var(--texto-principal);
+}
+
+/* barra contenedora de los botones - y + junto al porcentaje */
+.accesibilidad-tamano-control {
+  /* coloca el boton -, el porcentaje y el boton + en fila */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* fondo oscuro de superficie */
+  background-color: var(--fondo-superficie);
+  /* borde sutil alrededor de la barra */
+  border: 1px solid var(--borde-sutil);
+  /* esquinas redondeadas medianas */
+  border-radius: var(--radio-md);
+  /* relleno interno de 6px */
+  padding: 6px;
+}
+
+/* botones cuadrados de disminuir (-) y aumentar (+) */
+.accesibilidad-tamano-boton {
+  /* ancho de 36px */
+  width: 36px;
+  /* alto de 36px */
+  height: 36px;
+  /* sin borde nativo */
+  border: none;
+  /* esquinas ligeramente redondeadas */
+  border-radius: var(--radio-sm);
+  /* fondo gris sutil */
+  background-color: var(--fondo-sutil);
+  /* simbolo en blanco */
+  color: var(--texto-principal);
+  /* tamaño del signo - y + */
+  font-size: 18px;
+  font-weight: 600;
+  /* centrado exacto del signo */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* puntero de mano */
+  cursor: pointer;
+  /* transicion suave */
+  transition: background-color 150ms ease, opacity 150ms ease;
+}
+
+/* efecto hover en los botones - y + cuando estan habilitados */
+.accesibilidad-tamano-boton:hover:not(:disabled) {
+  /* resalta con el borde fuerte */
+  background-color: var(--borde-fuerte);
+}
+
+/* estado deshabilitado cuando se llega al limite minimo o maximo */
+.accesibilidad-tamano-boton:disabled {
+  /* reduce la opacidad para indicar que llego al tope */
+  opacity: 0.4;
+  /* cursor normal */
+  cursor: not-allowed;
+}
+
+/* texto central que muestra "100 %" */
+.accesibilidad-tamano-valor {
+  /* tamaño de fuente de 16px */
+  font-size: 16px;
+  /* peso seminegrita */
+  font-weight: 600;
+  /* color blanco principal */
+  color: var(--texto-principal);
+}
+
+
+/* BLOQUE 5 - lista de interruptores (switches) de opciones */
+
+/* contenedor que agrupa las 4 filas de opciones con switch */
+.accesibilidad-lista-opciones {
+  /* disposicion en columna */
+  display: flex;
+  flex-direction: column;
+  /* separacion vertical de 20px entre cada opcion */
+  gap: 20px;
+}
+
+/* fila individual de una opcion (texto a la izquierda, switch a la derecha) */
+.accesibilidad-opcion {
+  /* coloca textos y switch en la misma linea */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* separacion horizontal para que el texto no toque el switch */
+  gap: var(--espacio-4);
+}
+
+/* columna izquierda con el titulo de la opcion y su texto de ayuda */
+.accesibilidad-opcion-textos {
+  /* apila titulo arriba y ayuda abajo */
+  display: flex;
+  flex-direction: column;
+  /* separacion de 4px entre titulo y subtitulo */
+  gap: var(--espacio-1);
+}
+
+/* nombre de la opcion (ej. Alto contraste) */
+.accesibilidad-opcion-titulo {
+  /* tamaño de 16px */
+  font-size: 16px;
+  /* peso seminegrita */
+  font-weight: 600;
+  /* altura de linea compacta */
+  line-height: 22px;
+  /* color principal */
+  color: var(--texto-principal);
+}
+
+/* descripcion secundaria de la opcion (ej. Mas diferencia entre el texto y el fondo) */
+.accesibilidad-opcion-ayuda {
+  /* tamaño de 14px */
+  font-size: 14px;
+  /* peso normal */
+  font-weight: 400;
+  /* altura de linea legible */
+  line-height: 20px;
+  /* color gris secundario */
+  color: var(--texto-secundario);
+}
+
+/* riel exterior del interruptor tipo switch */
+.accesibilidad-switch {
+  /* evita que el switch se encoja si el texto es largo */
+  flex-shrink: 0;
+  /* ancho fijo de 46px */
+  width: 46px;
+  /* alto fijo de 26px */
+  height: 26px;
+  /* forma de pildora redonda */
+  border-radius: var(--radio-completo);
+  /* fondo apagado cuando esta desactivado */
+  background-color: var(--fondo-sutil);
+  /* borde sutil para delimitar el riel */
+  border: 1px solid var(--borde-fuerte);
+  /* relleno de 2px para separar el circulo interior */
+  padding: 2px;
+  /* alinea el circulo interior a la izquierda por defecto */
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* manito interactiva */
+  cursor: pointer;
+  /* transicion suave de color de fondo */
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* estado activo del switch cuando la opcion esta encendida */
+.accesibilidad-switch.is-activo {
+  /* se pinta con el verde lima de la marca */
+  background-color: var(--marca-primario);
+  /* borde del mismo color de marca */
+  border-color: var(--marca-primario);
+}
+
+/* circulo blanco interior (pulgar) que se desliza dentro del switch */
+.accesibilidad-switch-pulgar {
+  /* diametro de 20px */
+  width: 20px;
+  height: 20px;
+  /* circulo perfecto */
+  border-radius: var(--radio-completo);
+  /* color blanco fijo cuando esta apagado */
+  background-color: var(--fijo-blanco);
+  /* posicion inicial a la izquierda */
+  transform: translateX(0);
+  /* animacion suave al deslizarse a la derecha */
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+/* posicion del circulo interior cuando el switch esta activo */
+.accesibilidad-switch.is-activo .accesibilidad-switch-pulgar {
+  /* se desplaza 20px hacia la derecha */
+  transform: translateX(20px);
+  /* cambia a tono oscuro sobre el fondo verde lima */
+  background-color: var(--texto-sobre-marca);
+}
+
+
+/* BLOQUE 6 - nota informativa y pie del panel (Declaracion y Restablecer) */
+
+/* parrafo con la nota de guardado en el dispositivo */
+.accesibilidad-nota {
+  /* elimina margenes nativos */
+  margin: 0;
+  /* color gris secundario */
+  color: var(--texto-secundario);
+  /* altura de linea comoda */
+  line-height: 18px;
+}
+
+/* fila inferior con el enlace de declaracion a la izquierda y el boton restablecer a la derecha */
+.accesibilidad-pie {
+  /* distribucion horizontal en extremos opuestos */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* espacio minimo entre enlace y boton */
+  gap: var(--espacio-3);
+}
+
+/* enlace verde subrayado "Declaracion de accesibilidad" */
+.accesibilidad-enlace-declaracion {
+  /* color verde lima de la marca */
+  color: var(--marca-primario);
+  /* tamaño de 14px */
+  font-size: 14px;
+  /* peso seminegrita */
+  font-weight: 600;
+  /* subrayado siempre visible como en el Figma */
+  text-decoration: underline;
+  /* separacion entre el texto y la linea de subrayado */
+  text-underline-offset: 4px;
+  /* transicion de color en hover */
+  transition: color 150ms ease;
+}
+
+/* efecto hover sobre el enlace de declaracion */
+.accesibilidad-enlace-declaracion:hover {
+  /* tono verde mas brillante */
+  color: var(--marca-primario-hover);
+}
+
+/* boton secundario "Restablecer" */
+.accesibilidad-boton-restablecer {
+  /* fondo oscuro sutil */
+  background-color: transparent;
+  /* borde visible como en Figma */
+  border: 1px solid var(--borde-fuerte);
+  /* esquinas redondeadas de 10px */
+  border-radius: var(--radio-md);
+  /* relleno interno horizontal y vertical */
+  padding: 10px 16px;
+  /* texto blanco principal */
+  color: var(--texto-principal);
+  /* familia tipografica */
+  font-family: var(--fuente-inter);
+  /* tamaño de 14px */
+  font-size: 14px;
+  /* peso seminegrita */
+  font-weight: 600;
+  /* evita que se parta en dos lineas */
+  white-space: nowrap;
+  /* cursor de mano */
+  cursor: pointer;
+  /* transicion suave */
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* efecto hover sobre el boton Restablecer */
+.accesibilidad-boton-restablecer:hover {
+  /* aclara ligeramente el fondo */
+  background-color: var(--fondo-sutil);
+  /* mantiene el borde fuerte */
+  border-color: var(--borde-fuerte);
+}
+
+/* foco accesible por teclado para todos los elementos interactivos del panel */
+.accesibilidad-panel :focus-visible {
+  /* contorno verde lima */
+  outline: 2px solid var(--marca-primario);
+  /* separacion del contorno */
+  outline-offset: 2px;
+}
+
+
+/* BLOQUE 7 - adaptacion para escritorio (>= 900px: popover flotante de 360px) */
+
+@media (min-width: 900px) {
+  /* en escritorio hacemos visible el boton dentro de navbar-utilidades */
+  .navbar-utilidades .accesibilidad-contenedor {
+    /* se muestra en fila junto a la pildora de idioma */
+    display: inline-flex;
+  }
+
+  /* en escritorio la capa exterior no oscurece la pantalla y deja pasar clics */
+  .accesibilidad-capa {
+    /* sin velo oscuro en escritorio */
+    background-color: transparent;
+    /* permite interactuar con el resto o detectar clic exterior */
+    pointer-events: none;
+    /* posicionamiento libre para el popover */
+    display: block;
+  }
+
+  /* en escritorio el panel tiene exactamente 360px de ancho alineado debajo del boton */
+  .accesibilidad-panel {
+    /* reactiva los eventos del raton dentro del panel */
+    pointer-events: auto;
+    /* posicion fija respecto a la coordenada calculada del boton */
+    position: fixed;
+    /* distancia superior calculada dinamicamente debajo del navbar */
+    top: var(--acc-top, 76px);
+    /* alineado con el borde derecho del boton disparador */
+    right: var(--acc-right, 24px);
+    /* ancho exacto de 360px especificado en el Figma */
+    width: 360px;
+    /* asegura no salirse en pantallas estrechas */
+    max-width: calc(100vw - 32px);
+    /* altura maxima sin salirse de la ventana */
+    max-height: calc(100dvh - 96px);
+    /* borde completo en las 4 caras */
+    border: 1px solid var(--borde-fuerte);
+    /* las 4 esquinas redondeadas de 16px */
+    border-radius: var(--radio-lg);
+  }
+}
+
+
+/* BLOQUE 8 - efectos globales en tiempo real aplicados sobre el documento <html> */
+
+/* 1. Escala dinamica del tamaño de texto en las clases tipograficas */
+html {
+  /* escala el tamaño raiz segun el porcentaje elegido */
+  font-size: calc(16px * var(--escala-texto, 1));
+}
+
+/* aplica el factor de escala a cada clase tipografica del sistema de diseno */
+.titular-gigante { font-size: calc(120px * var(--escala-texto, 1)); }
+.titular-display { font-size: calc(64px * var(--escala-texto, 1)); }
+.titular-h1 { font-size: calc(40px * var(--escala-texto, 1)); }
+.titular-h2 { font-size: calc(28px * var(--escala-texto, 1)); }
+.titular-h3 { font-size: calc(20px * var(--escala-texto, 1)); }
+.titular-h4 { font-size: calc(16px * var(--escala-texto, 1)); }
+.cuerpo-g { font-size: calc(18px * var(--escala-texto, 1)); }
+.cuerpo-m, .cuerpo-m-fuerte { font-size: calc(16px * var(--escala-texto, 1)); }
+.cuerpo-p, .cuerpo-p-fuerte { font-size: calc(14px * var(--escala-texto, 1)); }
+.detalle-nota, .detalle-nota-fuerte { font-size: calc(12px * var(--escala-texto, 1)); }
+.detalle-etiqueta { font-size: calc(11px * var(--escala-texto, 1)); }
+
+/* 2. Modo de Alto Contraste */
+html[data-alto-contraste="true"] {
+  /* fondo negro puro para maximo contraste */
+  --fondo-base: #000000;
+  /* superficies mas contrastadas */
+  --fondo-superficie: #0a0a10;
+  --fondo-elevada: #14141f;
+  /* textos en blanco puro y gris muy claro */
+  --texto-principal: #ffffff;
+  --texto-secundario: #e6e4f0;
+  --texto-terciario: #c8c5d6;
+  /* bordes mas nitidos y visibles */
+  --borde-sutil: #66637a;
+  --borde-fuerte: #9e9bb3;
+  /* verde lima mas brillante */
+  --marca-primario: #d8ff5e;
+}
+
+/* 3. Modo de Reducir Movimiento */
+html[data-reducir-movimiento="true"] *,
+html[data-reducir-movimiento="true"] *::before,
+html[data-reducir-movimiento="true"] *::after {
+  /* desactiva cualquier animacion CSS */
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  /* desactiva cualquier transicion CSS */
+  transition-duration: 0.01ms !important;
+  /* desactiva el desplazamiento suave automatico */
+  scroll-behavior: auto !important;
+}
+
+/* 4. Modo de Subrayar Enlaces */
+html[data-subrayar-enlaces="true"] a {
+  /* fuerza el subrayado en todos los enlaces para distinguirlos sin depender del color */
+  text-decoration: underline !important;
+  /* separacion clara del subrayado */
+  text-underline-offset: 4px !important;
+}
+
+/* 5. Modo de Espaciado de Lectura */
+html[data-espaciado-lectura="true"] body,
+html[data-espaciado-lectura="true"] p,
+html[data-espaciado-lectura="true"] li,
+html[data-espaciado-lectura="true"] a,
+html[data-espaciado-lectura="true"] span {
+  /* mayor espacio entre letras */
+  letter-spacing: 0.04em !important;
+  /* mayor espacio entre palabras */
+  word-spacing: 0.08em !important;
+  /* mayor interlineado para facilitar la lectura */
+  line-height: 1.7 !important;
+}
+

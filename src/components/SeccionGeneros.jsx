@@ -38,7 +38,7 @@ export default function SeccionGeneros({
         // si no hay, navegamos al catalogo filtrando por el ID del genero
         } else if (typeof onNavegar === "function"){
             // redirigimos conservando el filtro de la URL
-            onNavegar(`catalogo?genero=${genero.id}`)
+            onNavegar(`/catalogo?genero=${genero.id}`)
         }
     }
 

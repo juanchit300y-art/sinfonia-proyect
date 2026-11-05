@@ -1,0 +1,119 @@
+/* bloque 1 - contenedor general de la seccion de artistas */
+
+.seccion-artistas{
+    /* separacion vertical */
+    margin-block: var(--espacio-12);
+    width: 100%;
+}
+
+/* titulo h2 de la seccion */
+.seccion-artistas-titulo{
+    color: var(--texto-principal);
+    /* margen inferior hacia los artistas*/
+    margin: 0 0 var(--espacio-6) 0;
+}
+
+/* contenedor horizontal de la lista de artistas */
+.seccion-artistas-lista{
+    /* distribucion flexible horizontal*/
+    display: flex;
+    gap: var(--espacio-8);
+    /* permite envolver en varias lineas si hay muchos artistas */
+    flex-wrap: wrap;
+    /* alineacion al inicio superior */
+    align-items: flex-start;
+}
+
+/* targeta individual de cada artista */
+.seccion-artista-tarjeta{
+    /* distribucion interna en columna vertical */
+    display: flex;
+    flex-direction: column;
+    /* centra el avatar, nombre y rol horizontalmente */
+    align-items: center;
+    /* ancho fijo del avatar */
+    width: 160px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+/* efecto hover sobre la tarjeta del artista */
+.seccion-artista-tarjeta:hover{
+    /* desplazamiento hacia arriba */
+    transform: translateY(-2px);
+}
+
+/* contorno accesible al navegar con la tecla tab */
+.seccion-artista-tarjeta:focus-visible {
+    outline: 2px solid var(--marca-primario);
+    /* separacion del contorno */
+    outline-offset: var(--espacio-1);
+    border-radius: var(--radio-sm);
+}
+
+/* circulo de color del avatar del artista */
+.seccion-artista-avatar{
+    /* ancho y altura del circulo*/
+    width: 160px;
+    height: 160px;
+    border-radius: var(--radio-completo);
+    /* separacion con el nombre */
+    margin-bottom: var(--espacio-3);
+    transition: transform 0.15s ease;
+}
+
+/* nombre del artista debajo del avatar */
+.seccion-artista-nombre {
+    color: var(--texto-principal);
+    text-align: center;
+    /* margen inferior hacia el rol */
+    margin: 0 0 var(--espacio-1) 0;
+    width: 100%;
+    /* permite romper palabras largas si es necesario */
+    overflow-wrap: break-word;
+}
+
+/* subtitulo de rol debajo del nombre */
+.seccion-artista-rol {
+    color: var(--texto-secundario);
+    text-align: center;
+}
+
+/* bloque 2 - adaptacion para pantallas moviles */
+@media (max-width: 768px) {
+    /* separacion vertical  */
+    .seccion-artistas {
+        /* margen vertical compacto */
+        margin-block: var(--espacio-6);
+    }
+
+    /* titulo con tamano adaptado en celular */
+    .seccion-artistas-titulo {
+        font-size: 20px;
+        line-height: 26px;
+        margin-bottom: var(--espacio-4);
+    }
+
+    /* separacion horizontal entre artistas */
+    .seccion-artistas-lista {
+        gap: var(--espacio-4);
+    }
+
+    /* tarjeta de artista adaptada*/
+    .seccion-artista-tarjeta {
+        width: 114px;
+    }
+
+    /* circunferencia del avatar en movil */
+    .seccion-artista-avatar {
+        width: 96px;
+        height: 96px;
+        margin-bottom: var(--espacio-2);
+    }
+    
+    /* nombre del artista en movil */
+    .seccion-artista-nombre {
+        /* para que no se corte en varias lineas */
+        white-space: nowrap;
+    }
+}

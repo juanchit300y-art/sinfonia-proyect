@@ -9,7 +9,8 @@
     /* separacion entre ambas columnas */
     gap: var(--espacio-12);
     align-items: center;
-    padding-top: var(--espacio-6);
+    /* separacion vertical generosa con respecto al navbar segun el diseno de Figma */
+    padding-top: var(--espacio-16);
     padding-bottom: var(--espacio-2);
 }
 

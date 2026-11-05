@@ -10,9 +10,11 @@ import Footer from "./components/Footer.jsx";
 // importo la vista completa de inicio publico
 import InicioPublico from "./components/InicioPublico.jsx";
 import BannerCookies from "./components/BannerCookies.jsx";
+import CatalogoMusical from "./components/CatalogoMusical.jsx";
 
 function leerRuta(){
-    const ruta = window.location.pathname.replace(/^\//, "");
+    // extraemos la ruta sin la barra inicial y tomamos el primer segmento para soportar subrutas como /album/:id o /artista/:id
+    const ruta = window.location.pathname.replace(/^\//, "").split("/")[0];
     return ruta || "inicio";
 }
 
@@ -45,10 +47,7 @@ function App() {
     const [activo, setActivo] = useState(leerRuta);
 
     const datos = useTextos(idioma);
-
     const { generos, albumes, cargando, error, recargar } = useInicio();
-
-    console.log(datos);
 
     const ingles = idioma === "en";
     
@@ -77,6 +76,8 @@ function App() {
         if (evento) evento.preventDefault(); // Si viene de un clic en <a>, evita recargar la página aquí mismo
         window.history.pushState(null, "", destino);
         setActivo(leerRuta());
+        // emitimos un evento personalizado para que hooks como useCatalogo sincronicen los query params (?genero=...)
+        window.dispatchEvent(new CustomEvent("sintonia-navegacion"));
     }
 
 
@@ -108,6 +109,8 @@ function App() {
                     <InicioPublico
                         // Pasamos el subobjeto con todos los textos de inicio
                         textosInicio={datos.textos?.paginas?.inicioPublico}
+                        // Pasamos los textos de estados (cargando / error / reintentar) de la API
+                        textosEstados={datos.textos?.estados}
                         // Pasamos los álbumes descargados de la API
                         albumes={albumes}
                         // Pasamos los géneros descargados de la API
@@ -125,30 +128,54 @@ function App() {
 
                 {/* vista del catalogo */}
                 {activo === "catalogo" && (
-                    <section id="catalogo" className="seccion">
-                        <h2>{datos.textos?.navbar?.enlaces?.catalogo ?? (ingles ? "Catalog" : "Catálogo")}</h2>
+                    <CatalogoMusical
+                        textosCatalogo={datos.textos?.paginas?.catalogo}
+                        textosEstados={datos.textos?.estados}
+                        idioma={idioma}
+                        onNavegar={navegar}
+                    />
+                )}
+
+                {/* vista de detalle de album (Sprint 2) */}
+                {activo === "album" && (
+                    <section id="album" className="seccion">
+                        <h1 className="titular-h1">{datos.textos?.general?.tipos?.album ?? (ingles ? "Album" : "Álbum")}</h1>
                     </section>
                 )}
 
-                {/* vista para inisiar sesion*/}
+                {/* vista de detalle de artista (Sprint 2) */}
+                {activo === "artista" && (
+                    <section id="artista" className="seccion">
+                        <h1 className="titular-h1">{datos.textos?.general?.tipos?.artista ?? (ingles ? "Artist" : "Artista")}</h1>
+                    </section>
+                )}
+
+                {/* vista para iniciar sesion */}
                 {activo === "ingresar" && (
                     <section id="ingresar" className="seccion">
-                        <h2>{datos.textos?.navbar?.botones?.invitado?.ingresar ?? "Ingresar"}</h2>
+                        <h1 className="titular-h1">{datos.textos?.navbar?.botones?.invitado?.ingresar ?? (ingles ? "Log in" : "Ingresar")}</h1>
                     </section>
                 )}
 
                 {/* vista para crear cuenta */}
                 {(activo === "crear-cuenta" || activo === "crearCuenta") && (
                     <section id="crear-cuenta" className="seccion">
-                        <h2>{datos.textos?.navbar?.botones?.invitado?.crearCuenta ?? "Crear cuenta"}</h2>
+                        <h1 className="titular-h1">{datos.textos?.navbar?.botones?.invitado?.crearCuenta ?? (ingles ? "Sign up" : "Crear cuenta")}</h1>
                     </section>
                 )}
 
                 {/* vista de terminos legales del footer */}
                 {activo === "terminos" && (
                 <section id="terminos" className="seccion">
-                    <h2>{datos.textos?.footer?.columnas?.legal?.enlaces?.terminos ?? (ingles ? "Terms of use" : "Términos de uso")}</h2>
+                    <h1 className="titular-h1">{datos.textos?.footer?.columnas?.legal?.enlaces?.terminos ?? (ingles ? "Terms of use" : "Términos de uso")}</h1>
                 </section>
+                )}
+
+                {/* vista de declaracion de accesibilidad */}
+                {activo === "accesibilidad" && (
+                    <section id="accesibilidad" className="seccion">
+                        <h1 className="titular-h1">{datos.textos?.accesibilidad?.enlaces?.declaracion ?? (ingles ? "Accessibility statement" : "Declaración de accesibilidad")}</h1>
+                    </section>
                 )}
 
             </main>

@@ -12,8 +12,8 @@
   color: var(--texto-principal);
   /* mismo color del sitio */
   background-color: var(--fondo-base);
-  /* linea divisoria inferior que delimita la barra */
-  border-bottom: 1px solid var(--borde-sutil);
+  /* sin linea divisoria inferior para coincidir con el diseno limpio de Figma */
+  border-bottom: none;
   /* tipografia */
   font-family: var(--fuente-inter);
 }

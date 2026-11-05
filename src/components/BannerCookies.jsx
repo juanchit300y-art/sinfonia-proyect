@@ -37,12 +37,54 @@ export default function BannerCokies({
         if(!decisionGuardada){
             setVisible(true);
         }
+
+        // escuchamos si el usuario guardo sus preferencias desde el modal de PreferenciasCookies
+        function sincronizarConModal(evento) {
+            // ocultamos el banner inferior porque ya tomo una decision en el modal
+            setVisible(false);
+            // avisamos a App.jsx la decision tomada
+            if (typeof onConsentimiento === "function" && evento.detail) {
+                onConsentimiento(evento.detail);
+            }
+        }
+        // registramos el oyente en window
+        window.addEventListener("sintonia-consentimiento-actualizado", sincronizarConModal);
+        // limpiamos el oyente al desmontar
+        return () => window.removeEventListener("sintonia-consentimiento-actualizado", sincronizarConModal);
     },[]);
 
     // funcion que procesa la respuesta del usuario (aceptar o rechazar)
     function responder(decision){
         // guarda la decisión en la cookie real "consentimiento"
         guardarCookie(NOMBRE_COOKIE, decision);
+        // sincronizamos tambien el detalle de categorias en localStorage para PreferenciasCookies y Accesibilidad
+        try {
+            // activamos las categorias opcionales solo si acepto
+            const activar = decision === "aceptado";
+            // guardamos el estado de las 4 categorias
+            localStorage.setItem(
+                "sintonia-consentimiento-categorias",
+                JSON.stringify({
+                    necesarias: true,
+                    preferencias: activar,
+                    analiticas: activar,
+                    marketing: activar,
+                })
+            );
+            // si rechazo, eliminamos cualquier dato previo de accesibilidad o idioma
+            if (!activar) {
+                // borramos accesibilidad de localStorage
+                localStorage.removeItem("sintonia_accesibilidad");
+                // expiramos la cookie de accesibilidad
+                document.cookie = "accesibilidad=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax";
+                // expiramos la cookie de idioma
+                document.cookie = "idioma=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax";
+            }
+        } catch {
+            // ignoramos errores de almacenamiento
+        }
+        // notificamos globalmente a Accesibilidad y PreferenciasCookies el cambio de consentimiento
+        window.dispatchEvent(new CustomEvent("sintonia-consentimiento-actualizado", { detail: decision }));
         // avisa al componente padre App para que sincoronice el idioma
         if(typeof onConsentimiento === "function"){
             onConsentimiento(decision);
@@ -56,9 +98,9 @@ export default function BannerCokies({
         return null;
     }
 
-    // obtenemos los textos desde la API
+    // obtenemos los textos desde la API con respaldo entre texto y descripcion
     const titulo = textos?.titulo;
-    const descripcion = textos?.texto;
+    const descripcion = textos?.texto ?? textos?.descripcion;
     const botonRechazar = textos?.botones?.rechazar;
     const botonAceptar = textos?.botones?.aceptar;
 

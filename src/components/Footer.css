@@ -33,19 +33,6 @@
     gap: var(--espacio-8);
 }
 
-/* en pantallas de escritorio */
-@media (min-width:900px){
-    /* alinea la marca a la izquierda y las columnas a la derecha */
-    .footer-principal{
-        /* cambia a fila horizontal */
-        flex-direction: row; /* izquierda a derecha */
-        justify-content: space-between; /* extremos en las esquinas, marca izquierda, columnas derecha */
-        align-items: flex-start; /* alinea los items al inicio del eje transversal, en flex-direction:row es el vertical, so los alinea desde la parte superior del contenedor */
-        /* espacio minimo entre izquierda y derecha */
-        gap: var(--espacio-12)
-    }
-}
-
 /* columna de la marca */
 .footer-columna-marca{
     display: flex;
@@ -53,8 +40,8 @@
     flex-direction: column;
     /* espacio entre el logo y el lema */
     gap: var(--espacio-3);
-    /* ancho maximo para que el lema quepa en 2 lineas */
-    max-width: 280px;
+    /* en movil ocupa el ancho disponible */
+    width: 100%;
 }
 
 /* enlace interactivo del logo */
@@ -104,15 +91,6 @@
   gap: var(--espacio-6);
 }
 
-/* en excritorio se alinean horizontalmente con espacio generoso */
-@media (min-width: 900px){
-    .footer-columnas-navegacion{
-        display: flex;
-        /* separacion entre las 3 columnas */
-        gap: var(--espacio-16);
-    }
-}
-
 /* cada columna individual - titulo + enlaces*/
 .footer-columna{
     /* par aodernar el titulo y la lista */
@@ -127,6 +105,7 @@
 .footer-columna-titulo{
     color: var(--texto-secundario);
     margin: 0;
+    white-space: nowrap;
 }
 
 /* lista de los enlaces de cada columna */
@@ -151,6 +130,7 @@
     color: var(--texto-principal);
     /* suavisa el color cuando el usuari pasa el cursor */
     transition: color 150ms ease;
+    white-space: nowrap;
 }
 
 /* se activa cuando se pasa el cursor por encima de cualquier enlace de las columnas */
@@ -167,6 +147,8 @@
 
 /* div que dibuja la linea divisoria horizontal entre las columnas y los textos legales */
 .footer-divisor{
+    /* en movil no hay linea divisoria segun el diseno de Figma */
+    display: none;
     /* grosor de la linea */
     height: 1px;
     /* hace que ocupe el 100% del ancho */
@@ -174,6 +156,40 @@
     /* pinta la linea */
     background-color: var(--borde-sutil);
     margin: 0;
+}
+
+/* en pantallas de escritorio */
+@media (min-width: 900px){
+    /* alinea la marca a la izquierda y las columnas a la derecha */
+    .footer-principal{
+        /* cambia a fila horizontal */
+        flex-direction: row;
+        /* extremos en las esquinas, marca izquierda, columnas derecha */
+        justify-content: space-between;
+        /* alinea arriba */
+        align-items: flex-start;
+        /* espacio entre izquierda y derecha */
+        gap: var(--espacio-12);
+    }
+
+    /* en escritorio limitamos el ancho de la columna de marca a 280px para que el lema corte exactamente en 2 lineas como en Figma */
+    .footer-columna-marca{
+        width: auto;
+        max-width: 280px;
+        flex-shrink: 0;
+    }
+
+    /* en escritorio las columnas de navegacion van en fila horizontal con espacio generoso */
+    .footer-columnas-navegacion{
+        display: flex;
+        gap: var(--espacio-16);
+        flex-shrink: 0;
+    }
+
+    /* mostramos la linea divisoria en escritorio */
+    .footer-divisor{
+        display: block;
+    }
 }
 
 /* dentro de la barra inferior que contiene el copyright y el aviso de audio libre */

@@ -1,0 +1,137 @@
+/* bloque 1 - contenedor general de la seccion de canciones en ESCRITORIO */
+
+/* contendor semantico de la seccion */
+.seccion-canciones{
+    /* separacion vertical superior e inferior */
+    margin-block: var(--espacio-12);
+    width: 100%;
+}
+
+/* titulo de la seccion */
+.seccion-canciones-titulo{
+    color: var(--texto-principal);
+    margin: 0 0 var(--espacio-6) 0;
+}
+
+.seccion-canciones-lista{
+    /* quitamos el estilo de viñetas enumeradas de html */
+    list-style: none;
+    /* quitamos padding y margin por defecto de las listas */
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    /* distribucion interna en columna vertical */
+    display: flex;
+    /* orientacion vertical de las filas */
+    flex-direction: column;
+}
+
+/* para cada fila interactiva de cancion */
+.cancion-fila {
+    /* disposicion flexible horizontal */
+    display: flex;
+    /* alineacion vertical centrada entre numero, textos y duracion */
+    align-items: center;
+    /* separacion entre numero, textos y duracion */
+    gap: var(--espacio-4);
+    /* relleno vertical y horizontal*/
+    padding: var(--espacio-3) var(--espacio-2);
+    /* linea divisoria inferior sutil entre filas */
+    border-bottom: 1px solid var(--borde-sutil);
+    /* transicion suave de fondo al interactuar */
+    transition: background-color 0.15s ease;
+    cursor: pointer;
+}
+
+/* efecto visual al pasar el cursor sobre la fila */
+.cancion-fila:hover {
+    background-color: var(--fondo-superficie);
+}
+
+/* contorno accesible al navegar mediante teclado */
+.cancion-fila:focus-visible {
+    outline: 2px solid var(--marca-primario);
+    outline-offset: 2px;
+}
+
+/* numero de posicion de la cancion */
+.cancion-fila-numero {
+    color: var(--texto-terciario);
+    width: 24px;
+    /* no se encoge si el espacio es reducido */
+    flex-shrink: 0;
+    /* alineacion del numero a la izquierda */
+    text-align: left;
+}
+
+/* contenedor con titulo de cancion y artista */
+.cancion-fila-info {
+    /* ocupa todo el espacio sobrante entre el numero y la duracion */
+    flex: 1;
+    /* evita desbordes en flexbox */
+    min-width: 0;
+    /* disposicion interna en columna */
+    display: flex;
+    /* orientacion vertical */
+    flex-direction: column;
+    /* separacion minima entre el titulo y el nombre del artista */
+    gap: 2px;
+}
+
+/* titulo de la cancion */
+.cancion-fila-titulo {
+    color: var(--texto-principal);
+    /* evita saltos de linea si el titulo es muy largo */
+    white-space: nowrap;
+    /* oculta el texto sobrante */
+    overflow: hidden;
+    /* agrega puntos suspensivos si no cabe */
+    text-overflow: ellipsis;
+}
+
+/* artista de la cancion - mismos cambios que en titulo de la cancion*/
+.cancion-fila-artista {
+    color: var(--texto-secundario);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* duracion de la cancion a la derecha */
+.cancion-fila-duracion {
+    color: var(--texto-secundario);
+    /* no se encoge bajo ninguna circunstancia */
+    flex-shrink: 0;
+    /* alineacion a la derecha */
+    text-align: right;
+    /* asegura que los dos puntos no se corten */
+    white-space: nowrap;
+}
+
+/* bloque 2: adaptacion responsiva para dispositivos moviles */
+@media (max-width: 768px) {
+
+    /* margen de seccion compacto en movil */
+    .seccion-canciones {
+        /* margen vertical reducido*/
+        margin-block: var(--espacio-6);
+    }
+
+    /* titulo adaptado para celulares */
+    .seccion-canciones-titulo {
+        /* tamano titular-h3 de 20px */
+        font-size: 20px;
+        line-height: var(--espacio-6);
+        margin-bottom: var(--espacio-4);
+    }
+
+    /* ajuste del ancho del numero en pantallas pequenas */
+    .cancion-fila-numero {
+        width: var(--espacio-6);
+    }
+    /* separacion interna compacta en la fila movil */
+    .cancion-fila {
+        /* relleno vertical  y horizontal sin desborde */
+        padding: 10px var(--espacio-1);
+    }
+}

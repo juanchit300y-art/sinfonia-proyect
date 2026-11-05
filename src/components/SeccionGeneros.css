@@ -194,6 +194,10 @@
         max-width: 86%;
     }
 
+    #catalogo .seccion-generos-cuadricula{
+        max-width: 80%;
+    }
+
     /* targeta de genero en escritorio */
     .seccion-genero-tarjeta{
         /* hago mas grande la targeta */
