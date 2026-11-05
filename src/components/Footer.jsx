@@ -2,6 +2,8 @@
 import "./Footer.css";
 //importo el icono de sintonia
 import Icono from "./Icono.jsx"
+//importo el componente modal de preferencias de cookies
+import PreferenciasCookies from "./PreferenciasCookies.jsx";
 //declaro el componente Footer recibiendo los textos de la api, el idioma actual y onNavegar
 export default function Footer({textos, idioma, onNavegar}){
     //true si el idioma esta en ingles, false en español
@@ -130,8 +132,9 @@ export default function Footer({textos, idioma, onNavegar}){
                                 <h3 className="detalle-etiqueta footer-columna-titulo">
                                     {pie?.columnas?.legal?.titulo ?? "Legal"}    
                                 </h3>
-                                {/* lista de los enlaces - terminos de uso */}
+                                {/* lista de los enlaces legales */}
                                 <ul className="footer-lista">
+                                    {/* primer enlace - terminos de uso */}
                                     <li>
                                         <a 
                                             href="/terminos"
@@ -141,6 +144,26 @@ export default function Footer({textos, idioma, onNavegar}){
                                             {/* texto del enlace */}
                                             {pie?.columnas?.legal?.enlaces?.terminos ?? (ingles ? "Terms of use" : "Términos de uso")}
                                         </a>
+                                    </li>
+
+                                    {/* segundo enlace - accesibilidad */}
+                                    <li>
+                                        <a 
+                                            href="/accesibilidad"
+                                            className="cuerpo-p"
+                                            onClick={(evento) => manejarClickEnlace(evento, "/accesibilidad")}
+                                        >
+                                            {/* texto del enlace de accesibilidad desde la API */}
+                                            {pie?.columnas?.legal?.enlaces?.accesibilidad ?? textos?.accesibilidad?.titulo ?? (ingles ? "Accessibility" : "Accesibilidad")}
+                                        </a>
+                                    </li>
+
+                                    {/* tercer elemento - boton y modal de preferencias de cookies */}
+                                    <li>
+                                        <PreferenciasCookies
+                                            textos={textos?.cookies?.preferencias}
+                                            idioma={idioma}
+                                        />
                                     </li>
                                 </ul>
                             </div>

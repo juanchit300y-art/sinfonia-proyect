@@ -41,6 +41,7 @@ export default function SeccionAlbumes({
     return (
         // contenedor de seccion vinculado a su titulo accesible
         <section
+            id={idSeccion}
             className="seccion-albumes"
             aria-labelledby={`titulo-${idSeccion}`} //atributo ARIA que asocia la seccion con el id de su titulo
         >

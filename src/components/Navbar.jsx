@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import Icono from "./Icono.jsx";
+// importo el componente independiente del boton y panel de accesibilidad
+import Accesibilidad from "./Accesibilidad.jsx";
 
 // componente principal Navbar
 const Navbar = ({
@@ -114,6 +116,7 @@ const Navbar = ({
         className="contenedor navbar-interior"
         aria-label={nav?.aria?.navegacion ?? "Navegación principal"}
       >
+
         {/* Logo con icono de ondas de Sintonía que a la vez es un enlace interactivo que redirige al inicio */}
         <a
           href="/"
@@ -129,6 +132,7 @@ const Navbar = ({
 
         {/* zona de botones interactivos visibles en moviles*/}
         <div className="navbar-movil-acciones">
+          
           {/* enlace rapido a ingresar en movil, solo se muestra si el panel está cerrado */}
           {nav && !abierto && (
             <a
@@ -219,6 +223,24 @@ const Navbar = ({
             </div>
           )}
 
+          {/* fila de accesibilidad en el menu movil, ubicada justo debajo de la fila de idioma */}
+          {nav && (
+            // contenedor horizontal que pone el texto a la izquierda y el boton circular a la derecha
+            <div className="navbar-fila-utilidad">
+              {/* etiqueta "Accesibilidad" / "Accessibility" obtenida desde la API */}
+              <span className="navbar-utilidad-etiqueta">
+                {textos?.menuMovil?.secciones?.accesibilidad ?? (ingles ? "Accessibility" : "Accesibilidad")}
+              </span>
+              {/* componente de accesibilidad que al abrirse cierra la cortina del menu movil */}
+              <Accesibilidad
+                textos={textos}
+                idioma={idioma}
+                onNavegar={onNavegar}
+                onAbrir={() => setAbierto(false)}
+              />
+            </div>
+          )}
+
           {/* contenedor con las utilidades, en este caso botones a la derecha del navbar en web, y al final del panel en movil */}
           <div className="navbar-utilidades">
 
@@ -226,6 +248,13 @@ const Navbar = ({
             {/* botones de autenticacion para usuarios invitados */}
             {nav && (
               <>
+                {/* boton circular y popover de accesibilidad para escritorio (a la izquierda del selector de idioma) */}
+                <Accesibilidad
+                  textos={textos}
+                  idioma={idioma}
+                  onNavegar={onNavegar}
+                />
+
                 {/* llamo a la variable de la pildora de idioma */}
                 {selectorIdioma}
 

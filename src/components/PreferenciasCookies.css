@@ -1,0 +1,398 @@
+/* contenedor principal del disparador y dialogo de preferencias de cookies */
+.cookies {
+  /* color del texto principal del sistema de diseno */
+  color: var(--texto-principal);
+  /* familia tipografica base de Sintonia */
+  font-family: var(--fuente-inter);
+  /* alineacion en bloque dentro de la lista del footer */
+  display: inline-flex;
+  align-items: center;
+}
+
+/* boton en el footer con apariencia identica a los enlaces de la columna Legal */
+.cookies-enlace-pie {
+  /* sin relleno extra para alinear con los demas enlaces */
+  padding: 0;
+  /* sin borde de boton nativo */
+  border: 0;
+  /* fondo transparente */
+  background: transparent;
+  /* color blanco principal identico a los demas enlaces del footer */
+  color: var(--texto-principal);
+  /* tipografia heredada */
+  font-family: var(--fuente-inter);
+  /* alineacion del texto a la izquierda */
+  text-align: left;
+  /* manito interactiva */
+  cursor: pointer;
+  /* evita que el texto del enlace salte de linea en escritorio */
+  white-space: nowrap;
+  /* transicion suave de color en hover igual a .footer-lista a */
+  transition: color 150ms ease;
+}
+
+/* efecto hover del enlace de preferencias de cookies en el footer */
+.cookies-enlace-pie:hover {
+  /* cambia al verde lima de la marca igual que los demas enlaces del footer */
+  color: var(--texto-marca);
+}
+
+/* ventana modal nativa <dialog> */
+.cookies-dialogo {
+  /* ancho adaptable de hasta 560px dejando margen de 16px a cada lado en movil */
+  width: min(560px, calc(100% - 32px));
+  /* altura maxima para no desbordar la ventana */
+  max-height: calc(100dvh - 32px);
+  /* relleno interno de 24px */
+  padding: var(--espacio-6);
+  /* borde sutil pero definido */
+  border: 1px solid var(--borde-fuerte);
+  /* esquinas redondeadas de 16px */
+  border-radius: var(--radio-lg);
+  /* color de texto claro */
+  color: var(--texto-principal);
+  /* fondo oscuro elevado fiel a Sintonia */
+  background: var(--fondo-elevada);
+  /* sombra flotante profunda */
+  box-shadow: var(--sombra-flotante);
+  /* permite scroll vertical interno si la pantalla es baja */
+  overflow-y: auto;
+  /* evita que el scroll interno mueva el fondo */
+  overscroll-behavior: contain;
+}
+
+/* velo oscuro detras del modal nativo <dialog> */
+.cookies-dialogo::backdrop {
+  /* oscurece el resto de la aplicacion al 65% */
+  background: rgba(0, 0, 0, 0.65);
+}
+
+/* bloquea el desplazamiento de la pagina principal mientras el modal esta abierto */
+body:has(.cookies-dialogo[open]) {
+  /* impide scroll en el body */
+  overflow: hidden;
+}
+
+/* contenedor flex vertical dentro del dialogo */
+.cookies-contenido {
+  /* organiza cabecera, categorias y botones en columna */
+  display: flex;
+  flex-direction: column;
+  /* separacion de 16px entre bloques */
+  gap: var(--espacio-4);
+}
+
+/* fila superior con el titulo y el boton cerrar */
+.cookies-encabezado {
+  /* distribucion horizontal en extremos */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* separacion minima */
+  gap: var(--espacio-4);
+}
+
+/* titulo h2 del modal de cookies */
+.cookies-encabezado h2 {
+  /* sin margenes nativos */
+  margin: 0;
+  /* color blanco principal */
+  color: var(--texto-principal);
+}
+
+/* boton circular para cerrar el modal (X) */
+.cookies-cerrar {
+  /* centra el icono exactamente en medio */
+  display: grid;
+  place-items: center;
+  /* tamaño cuadrado fijo de 36px */
+  flex: 0 0 36px;
+  height: 36px;
+  /* sin relleno interno */
+  padding: 0;
+  /* borde sutil */
+  border: 1px solid var(--borde-sutil);
+  /* circulo completo */
+  border-radius: var(--radio-completo);
+  /* fondo de superficie */
+  background: var(--fondo-superficie);
+  /* color del icono */
+  color: var(--texto-principal);
+  /* cursor de mano */
+  cursor: pointer;
+  /* transicion suave */
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* parrafo descriptivo general y de cada categoria */
+.cookies-descripcion,
+.cookies-detalle p {
+  /* elimina margenes nativos */
+  margin: 0;
+  /* tamaño de 14px */
+  font-size: 14px;
+  /* interlineado de 20px */
+  line-height: 20px;
+  /* color gris secundario */
+  color: var(--texto-secundario);
+}
+
+/* tarjeta individual de cada categoria de cookies */
+.cookies-categoria {
+  /* textos a la izquierda y switch a la derecha */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* separacion horizontal de 16px */
+  gap: var(--espacio-4);
+  /* altura minima para mantener uniformidad */
+  min-height: 94px;
+  /* relleno interno de 14px */
+  padding: 14px;
+  /* fondo oscuro de superficie */
+  background: var(--fondo-superficie);
+  /* borde sutil */
+  border: 1px solid var(--borde-sutil);
+  /* esquinas redondeadas medianas */
+  border-radius: var(--radio-md);
+}
+
+/* contenedor de textos de la categoria */
+.cookies-detalle {
+  /* permite que el texto se ajuste sin desbordar */
+  min-width: 0;
+}
+
+/* titulo h3 de cada categoria (Necesarias, Preferencias, etc.) */
+.cookies-detalle h3 {
+  /* margen inferior de 4px hacia la descripcion */
+  margin: 0 0 4px;
+  /* tamaño de 16px */
+  font-size: 16px;
+  /* peso seminegrita */
+  font-weight: 600;
+  /* altura de linea de 22px */
+  line-height: 22px;
+  /* color blanco principal */
+  color: var(--texto-principal);
+}
+
+/* texto pequeño con los nombres de las cookies (ej. Cookies: sesion · csrf) */
+.cookies small {
+  /* en su propia linea */
+  display: block;
+  /* margen superior de 4px */
+  margin-top: 4px;
+  /* tamaño de 12px */
+  font-size: 12px;
+  /* altura de linea de 18px */
+  line-height: 18px;
+  /* color terciario tenue */
+  color: var(--texto-terciario);
+}
+
+/* contenedor derecho del switch y la etiqueta "Siempre activas" */
+.cookies-control {
+  /* evita que se encoja el switch */
+  display: flex;
+  flex-shrink: 0;
+  /* apila el switch arriba y el texto "Siempre activas" abajo */
+  flex-direction: column;
+  align-items: flex-end;
+  /* separacion de 4px */
+  gap: 4px;
+}
+
+/* riel del interruptor tipo switch */
+.cookies-interruptor {
+  /* alinea el circulo interior */
+  display: flex;
+  align-items: center;
+  /* ancho de 46px y alto de 26px */
+  width: 46px;
+  height: 26px;
+  /* relleno interno de 2px */
+  padding: 2px;
+  /* borde para distinguir el riel */
+  border: 1px solid var(--borde-fuerte);
+  /* forma de pildora */
+  border-radius: var(--radio-completo);
+  /* fondo apagado por defecto */
+  background: var(--fondo-sutil);
+  /* manito interactiva */
+  cursor: pointer;
+  /* transicion suave de fondo */
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* circulo interior deslizante del switch */
+.cookies-interruptor span {
+  /* diametro de 20px */
+  width: 20px;
+  height: 20px;
+  /* circulo perfecto */
+  border-radius: 50%;
+  /* blanco fijo cuando esta desactivado */
+  background: var(--fijo-blanco);
+  /* transicion de movimiento */
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+/* estado activo del switch cuando la categoria esta permitida */
+.cookies-interruptor[aria-checked="true"] {
+  /* fondo verde lima de la marca */
+  background: var(--marca-primario);
+  /* borde del color de la marca */
+  border-color: var(--marca-primario);
+}
+
+/* desplazamiento del circulo interior cuando el switch esta activo */
+.cookies-interruptor[aria-checked="true"] span {
+  /* se mueve 20px a la derecha */
+  transform: translateX(20px);
+  /* color oscuro sobre el fondo verde lima */
+  background: var(--texto-sobre-marca);
+}
+
+/* estilo del switch cuando esta bloqueado (categoria Necesarias) */
+.cookies-interruptor:disabled {
+  /* opacidad reducida para indicar que no se puede apagar */
+  opacity: 0.65;
+  /* cursor de bloqueo */
+  cursor: not-allowed;
+}
+
+/* contenedor inferior de los 3 botones de accion */
+.cookies-acciones {
+  /* coloca los botones en fila permitiendo salto de linea */
+  display: flex;
+  flex-wrap: wrap;
+  /* separacion de 8px entre botones */
+  gap: var(--espacio-2);
+  /* margen superior adicional */
+  margin-top: var(--espacio-2);
+}
+
+/* estilo base de los botones del modal */
+.cookies-boton {
+  /* altura minima accesible de 42px */
+  min-height: 42px;
+  /* relleno horizontal y vertical */
+  padding: 10px 16px;
+  /* borde visible */
+  border: 1px solid var(--borde-fuerte);
+  /* forma de pildora redondeada consistente con BannerCookies */
+  border-radius: var(--radio-completo);
+  /* texto claro */
+  color: var(--texto-principal);
+  /* fondo de superficie */
+  background: var(--fondo-superficie);
+  /* fuente seminegrita de 14px */
+  font: 600 14px/20px var(--fuente-inter);
+  /* manito */
+  cursor: pointer;
+  /* transicion suave */
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+/* efecto hover en los botones secundarios y el boton cerrar */
+.cookies-boton:hover,
+.cookies-cerrar:hover {
+  /* aclara el fondo al pasar el cursor */
+  background: var(--fondo-sutil);
+}
+
+/* estilo del boton principal (Guardar seleccion) */
+.cookies-boton-primario {
+  /* borde verde lima */
+  border-color: var(--marca-primario);
+  /* texto oscuro sobre fondo verde */
+  color: var(--texto-sobre-marca);
+  /* fondo verde lima de la marca */
+  background: var(--marca-primario);
+  /* peso negrita */
+  font-weight: 700;
+}
+
+/* efecto hover del boton principal */
+.cookies-boton-primario:hover {
+  /* verde lima mas brillante */
+  background: var(--marca-primario-hover);
+  border-color: var(--marca-primario-hover);
+}
+
+/* contorno de foco accesible para navegacion con teclado (Tab) */
+.cookies button:focus-visible {
+  /* contorno verde lima */
+  outline: 2px solid var(--marca-primario);
+  /* separacion de 2px */
+  outline-offset: 2px;
+}
+
+/* mensaje de estado oculto visualmente pero leido por lectores de pantalla */
+.cookies-confirmacion {
+  /* se oculta visualmente para no desacomodar el footer cuando esta vacio o con texto */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* mensaje de error en caso de fallo al guardar */
+.cookies-error {
+  /* sin margenes */
+  margin: 0;
+  /* color de estado de error de los tokens */
+  color: var(--estado-error);
+  /* tamaño de 14px */
+  font-size: 14px;
+}
+
+/* adaptacion responsiva para pantallas moviles pequeñas */
+@media (max-width: 480px) {
+  /* relleno compacto en movil */
+  .cookies-dialogo {
+    padding: 20px;
+  }
+
+  /* titulo ligeramente mas compacto */
+  .cookies-encabezado h2 {
+    font-size: 20px;
+  }
+
+  /* menor separacion interna en las tarjetas */
+  .cookies-categoria {
+    gap: 12px;
+  }
+
+  /* apila los 3 botones verticalmente en movil para facil toque */
+  .cookies-acciones {
+    flex-direction: column;
+  }
+
+  /* botones al 100% de ancho en movil */
+  .cookies-boton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* alinea el texto "Siempre activas" a la derecha */
+  .cookies-control small {
+    max-width: 72px;
+    text-align: right;
+  }
+}
+
+/* respeta la preferencia de reducir movimiento del sistema operativo */
+@media (prefers-reduced-motion: reduce) {
+  .cookies button,
+  .cookies-interruptor span {
+    transition: none;
+  }
+}
+

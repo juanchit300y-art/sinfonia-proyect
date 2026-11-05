@@ -1,0 +1,124 @@
+/* bloque 1 - contenedor general de la vista de catalogo musical */
+
+/* contenedor principal de la vista de catalogo por defecto en movil */
+.catalogo-musical {
+    /* ocupa todo el ancho disponible */
+    width: 100%;
+    /* en movil el fondo es transparente para que las tarjetas de album resalten con su fondo gris sobre el fondo base negro */
+    background-color: transparent;
+    /* sin relleno envolvente en movil */
+    padding: 0;
+    /* margen vertical reducido en pantallas moviles */
+    margin-block: var(--espacio-4) var(--espacio-8);
+}
+
+/* cabecera superior que contiene el titulo h1 y el subtitulo */
+.catalogo-encabezado {
+    /* disposicion en columna vertical */
+    display: flex;
+    /* direccion en columna */
+    flex-direction: column;
+    /* separacion entre el titulo y el subtitulo */
+    gap: var(--espacio-2);
+    /* margen inferior antes de la seccion de generos */
+    margin-bottom: var(--espacio-6);
+}
+
+/* titulo principal de la vista de catalogo */
+.catalogo-titulo {
+    /* elimina margenes por defecto del navegador */
+    margin: 0;
+    /* color del texto principal desde tokens */
+    color: var(--texto-principal);
+}
+
+/* subtitulo descriptivo */
+.catalogo-subtitulo {
+    /* elimina margenes por defecto del navegador */
+    margin: 0;
+    /* color secundario tenue desde tokens */
+    color: var(--texto-secundario);
+}
+
+/* reglas para pantallas de escritorio a partir de 900px */
+@media (min-width: 900px) {
+
+    /* en escritorio el catalogo completo se envuelve en un contenedor gris de superficie */
+    .catalogo-musical {
+        /* fondo de superficie gris como en el diseno de figma escritorio */
+        background-color: var(--fondo-superficie);
+        border-radius: var(--radio-lg);
+        /* relleno interno en todas las direcciones para escritorio */
+        padding: var(--espacio-8);
+        /* separacion vertical externa con la barra superior y el pie */
+        margin-block: var(--espacio-6) var(--espacio-12);
+    }
+
+    /* margen inferior del encabezado en escritorio */
+    .catalogo-encabezado {
+        /* separacion hacia los generos */
+        margin-bottom: var(--espacio-8);
+    }
+
+    /* en escritorio los albumes descansan directo sobre el fondo gris del contenedor */
+    #catalogo .seccion-album-targeta {
+        /* fondo transparente para evitar doble tarjeta en escritorio */
+        background-color: transparent;
+        /* eliminamos relleno para que la caratula use el ancho de columna */
+        padding: 0;
+        border: none;
+    }
+
+    /* efecto hover de las tarjetas en escritorio */
+    #catalogo .seccion-album-targeta:hover {
+        /* mantiene fondo transparente */
+        background-color: transparent;
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    /* distribucion space-between para los albumes del genero seleccionado en escritorio */
+    #catalogo-albumes-genero .seccion-albumes-cuadricula {
+        /* activamos flexbox */
+        display: flex;
+        /* distribuye los albumes a los extremos opuestos de la fila */
+        justify-content: space-between;
+        /* separacion minima entre elementos */
+        gap: var(--espacio-4);
+    }
+    
+    /* tamaño de las tarjetas de album bajo la distribucion space-between */
+    #catalogo-albumes-genero .seccion-album-targeta {
+        /* base flexible equivalente a una columna de escritorio */
+        flex: 0 1 calc((100% - 5 * var(--espacio-4)) / 6);
+        max-width: 180px;
+        width: 100%;
+    }
+}
+
+/* bloque 2 - adaptacion responsiva para pantallas moviles */
+@media (max-width: 768px) {
+
+    /* ajuste tipografico del titulo en pantallas moviles */
+    .catalogo-titulo {
+        font-size: 40px;
+        line-height: 46px;
+    }
+
+    /* ocultamos subtitulo descriptivo en pantallas moviles */
+    .catalogo-subtitulo {
+        display: none;
+    }
+
+    /* eliminamos el margen superior de generos en movil */
+    #catalogo .seccion-generos {
+        margin-top: 0;
+        margin-bottom: var(--espacio-6);
+    }
+
+    /* ocultamos el enlace 'descubrir mas' en movil dentro de catalogo */
+    #catalogo .seccion-albumes-enlace {
+        display: none;
+    }
+
+}

@@ -103,9 +103,12 @@
 
 /* estilo individual de cada targeta del album */
 .seccion-album-targeta{
-    /* ancho fijo en movil para asegurar que se vean varias y sugiera el scroll */
-    flex: 0 0 160px;
+    /* en movil ocupa la mitad exacta del contenedor menos el espacio central */
+    flex: 0 0 200px;
+    width: 200px;
     /* ajuste magnetico de parada */
+    min-width: 200px;
+    max-width: 200px;
     scroll-snap-align: start;
     /* fondo de cada targeta */
     background-color: var(--fondo-superficie);
@@ -198,9 +201,11 @@
     /* separación entre tarjetas en escritorio */
     gap: var(--espacio-4);
   }
+
   .seccion-album-targeta {
     /* quito el ancho fijo de móvil para que se adapte a su columna */
     flex: auto;
     width: 100%;
+    max-width: none;
   }
 }
