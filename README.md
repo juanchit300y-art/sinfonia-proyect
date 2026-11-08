@@ -1,63 +1,46 @@
-# Sintonía · Frontend (Sprint 1)
+# Sintonia - Frontend
 
-Aplicación web de música y pódcast desarrollada como proyecto académico para el curso de Desarrollo Frontend. Este repositorio contiene la implementación completa del **Sprint 1** conectada a la API oficial de Sintonía.
+Frontend de la plataforma de musica y podcast Sintonia, desarrollado con React y Vite para el Sprint 1.
 
----
+## Requisitos
 
-## Requisitos previos
+- Node.js (v18 o superior)
+- npm
 
-- **Node.js** (versión 18 o superior recomendada)
-- **npm** (incluido con Node.js)
-
----
-
-## Cómo instalar y ejecutar el proyecto
+## Instalacion y ejecucion
 
 ### 1. Clonar el repositorio
-
 ```bash
 git clone https://github.com/juanchit300y-art/sinfonia-proyect.git
 cd sinfonia-proyect
 ```
 
-### 2. Instalar las dependencias
-
+### 2. Instalar dependencias
 ```bash
 npm install
 ```
 
-### 3. Configurar las variables de entorno
-
-Crea un archivo llamado `.env` en la raíz del proyecto con la dirección base de la API de Sintonía:
+### 3. Variables de entorno (Opcional)
+El proyecto ya tiene la URL de la API oficial configurada por defecto (`https://yanethm-sintonia-api.fly.dev/api/v1`). Si necesitas apuntar a otra API, puedes crear un archivo `.env` en la raiz:
 
 ```env
 VITE_API_URL=https://yanethm-sintonia-api.fly.dev/api/v1
 ```
 
-> **Nota:** Para el despliegue en **Vercel**, agrega esta misma variable (`VITE_API_URL`) en *Project Settings → Environment Variables*.
-
-### 4. Ejecutar en modo desarrollo
-
+### 4. Iniciar en modo desarrollo
 ```bash
 npm run dev
 ```
 
-Abre en tu navegador la dirección local que indique la terminal (por defecto `http://localhost:5173`).
+La pagina abrira en `http://localhost:5173`.
 
-### 5. Compilar para producción
+### 5. Compilacion para produccion
+Para generar el build de produccion y probarlo localmente:
 
 ```bash
 npm run build
 npm run preview
 ```
 
----
-
-## Alcance implementado en el Sprint 1
-
-- **US-SIN-S1-01 · Configuración y sistema de diseño:** Variables CSS (`src/styles/tokens.css`) fieles al sistema de diseño de Figma (colores, tipografías `Syne` e `Inter`, espaciados, radios y sombras) y estilos base (`src/styles/global.css`).
-- **US-SIN-S1-02 · Navegación en web y móvil:** Encabezado (`Navbar`), menú hamburguesa accesible con soporte de teclado (`Escape` y retorno de foco) y pie de página (`Footer`) semántico en todas las vistas (`390 px` a `1440 px`).
-- **US-SIN-S1-03 · Inicio público (Vista 1):** Hero con cifras dinámicas y collage de portadas SVG, sección «Suena esta semana», cuadrícula «Explora por género» y llamado a la acción (`BannerCta`), consumiendo `GET /generos` y `GET /generos/:id`.
-- **US-SIN-S1-04 · Catálogo musical (Vista 2):** Ruta `/catalogo` con filtro de género persistente en la URL (`?genero=gen_salsa`), visualización de artistas, álbumes y canciones más escuchadas del género seleccionado, y dibujo vectorial de portadas (`Portada.jsx`) según `portada.patron` y `portada.colores`.
-- **US-SIN-S1-05 · Cambio de idioma (`ES` | `EN`):** Textos de la interfaz cargados dinámicamente desde `GET /textos?idioma=es` y `GET /textos?idioma=en`, actualización de `<html lang>` y persistencia en la cookie `idioma` cuando existe consentimiento.
-- **US-SIN-S1-06 · Consentimiento y preferencias de cookies + Accesibilidad:** Banner de primera visita (`BannerCookies`), modal de configuración por categorías (`PreferenciasCookies`) y panel de opciones de accesibilidad (`Accesibilidad`) sincronizados con la cookie `consentimiento`.
+## Despliegue en Vercel
+El proyecto esta listo para Vercel. Incluye la configuracion en `vercel.json` para el manejo de rutas de aplicacion de una sola pagina (SPA) y los scripts de compilacion en `package.json`.
