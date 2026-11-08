@@ -1,6 +1,6 @@
 # Sintonia - Frontend
 
-Frontend de la plataforma de musica y podcast Sintonia, desarrollado con React y Vite para el Sprint 1.
+Frontend de la plataforma de musica y podcast Sintonia, desarrollado con React y Vite.
 
 ## Requisitos
 
