@@ -12,8 +12,8 @@ export default function SeccionGeneros({
     generoActivo = null, //id del genero actualmente seleccionado como filtro
     cargando = false,
     error = false,
-    textoCargando = "Cargando...",
-    textoReintentar = "Reintentar",
+    textoCargando = "",
+    textoReintentar = "",
     onRecargar,
     onNavegar,
     onGeneroClick //funcion para manejar la seleccion de un genero especifico

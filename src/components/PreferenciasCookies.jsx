@@ -1,13 +1,9 @@
-// importamos los hooks de React para generar identificadores unicos, referencias al DOM y estado local
 import { useId, useRef, useState, useEffect } from "react";
-// importamos el componente Icono para el boton de cerrar (X)
 import Icono from "./Icono.jsx";
-// importamos los estilos del modal de preferencias de cookies
 import "./PreferenciasCookies.css";
 
 // clave unica para guardar el detalle de las categorias en localStorage
 const CLAVE_STORAGE_COOKIES = "sintonia-consentimiento-categorias";
-// nombre de la cookie general de consentimiento usada por BannerCookies y App.jsx
 const NOMBRE_COOKIE_CONSENTIMIENTO = "consentimiento";
 
 // funcion auxiliar para guardar una cookie en el navegador por 1 año
@@ -56,13 +52,13 @@ function leerSeleccionGuardada(idsCategorias) {
 
 // exportamos el componente PreferenciasCookies
 export default function PreferenciasCookies({
-  textos, // subobjeto textos.cookies.preferencias proveniente de la API
-  idioma = "es", // idioma actual ("es" o "en")
+  textos,
+  textoGuardado = "", // mensaje de confirmacion desde la API
+  textoError = "", // mensaje de error general desde la API
   onGuardar, // callback opcional para notificar a App.jsx cuando se guardan cambios
 }) {
   // identificador unico accesible para vincular aria-labelledby y aria-describedby
   const id = useId();
-  // referencia al elemento nativo <dialog>
   const dialogo = useRef(null);
   // referencia al boton que abre el modal para devolverle el foco al cerrar
   const disparador = useRef(null);
@@ -73,72 +69,39 @@ export default function PreferenciasCookies({
   // estado para mostrar mensaje de error si falla el guardado en el navegador
   const [error, setError] = useState("");
 
-  // booleano para saber si el idioma activo es ingles
-  const ingles = idioma === "en";
-
-  // construimos el listado de las 4 categorias tomando los textos de la API con respaldo en ES y EN
+  // construimos el listado de las 4 categorias tomando los textos de la API
   const categorias = [
     {
-      // identificador de la categoria obligatoria
       id: "necesarias",
-      // nombre de la categoria desde la API
-      titulo: textos?.categorias?.necesarias?.nombre ?? (ingles ? "Necessary" : "Necesarias"),
-      // explicacion de lo que guarda esta categoria
+      titulo: textos?.categorias?.necesarias?.nombre,
       descripcion:
-        textos?.categorias?.necesarias?.descripcion ??
-        (ingles ? "Session, plan and security." : "Sesión, plan y seguridad."),
-      // listado de cookies especificas de esta categoria
+        textos?.categorias?.necesarias?.descripcion,
       cookies:
-        textos?.categorias?.necesarias?.cookies ??
-        (ingles ? "Cookies: session · csrf" : "Cookies: sesion · csrf"),
+        textos?.categorias?.necesarias?.cookies,
     },
     {
-      // identificador de la categoria de preferencias de interfaz
       id: "preferencias",
-      // nombre de la categoria desde la API
-      titulo: textos?.categorias?.preferencias?.nombre ?? (ingles ? "Preferences" : "Preferencias"),
-      // explicacion de lo que guarda esta categoria
+      titulo: textos?.categorias?.preferencias?.nombre,
       descripcion:
-        textos?.categorias?.preferencias?.descripcion ??
-        (ingles
-          ? "Language, theme, volume and accessibility options."
-          : "Idioma, tema, volumen y opciones de accesibilidad."),
-      // listado de cookies especificas de esta categoria
+        textos?.categorias?.preferencias?.descripcion,
       cookies:
-        textos?.categorias?.preferencias?.cookies ??
-        (ingles
-          ? "Cookies: language · theme · volume · accessibility"
-          : "Cookies: idioma · tema · volumen · accesibilidad"),
+        textos?.categorias?.preferencias?.cookies,
     },
     {
-      // identificador de la categoria de analiticas
       id: "analiticas",
-      // nombre de la categoria desde la API
-      titulo: textos?.categorias?.analiticas?.nombre ?? (ingles ? "Analytics" : "Analíticas"),
-      // explicacion de lo que guarda esta categoria
+      titulo: textos?.categorias?.analiticas?.nombre,
       descripcion:
-        textos?.categorias?.analiticas?.descripcion ??
-        (ingles
-          ? "Anonymous usage measurement to improve the app."
-          : "Medición anónima de uso para mejorar la aplicación."),
-      // listado de cookies especificas de esta categoria
+        textos?.categorias?.analiticas?.descripcion,
       cookies:
-        textos?.categorias?.analiticas?.cookies ??
-        (ingles ? "Cookies: analytics" : "Cookies: medicion"),
+        textos?.categorias?.analiticas?.cookies,
     },
     {
-      // identificador de la categoria de marketing
       id: "marketing",
-      // nombre de la categoria desde la API
-      titulo: textos?.categorias?.marketing?.nombre ?? (ingles ? "Marketing" : "Marketing"),
-      // explicacion de lo que guarda esta categoria
+      titulo: textos?.categorias?.marketing?.nombre,
       descripcion:
-        textos?.categorias?.marketing?.descripcion ??
-        (ingles ? "Plan promotions on other sites." : "Promociones de planes en otros sitios."),
-      // listado de cookies especificas de esta categoria
+        textos?.categorias?.marketing?.descripcion,
       cookies:
-        textos?.categorias?.marketing?.cookies ??
-        (ingles ? "Cookies: campaigns" : "Cookies: campanas"),
+        textos?.categorias?.marketing?.cookies,
     },
   ];
 
@@ -148,9 +111,8 @@ export default function PreferenciasCookies({
     const ids = categorias.map((cat) => cat.id);
     // actualizamos el estado con la seleccion guardada actualmente
     setSeleccion(leerSeleccionGuardada(ids));
-    // limpiamos cualquier mensaje de error previo
+    //limpiamos mensajes de error
     setError("");
-    // limpiamos el mensaje de confirmacion previo
     setMensaje("");
     // abrimos el dialogo modal nativo
     dialogo.current?.showModal();
@@ -190,32 +152,25 @@ export default function PreferenciasCookies({
       // emitimos un evento global para que BannerCookies y Accesibilidad sincronicen su estado inmediatamente
       window.dispatchEvent(new CustomEvent("sintonia-consentimiento-actualizado", { detail: decisionGeneral }));
     } catch {
-      // mostramos mensaje de error si el navegador bloqueo el almacenamiento
-      setError(
-        ingles
-          ? "We could not save your preferences in this browser. Please try again."
-          : "No pudimos guardar tus preferencias en este navegador. Inténtalo de nuevo."
-      );
+      // mostramos mensaje de error desde la API si el navegador bloqueo el almacenamiento
+      setError(textoError);
       return;
     }
     // actualizamos el estado local con los valores guardados
     setSeleccion(valores);
     // notificamos al componente padre si paso el callback onGuardar
     onGuardar?.(valores);
-    // establecemos el mensaje accesible de confirmacion
-    setMensaje(ingles ? "Cookie preferences saved." : "Preferencias de cookies guardadas.");
+    // establecemos el mensaje accesible de confirmacion desde la API
+    setMensaje(textoGuardado);
     // cerramos el modal nativo <dialog>
     dialogo.current?.close();
   }
 
   // titulo general del modal y del boton disparador desde la API
-  const tituloModal = textos?.titulo ?? (ingles ? "Cookie preferences" : "Preferencias de cookies");
+  const tituloModal = textos?.titulo;
   // descripcion explicativa debajo del titulo desde la API
   const descripcionModal =
-    textos?.descripcion ??
-    (ingles
-      ? "Choose which cookies you allow. You can change this anytime from the footer."
-      : "Elige qué cookies permites. Puedes cambiarlo cuando quieras desde el pie de página.");
+    textos?.descripcion;
 
   // retornamos el enlace disparador y el dialogo modal
   return (
@@ -264,8 +219,7 @@ export default function PreferenciasCookies({
               className="cookies-cerrar"
               type="button"
               aria-label={
-                textos?.aria?.cerrar ??
-                (ingles ? "Close cookie preferences" : "Cerrar las preferencias de cookies")
+                textos?.aria?.cerrar
               }
               onClick={() => dialogo.current?.close()}
             >
@@ -322,7 +276,7 @@ export default function PreferenciasCookies({
                 {/* si es la categoria de necesarias, mostramos el texto "Siempre activas" */}
                 {categoria === "necesarias" && (
                   <small className="cookies-siempre-activas">
-                    {textos?.etiquetas?.siempreActivas ?? (ingles ? "Always active" : "Siempre activas")}
+                    {textos?.etiquetas?.siempreActivas}
                   </small>
                 )}
               </div>
@@ -344,7 +298,7 @@ export default function PreferenciasCookies({
               type="button"
               onClick={() => guardar(seleccion)}
             >
-              {textos?.botones?.guardar ?? (ingles ? "Save selection" : "Guardar selección")}
+              {textos?.botones?.guardar}
             </button>
 
             {/* boton para rechazar todas las opcionales y dejar solo las necesarias */}
@@ -353,7 +307,7 @@ export default function PreferenciasCookies({
               type="button"
               onClick={() => guardar(crearSeleccion(false))}
             >
-              {textos?.botones?.rechazar ?? (ingles ? "Reject optional" : "Rechazar opcionales")}
+              {textos?.botones?.rechazar}
             </button>
 
             {/* boton para aceptar todas las categorias */}
@@ -362,7 +316,7 @@ export default function PreferenciasCookies({
               type="button"
               onClick={() => guardar(crearSeleccion(true))}
             >
-              {textos?.botones?.aceptar ?? (ingles ? "Accept all" : "Aceptar todas")}
+              {textos?.botones?.aceptar}
             </button>
           </footer>
         </div>

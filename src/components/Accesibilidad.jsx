@@ -1,10 +1,7 @@
-// importamos los hooks de React necesarios para manejar estado, efectos y referencias
 import { useState, useEffect, useRef } from "react";
 // importamos createPortal para renderizar el panel flotante directamente en el body sin ser recortado por contenedores padres
 import { createPortal } from "react-dom";
-// importamos el componente de iconos del proyecto
 import Icono from "./Icono.jsx";
-// importamos la hoja de estilos propia del componente de accesibilidad
 import "./Accesibilidad.css";
 
 // clave unica para guardar y leer las preferencias en el almacenamiento local del dispositivo
@@ -42,7 +39,6 @@ function permiteGuardarPreferencias() {
       return categorias?.preferencias === true;
     }
   } catch {
-    // ignoramos errores de lectura de localStorage
   }
   // si no hay detalle por categorias, verificamos si la cookie general de consentimiento fue aceptada
   return leerCookie("consentimiento") === "aceptado";
@@ -55,7 +51,6 @@ function limpiarPreferenciasGuardadas() {
     // borramos el registro local de accesibilidad
     localStorage.removeItem(CLAVE_STORAGE);
   } catch {
-    // ignoramos errores si el almacenamiento esta restringido
   }
   // expiramos tambien la cookie de accesibilidad en el navegador
   document.cookie = `${NOMBRE_COOKIE_ACC}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
@@ -72,15 +67,10 @@ function obtenerValoresSistema() {
 
   // retornamos el objeto con las 5 opciones de accesibilidad en su estado base
   return {
-    // porcentaje base del tamaño del texto en 100%
     tamanoTexto: 100,
-    // estado de alto contraste tomado del sistema
     altoContraste: contrasteSistema,
-    // estado de reducir movimiento tomado del sistema
     reducirMovimiento: movimientoSistema,
-    // subrayado de enlaces desactivado inicialmente
     subrayarEnlaces: false,
-    // espaciado de lectura desactivado inicialmente
     espaciado: false,
   };
 }
@@ -93,7 +83,6 @@ function cargarPreferenciasGuardadas() {
   if (!permiteGuardarPreferencias()) {
     // borramos datos residuales para que al recargar no se mantengan cambios sin permiso
     limpiarPreferenciasGuardadas();
-    // devolvemos los valores iniciales del sistema
     return base;
   }
   // intentamos leer la configuracion almacenada en el dispositivo
@@ -115,13 +104,10 @@ function cargarPreferenciasGuardadas() {
         typeof parseado.tamanoTexto === "number"
           ? Math.min(TAMANO_MAX, Math.max(TAMANO_MIN, parseado.tamanoTexto))
           : base.tamanoTexto,
-      // convertimos a booleano el estado de alto contraste
+      // convertimos a booleano las siguientes configuraciones
       altoContraste: Boolean(parseado.altoContraste),
-      // convertimos a booleano el estado de reducir movimiento
       reducirMovimiento: Boolean(parseado.reducirMovimiento),
-      // convertimos a booleano el estado de subrayar enlaces
       subrayarEnlaces: Boolean(parseado.subrayarEnlaces),
-      // convertimos a booleano el estado de espaciado de lectura
       espaciado: Boolean(parseado.espaciado),
     };
   } catch {
@@ -138,13 +124,10 @@ function aplicarPreferenciasEnDocumento(preferencias) {
   const factorEscala = preferencias.tamanoTexto / 100;
   // asignamos la variable CSS --escala-texto para escalar las tipografias proporcionalmente
   raiz.style.setProperty("--escala-texto", String(factorEscala));
-  // activamos o desactivamos el atributo de alto contraste en <html>
+  // activamos o desactivamos los siguientes atributos
   raiz.setAttribute("data-alto-contraste", String(preferencias.altoContraste));
-  // activamos o desactivamos el atributo de reducir movimiento en <html>
   raiz.setAttribute("data-reducir-movimiento", String(preferencias.reducirMovimiento));
-  // activamos o desactivamos el atributo de subrayar enlaces en <html>
   raiz.setAttribute("data-subrayar-enlaces", String(preferencias.subrayarEnlaces));
-  // activamos o desactivamos el atributo de espaciado de lectura en <html>
   raiz.setAttribute("data-espaciado-lectura", String(preferencias.espaciado));
 }
 
@@ -163,7 +146,6 @@ function guardarPreferenciasEnDispositivo(preferencias) {
     // guardamos bajo la clave oficial del proyecto
     localStorage.setItem(CLAVE_STORAGE, serializado);
   } catch {
-    // ignoramos errores si el navegador tiene bloqueado el almacenamiento local
   }
   // calculamos expiracion a 1 año para la cookie de accesibilidad
   const expira = new Date(Date.now() + 365 * 864e5).toUTCString();
@@ -323,17 +305,13 @@ export default function Accesibilidad({
 
   // funcion para disminuir el tamaño del texto en pasos de 10%
   function reducirTexto() {
-    // calculamos el nuevo valor sin bajar del limite minimo
     const nuevoTamano = Math.max(TAMANO_MIN, preferencias.tamanoTexto - PASO_TAMANO);
-    // actualizamos las preferencias con el nuevo porcentaje
     actualizarPreferencias({ ...preferencias, tamanoTexto: nuevoTamano });
   }
 
   // funcion para aumentar el tamaño del texto en pasos de 10%
   function aumentarTexto() {
-    // calculamos el nuevo valor sin superar el limite maximo
     const nuevoTamano = Math.min(TAMANO_MAX, preferencias.tamanoTexto + PASO_TAMANO);
-    // actualizamos las preferencias con el nuevo porcentaje
     actualizarPreferencias({ ...preferencias, tamanoTexto: nuevoTamano });
   }
 
@@ -354,11 +332,9 @@ export default function Accesibilidad({
     try {
       localStorage.removeItem(CLAVE_STORAGE);
     } catch {
-      // ignoramos si localStorage no esta disponible
     }
     // borramos la cookie de accesibilidad si existia
     document.cookie = `${NOMBRE_COOKIE_ACC}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
-    // actualizamos el estado y notificamos a todas las instancias
     setPreferencias(valoresIniciales);
     // sincronizamos cualquier otra instancia montada
     window.dispatchEvent(new CustomEvent("sintonia-accesibilidad-cambio", { detail: valoresIniciales }));
@@ -387,41 +363,24 @@ export default function Accesibilidad({
       // identificador de la propiedad en el estado
       clave: "altoContraste",
       // titulo del interruptor desde la API
-      etiqueta: txtAcc?.altoContraste?.etiqueta ?? (ingles ? "High contrast" : "Alto contraste"),
+      etiqueta: txtAcc?.altoContraste?.etiqueta,
       // texto descriptivo de ayuda desde la API
-      ayuda:
-        txtAcc?.altoContraste?.ayuda ??
-        (ingles ? "More difference between text and background" : "Más diferencia entre el texto y el fondo"),
+      ayuda: txtAcc?.altoContraste?.ayuda,
     },
     {
-      // identificador de la propiedad en el estado
       clave: "reducirMovimiento",
-      // titulo del interruptor desde la API
-      etiqueta: txtAcc?.reducirMovimiento?.etiqueta ?? (ingles ? "Reduce motion" : "Reducir movimiento"),
-      // texto descriptivo de ayuda desde la API
-      ayuda:
-        txtAcc?.reducirMovimiento?.ayuda ??
-        (ingles ? "No animations or transitions" : "Sin animaciones ni transiciones"),
+      etiqueta: txtAcc?.reducirMovimiento?.etiqueta,
+      ayuda: txtAcc?.reducirMovimiento?.ayuda,
     },
     {
-      // identificador de la propiedad en el estado
       clave: "subrayarEnlaces",
-      // titulo del interruptor desde la API
-      etiqueta: txtAcc?.subrayarEnlaces?.etiqueta ?? (ingles ? "Underline links" : "Subrayar enlaces"),
-      // texto descriptivo de ayuda desde la API
-      ayuda:
-        txtAcc?.subrayarEnlaces?.ayuda ??
-        (ingles ? "Links stand out without relying on color" : "Los enlaces se distinguen sin depender del color"),
+      etiqueta: txtAcc?.subrayarEnlaces?.etiqueta,
+      ayuda: txtAcc?.subrayarEnlaces?.ayuda,
     },
     {
-      // identificador de la propiedad en el estado
       clave: "espaciado",
-      // titulo del interruptor desde la API
-      etiqueta: txtAcc?.espaciado?.etiqueta ?? (ingles ? "Reading spacing" : "Espaciado de lectura"),
-      // texto descriptivo de ayuda desde la API
-      ayuda:
-        txtAcc?.espaciado?.ayuda ??
-        (ingles ? "More space between lines and letters" : "Más espacio entre líneas y entre letras"),
+      etiqueta: txtAcc?.espaciado?.etiqueta,
+      ayuda: txtAcc?.espaciado?.ayuda,
     },
   ];
 
@@ -434,10 +393,7 @@ export default function Accesibilidad({
         ref={botonDisparadorRef}
         type="button"
         className="navbar-icono accesibilidad-boton-disparador"
-        aria-label={
-          txtNav?.aria?.accesibilidad ??
-          (ingles ? "Open accessibility options" : "Abrir opciones de accesibilidad")
-        }
+        aria-label={txtNav?.aria?.accesibilidad}
         aria-expanded={abierto}
         aria-haspopup="dialog"
         onClick={alternarPanel}
@@ -457,7 +413,7 @@ export default function Accesibilidad({
               className="accesibilidad-panel"
               role="dialog"
               aria-modal="false"
-              aria-label={txtAcc?.titulo ?? (ingles ? "Accessibility" : "Accesibilidad")}
+              aria-label={txtAcc?.titulo}
               style={{
                 // variables en linea para alinear el popover exactamente debajo del boton en escritorio
                 "--acc-top": `${posicionPanel.top}px`,
@@ -468,7 +424,7 @@ export default function Accesibilidad({
               <header className="accesibilidad-cabecera">
                 {/* titulo principal del panel de accesibilidad */}
                 <h2 className="titular-h3 accesibilidad-titulo">
-                  {txtAcc?.titulo ?? (ingles ? "Accessibility" : "Accesibilidad")}
+                  {txtAcc?.titulo}
                 </h2>
 
                 {/* boton para cerrar el panel de accesibilidad */}
@@ -476,8 +432,7 @@ export default function Accesibilidad({
                   type="button"
                   className="accesibilidad-boton-cerrar"
                   aria-label={
-                    txtAcc?.aria?.cerrar ??
-                    (ingles ? "Close accessibility panel" : "Cerrar el panel de accesibilidad")
+                    txtAcc?.aria?.cerrar
                   }
                   onClick={() => {
                     // cerramos el panel
@@ -495,18 +450,17 @@ export default function Accesibilidad({
               <div className="accesibilidad-bloque-tamano">
                 {/* etiqueta superior de Tamaño del texto */}
                 <span className="accesibilidad-etiqueta-seccion">
-                  {txtAcc?.tamanoTexto?.etiqueta ?? (ingles ? "Text size" : "Tamaño del texto")}
+                  {txtAcc?.tamanoTexto?.etiqueta}
                 </span>
 
                 {/* barra con boton -, porcentaje central y boton + */}
-                <div className="accesibilidad-tamano-control" role="group" aria-label={txtAcc?.tamanoTexto?.etiqueta ?? (ingles ? "Text size" : "Tamaño del texto")}>
+                <div className="accesibilidad-tamano-control" role="group" aria-label={txtAcc?.tamanoTexto?.etiqueta}>
                   {/* boton para reducir el tamaño del texto */}
                   <button
                     type="button"
                     className="accesibilidad-tamano-boton"
                     aria-label={
-                      txtAcc?.tamanoTexto?.reducir ??
-                      (ingles ? "Decrease text size" : "Reducir el tamaño del texto")
+                      txtAcc?.tamanoTexto?.reducir
                     }
                     onClick={reducirTexto}
                     disabled={preferencias.tamanoTexto <= TAMANO_MIN}
@@ -525,8 +479,7 @@ export default function Accesibilidad({
                     type="button"
                     className="accesibilidad-tamano-boton"
                     aria-label={
-                      txtAcc?.tamanoTexto?.aumentar ??
-                      (ingles ? "Increase text size" : "Aumentar el tamaño del texto")
+                      txtAcc?.tamanoTexto?.aumentar
                     }
                     onClick={aumentarTexto}
                     disabled={preferencias.tamanoTexto >= TAMANO_MAX}
@@ -580,10 +533,7 @@ export default function Accesibilidad({
 
               {/* nota informativa sobre el guardado en el dispositivo y valores del sistema */}
               <p className="detalle-nota accesibilidad-nota">
-                {txtAcc?.mensajes?.nota ??
-                  (ingles
-                    ? "Saved on this device. The starting values come from what you already set on your system."
-                    : "Se guarda en este dispositivo. Los valores iniciales salen de lo que ya definiste en tu sistema.")}
+                {txtAcc?.mensajes?.nota}
               </p>
 
               {/* pie del panel con el enlace a la declaracion y el boton de restablecer */}
@@ -594,8 +544,7 @@ export default function Accesibilidad({
                   className="accesibilidad-enlace-declaracion"
                   onClick={irADeclaracion}
                 >
-                  {txtAcc?.enlaces?.declaracion ??
-                    (ingles ? "Accessibility statement" : "Declaración de accesibilidad")}
+                  {txtAcc?.enlaces?.declaracion}
                 </a>
 
                 {/* boton para restaurar todos los ajustes a sus valores por defecto */}
@@ -604,7 +553,7 @@ export default function Accesibilidad({
                   className="accesibilidad-boton-restablecer"
                   onClick={restablecerOpciones}
                 >
-                  {txtAcc?.botones?.restablecer ?? (ingles ? "Reset" : "Restablecer")}
+                  {txtAcc?.botones?.restablecer}
                 </button>
               </footer>
             </aside>
@@ -615,4 +564,3 @@ export default function Accesibilidad({
     </div>
   );
 }
-

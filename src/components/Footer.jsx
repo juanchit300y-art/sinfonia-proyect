@@ -6,20 +6,16 @@ import Icono from "./Icono.jsx"
 import PreferenciasCookies from "./PreferenciasCookies.jsx";
 //declaro el componente Footer recibiendo los textos de la api, el idioma actual y onNavegar
 export default function Footer({textos, idioma, onNavegar}){
-    //true si el idioma esta en ingles, false en español
-    const ingles = idioma === "en";
     // extraigo el objeto footer de la API de forma segura
     const pie = textos?.footer;
     //año actual para los derechos de autor
     const anio = new Date().getFullYear();
    
     
-    //obtengo el texto de derechos reemplazando la variable anio por el año actual, lo extraigo desde la API, si esta tarda en responder lo escribo manualmente
-    const textoDerechos = pie?.legal?.derechos?.replace("{anio}",anio)??`© ${anio} Sintonía · ${ingles ? "Academic project" : "Proyecto académico"}`;
-    //obtengo el aviso legal de audio libre desde la API, si demora tengo su respaldo en ambos idiomas
-    const textoAviso = pie?.legal?.nota ?? (ingles 
-      ? "Free-use sample audio. Fictional artists and titles." 
-      : "Audio de ejemplo de uso libre. Artistas y títulos ficticios.");
+    //obtengo el texto de derechos reemplazando la variable anio por el año actual desde la API
+    const textoDerechos = pie?.legal?.derechos?.replace("{anio}", anio);
+    //obtengo el aviso legal de audio libre desde la API
+    const textoAviso = pie?.legal?.nota;
 
     //funcion interna que incercepta el clic en los enlaces para que react navegue sin recargar toda la web
     function manejarClickEnlace(evento, ruta){
@@ -42,17 +38,14 @@ export default function Footer({textos, idioma, onNavegar}){
                             href="/"
                             className="footer-logo"
                             onClick={(e) => manejarClickEnlace(e, "/")}
-                            aria-label={textos?.navbar?.logo?.aria ?? (ingles ? "Sintonía, go to home" : "Sintonía, ir al inicio")}
+                            aria-label={textos?.navbar?.logo?.aria}
                         >
                             <Icono nombre="logo"/>
-                            <span className="titular-h3 footer-logo-texto">{textos?.sitio?.nombre?.toLowerCase() ?? "sintonía"}</span>
+                            <span className="titular-h3 footer-logo-texto">{textos?.sitio?.nombre?.toLowerCase()}</span>
                         </a>
                         {/* descripcion debajo del logo */}
                         <p className="cuerpo-p footer-lema">
-                            {pie?.lema?? (
-                                ingles ? "Albums and artist from all genres, in one place."
-                                : "Álbumes y artistas de todos los géneros, en un solo lugar."
-                            )}
+                            {pie?.lema}
                         </p>
                     </div>
                     {/* contenedor de las 3 columnas de navegacion */}
@@ -62,7 +55,7 @@ export default function Footer({textos, idioma, onNavegar}){
                             {/* columna 1, explotacion */}
                             <div className="footer-columna">
                                 <h3 className="detalle-etiqueta footer-columna-titulo">
-                                    {pie?.columnas?.explora?.titulo ?? (ingles ? "Explore" : "Explora")}
+                                    {pie?.columnas?.explora?.titulo}
                                 </h3>
                                 {/* lista de enlaces hacias las vistas 1 y 2, inicio y catalogo */}
                                 <ul className="footer-lista">
@@ -73,8 +66,8 @@ export default function Footer({textos, idioma, onNavegar}){
                                             className="cuerpo-p"
                                             onClick={(evento) => manejarClickEnlace(evento, "/")}
                                         >
-                                            {/* lee de la API Inicio, si no manual */}
-                                            {pie?.columnas?.explora?.enlaces?.inicio ?? (ingles ? "Home" : "Inicio")}
+                                            {/* lee de la API Inicio */}
+                                            {pie?.columnas?.explora?.enlaces?.inicio}
                                         </a>
                                     </li>
                                     {/* segundo enlace - catalogo */}
@@ -84,8 +77,8 @@ export default function Footer({textos, idioma, onNavegar}){
                                             className="cuerpo-p"
                                             onClick={(evento) => manejarClickEnlace(evento, "/catalogo")}
                                         >
-                                            {/* lee de la API catalogo, sino manual */}
-                                            {pie?.columnas?.explora?.enlaces?.catalogo ?? (ingles ? "Music catalog" : "Catálogo musical")}
+                                            {/* lee de la API catalogo */}
+                                            {pie?.columnas?.explora?.enlaces?.catalogo}
                                         </a>
                                     </li>
                                 </ul>
@@ -96,7 +89,7 @@ export default function Footer({textos, idioma, onNavegar}){
                             <div className="footer-columna">
                                 {/* titulo de la columna */}
                                 <h3 className="detalle-etiqueta footer-columna-titulo">
-                                    {pie?.columnas?.cuenta?.titulo ?? (ingles ? "Your account" : "Tu cuenta")}
+                                    {pie?.columnas?.cuenta?.titulo}
                                 </h3>
                                 {/* enlaces hacia las vistas de ingresar y crear cuenta */}
                                 <ul className="footer-lista">
@@ -107,8 +100,8 @@ export default function Footer({textos, idioma, onNavegar}){
                                             className="cuerpo-p"
                                             onClick={(evento) => manejarClickEnlace(evento, "/ingresar")}
                                         >
-                                            {/* lee de la API el texto, sino manual */}
-                                            {pie?.columnas?.cuenta?.enlaces?.ingresar ?? (ingles ? "Log in" : "Iniciar sesión")}
+                                            {/* lee de la API el texto */}
+                                            {pie?.columnas?.cuenta?.enlaces?.ingresar}
                                         </a>
                                     </li>
                                     {/* segundo enlace - registrarme*/}
@@ -118,8 +111,8 @@ export default function Footer({textos, idioma, onNavegar}){
                                             className="cuerpo-p"
                                             onClick={(evento) => manejarClickEnlace(evento, "/crear-cuenta")}
                                         >
-                                            {/* lee el texto de la API, sino manual */}
-                                            {pie?.columnas?.cuenta?.enlaces?.crearCuenta ?? (ingles ? "Sign up" : "Crear cuenta")}
+                                            {/* lee el texto de la API */}
+                                            {pie?.columnas?.cuenta?.enlaces?.crearCuenta}
                                         </a>
                                     </li>
                                 </ul>
@@ -130,7 +123,7 @@ export default function Footer({textos, idioma, onNavegar}){
                             <div className="footer-columna">
                                 {/* titulo de la columna */}
                                 <h3 className="detalle-etiqueta footer-columna-titulo">
-                                    {pie?.columnas?.legal?.titulo ?? "Legal"}    
+                                    {pie?.columnas?.legal?.titulo}    
                                 </h3>
                                 {/* lista de los enlaces legales */}
                                 <ul className="footer-lista">
@@ -142,7 +135,7 @@ export default function Footer({textos, idioma, onNavegar}){
                                             onClick={(evento) => manejarClickEnlace(evento, "/terminos")}
                                         >
                                             {/* texto del enlace */}
-                                            {pie?.columnas?.legal?.enlaces?.terminos ?? (ingles ? "Terms of use" : "Términos de uso")}
+                                            {pie?.columnas?.legal?.enlaces?.terminos}
                                         </a>
                                     </li>
 
@@ -154,7 +147,7 @@ export default function Footer({textos, idioma, onNavegar}){
                                             onClick={(evento) => manejarClickEnlace(evento, "/accesibilidad")}
                                         >
                                             {/* texto del enlace de accesibilidad desde la API */}
-                                            {pie?.columnas?.legal?.enlaces?.accesibilidad ?? textos?.accesibilidad?.titulo ?? (ingles ? "Accessibility" : "Accesibilidad")}
+                                            {pie?.columnas?.legal?.enlaces?.accesibilidad ?? textos?.accesibilidad?.titulo}
                                         </a>
                                     </li>
 
@@ -162,7 +155,8 @@ export default function Footer({textos, idioma, onNavegar}){
                                     <li>
                                         <PreferenciasCookies
                                             textos={textos?.cookies?.preferencias}
-                                            idioma={idioma}
+                                            textoGuardado={textos?.general?.etiquetas?.guardado}
+                                            textoError={textos?.errores?.generico}
                                         />
                                     </li>
                                 </ul>

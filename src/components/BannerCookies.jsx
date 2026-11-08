@@ -109,7 +109,7 @@ export default function BannerCokies({
         <aside 
             className="banner-cookies"
             role="region"
-            aria-label={titulo ?? "Aviso de cookies"}
+            aria-label={titulo}
         >
             {/* targeta flotante interior centrada */}
             <div className="banner-cookies-caja">

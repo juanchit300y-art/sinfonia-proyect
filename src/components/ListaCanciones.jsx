@@ -54,10 +54,10 @@ export default function ListaCanciones({
                     const nombreArtista = cancion.artista?.nombre;
                     const duracionCruda = cancion.duracionSeg;
                     const duracionFormateada = formatearDuracion(duracionCruda);
-                    // construimos la etiqueta accesible segun el idioma activo
-                    const etiquetaAccesible = idioma === "en"
-                        ? `Track ${numero}: ${cancion.titulo}, by ${nombreArtista}, duration ${duracionFormateada}`
-                        : `Canción ${numero}: ${cancion.titulo}, de ${nombreArtista}, duración ${duracionFormateada}`;
+                    // construimos la etiqueta accesible uniendo los datos de la pista sin texto quemado
+                    const etiquetaAccesible = [numero, cancion.titulo, nombreArtista, duracionFormateada]
+                        .filter(Boolean)
+                        .join(" · ");
 
                     // retornamos el elemento de la lista de cada fila
                     return(

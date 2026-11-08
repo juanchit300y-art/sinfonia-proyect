@@ -139,42 +139,42 @@ function App() {
                 {/* vista de detalle de album (Sprint 2) */}
                 {activo === "album" && (
                     <section id="album" className="seccion">
-                        <h1 className="titular-h1">{datos.textos?.general?.tipos?.album ?? (ingles ? "Album" : "Álbum")}</h1>
+                        <h1 className="titular-h1">{datos.textos?.general?.tipos?.album}</h1>
                     </section>
                 )}
 
                 {/* vista de detalle de artista (Sprint 2) */}
                 {activo === "artista" && (
                     <section id="artista" className="seccion">
-                        <h1 className="titular-h1">{datos.textos?.general?.tipos?.artista ?? (ingles ? "Artist" : "Artista")}</h1>
+                        <h1 className="titular-h1">{datos.textos?.general?.tipos?.artista}</h1>
                     </section>
                 )}
 
                 {/* vista para iniciar sesion */}
                 {activo === "ingresar" && (
                     <section id="ingresar" className="seccion">
-                        <h1 className="titular-h1">{datos.textos?.navbar?.botones?.invitado?.ingresar ?? (ingles ? "Log in" : "Ingresar")}</h1>
+                        <h1 className="titular-h1">{datos.textos?.navbar?.botones?.invitado?.ingresar}</h1>
                     </section>
                 )}
 
                 {/* vista para crear cuenta */}
                 {(activo === "crear-cuenta" || activo === "crearCuenta") && (
                     <section id="crear-cuenta" className="seccion">
-                        <h1 className="titular-h1">{datos.textos?.navbar?.botones?.invitado?.crearCuenta ?? (ingles ? "Sign up" : "Crear cuenta")}</h1>
+                        <h1 className="titular-h1">{datos.textos?.navbar?.botones?.invitado?.crearCuenta}</h1>
                     </section>
                 )}
 
                 {/* vista de terminos legales del footer */}
                 {activo === "terminos" && (
                 <section id="terminos" className="seccion">
-                    <h1 className="titular-h1">{datos.textos?.footer?.columnas?.legal?.enlaces?.terminos ?? (ingles ? "Terms of use" : "Términos de uso")}</h1>
+                    <h1 className="titular-h1">{datos.textos?.footer?.columnas?.legal?.enlaces?.terminos}</h1>
                 </section>
                 )}
 
                 {/* vista de declaracion de accesibilidad */}
                 {activo === "accesibilidad" && (
                     <section id="accesibilidad" className="seccion">
-                        <h1 className="titular-h1">{datos.textos?.accesibilidad?.enlaces?.declaracion ?? (ingles ? "Accessibility statement" : "Declaración de accesibilidad")}</h1>
+                        <h1 className="titular-h1">{datos.textos?.accesibilidad?.enlaces?.declaracion}</h1>
                     </section>
                 )}
 

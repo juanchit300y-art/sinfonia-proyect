@@ -11,8 +11,8 @@ export default function SeccionAlbumes({
     albumes = [], //lista de albumes a mostrar obtenida desde la API
     cargando = false,
     error = false,
-    textoCargando = "Cargando...",
-    textoReintentar = "Reintentar",
+    textoCargando = "",
+    textoReintentar = "",
     onRecargar, //funcion callback para reintenar la peticion en caso de fallo
     onNavegar, //funcion de navegacion para dirigir dentro de la pagina
     onAlbumClick //callback al hacer clic en un album especifico
@@ -124,6 +124,7 @@ export default function SeccionAlbumes({
                                     className="seccion-album-portada-svg"
                                     patron={album.portada?.patron ?? 0}
                                     colores={album.portada?.colores ?? ["portada/1", "portada/2"]}
+                                    alt={album.titulo}
                                 >
                                 </Portada>
                             </div>

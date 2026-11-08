@@ -4,8 +4,8 @@ import "./Portada.css"
 export function resolverColor(colorApi, fallback = "transparent"){
     // si no se proporciona color, devuelve color de respaldo
     if(!colorApi) return fallback;
-    // si viene en formato oficial de la API
-    if (typeof colorApi === "string" && colorApi.startsWith("portada/")){
+    // si viene en formato oficial de la API (portada/1..6 o fijo/negro, fijo/blanco)
+    if (typeof colorApi === "string" && (colorApi.startsWith("portada/") || colorApi.startsWith("fijo/"))){
         // reemplaza la barra inclinada por un guion para formar la variable css del token
         return `var(--${colorApi.replace("/", "-")})`;
     }
@@ -24,7 +24,7 @@ export default function Portada({
     // clases css opcionales para personalizar tamaño o bordes desde el componente padre
     className = "",
     // texto alternativo accesible para lectores de pantalla
-    alt = "Portada musical"
+    alt = ""
 }) {
     // extrae el patron desde el objeto o la propiedad directa (por defecto 0)
     const numPatron = portada?.patron ?? patron ?? 0;

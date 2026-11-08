@@ -37,26 +37,24 @@ const Navbar = ({
     setAbierto(false);
   }
 
-  // texto accesible para el boton cuando el menu movil esta cerrado
-  const abrir =
-    textos?.menuMovil?.abrir ?? (ingles ? "Open menu" : "Abrir menú");
+  // texto accesible para el boton cuando el menu movil esta cerrado desde la API
+  const abrir = textos?.menuMovil?.abrir;
 
-  // texto accesible para el boton cuando el menu movil esta abierto
-  const cerrar =
-    textos?.menuMovil?.cerrar ?? (ingles ? "Close menu" : "Cerrar menú");
+  // texto accesible para el boton cuando el menu movil esta abierto desde la API
+  const cerrar = textos?.menuMovil?.cerrar;
 
-  // guardo en enlaces un arreglo de objetos con los 2 enlaces disponibles
+  // guardo en enlaces un arreglo de objetos con los 2 enlaces disponibles desde la API
   const enlaces = [
     {
-      clave:"inicio", //identificador unico del enlace
-      ruta:"/",
-      //la etiqueta es lo que verá el usuario, primero intento sacarlo de la API, si no responde tomo Home si está en ingles, e Inicio si está en español
-      etiqueta: nav?.enlaces?.inicio ?? (ingles? "Home" : "Inicio"),
+      clave: "inicio", //identificador unico del enlace
+      ruta: "/",
+      //la etiqueta es lo que verá el usuario desde la API
+      etiqueta: nav?.enlaces?.inicio,
     },
     {
       clave: "catalogo", //clave para el segundo enlace
       ruta: "/catalogo",
-      etiqueta: nav?.enlaces?.catalogo ?? (ingles? "Catalog" : "Catálogo"), //Catalog si está en ingles, Catálogo si está en español
+      etiqueta: nav?.enlaces?.catalogo, //texto de catálogo desde la API
     },
   ];
 
@@ -83,7 +81,7 @@ const Navbar = ({
   // componente reutilizable para la pildora de idioma
   const selectorIdioma = (
     // contenedor con rol de grupo para lectores de pantalla
-    <div className="navbar-idioma-segmentado" role="group" aria-label={nav?.aria?.idioma ?? (ingles ? "Change language" : "Cambiar idioma")}>
+    <div className="navbar-idioma-segmentado" role="group" aria-label={nav?.aria?.idioma}>
       
       {/* boton para activar el idioma a español */}
       <button 
@@ -93,7 +91,7 @@ const Navbar = ({
         aria-pressed={idioma === "es"}
       >
         {/* texto "ES" obtenido de la API */}
-        {textos?.idioma?.codigos?.es ?? "ES"}
+        {textos?.idioma?.codigos?.es}
       </button>
       
       {/* boton para activa el idioma ingles */}
@@ -104,7 +102,7 @@ const Navbar = ({
         aria-pressed={idioma === "en"}
       >
         {/* texto "EN" obtenido de la API */}
-        {textos?.idioma?.codigos?.en ?? "EN"}
+        {textos?.idioma?.codigos?.en}
       </button>
     </div>
   );
@@ -114,19 +112,19 @@ const Navbar = ({
       {/* contenedor centralizado con ancho maximo y etiqueta accesible de navegacion */}
       <nav
         className="contenedor navbar-interior"
-        aria-label={nav?.aria?.navegacion ?? "Navegación principal"}
+        aria-label={nav?.aria?.navegacion}
       >
 
         {/* Logo con icono de ondas de Sintonía que a la vez es un enlace interactivo que redirige al inicio */}
         <a
           href="/"
           className="navbar-marca"
-          aria-label={nav?.logo?.aria ?? (ingles ? "Sintonía, go to home" : "Sintonía, ir al inicio")}
+          aria-label={nav?.logo?.aria}
           onClick={(evento) => manejarNavegacion(evento, "/")}
         >
           <Icono nombre="logo" />
           <span className="titular-h3 navbar-marca-texto">
-            {nav?.logo?.texto?.toLowerCase() ?? "sintonía"}
+            {nav?.logo?.texto?.toLowerCase()}
           </span>
         </a>
 
@@ -140,7 +138,7 @@ const Navbar = ({
               className="navbar-movil-enlace-ingresar"
               onClick={(evento) => manejarNavegacion(evento, "/ingresar")}
             >
-              {nav?.botones?.invitado?.ingresar ?? (ingles ? "Log in" : "Ingresar")}
+              {nav?.botones?.invitado?.ingresar}
             </a>
           )}
 
@@ -166,10 +164,9 @@ const Navbar = ({
           aria-busy={cargando}
         >
           {/* mensajes de carga accesible si la API aun esta obteniendo los textos */}
-          {/* aunque no tiene mucho sentido porque esos mensajes se cargan de la API, y la API todavia no está cargada, por ende llama siempre al respaldo */}
           {cargando && (
             <p className="navbar-estado" role="status">
-              {textos?.estados?.cargando?.titulo ?? (ingles ? "Loading..." : "Cargando...")}
+              {textos?.estados?.cargando?.titulo}
             </p>
           )}
 
@@ -177,12 +174,12 @@ const Navbar = ({
           {error && (
             <div className="navbar-estado" role="alert">
               <p>
-                {textos?.estados?.error?.titulo ?? (ingles ? "Navigation could not be loaded" : "No pudimos cargar el menú.")}
+                {textos?.estados?.error?.titulo}
               </p>
 
               {/* boton para reintentar la solicitud de texto a la API */}
               <button type="button" onClick={recargar}>
-                {textos?.general?.acciones?.reintentar ?? (ingles ? "Try again" : "Reintentar")}
+                {textos?.general?.acciones?.reintentar}
               </button>
             </div>
           )}
@@ -216,7 +213,7 @@ const Navbar = ({
           { nav && (
             <div className="navbar-fila-utilidad">
               <span className="navbar-utilidad-etiqueta">
-                {textos?.menuMovil?.secciones?.idioma ?? (ingles? "Language" : "Idioma")}
+                {textos?.menuMovil?.secciones?.idioma}
               </span>
               {/* llamo a mi variable que tiene todo el sistema de idioma */}
               {selectorIdioma} 
@@ -229,7 +226,7 @@ const Navbar = ({
             <div className="navbar-fila-utilidad">
               {/* etiqueta "Accesibilidad" / "Accessibility" obtenida desde la API */}
               <span className="navbar-utilidad-etiqueta">
-                {textos?.menuMovil?.secciones?.accesibilidad ?? (ingles ? "Accessibility" : "Accesibilidad")}
+                {textos?.menuMovil?.secciones?.accesibilidad}
               </span>
               {/* componente de accesibilidad que al abrirse cierra la cortina del menu movil */}
               <Accesibilidad
@@ -265,7 +262,7 @@ const Navbar = ({
                   onClick={(evento) => manejarNavegacion(evento, "/ingresar")}
                 >
                   {/* texto de Ingresar desde la API */}
-                  {nav?.botones?.invitado?.ingresar ?? (ingles ? "Log in" : "Ingresar")}
+                  {nav?.botones?.invitado?.ingresar}
                 </a>
                 
                 {/* boton para crear cuenta */}
@@ -277,7 +274,7 @@ const Navbar = ({
                   }
                 >
                   {/* texto de Crear Cuenta desde la API */}
-                  {nav?.botones?.invitado?.crearCuenta ?? (ingles ? "Sign up" : "Crear cuenta")}
+                  {nav?.botones?.invitado?.crearCuenta}
                 </a>
               </>
             )}
