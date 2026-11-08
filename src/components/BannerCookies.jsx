@@ -25,16 +25,13 @@ export default function BannerCokies({
     textos, //subobjeto cookies.banner desde la API
     onConsentimiento, //callback opcional para avisarle a App cuando el usuario decide
 }){
-    // estado local para saber si el banner debe mostrarse o permanecer oculto
-    const [visible, setVisible] = useState(false);
+    // estado local inicializado inmediatamente verificando si existe o no la cookie previa
+    const [visible, setVisible] = useState(() => !leerCookie(NOMBRE_COOKIE));
 
-    // efecto para consultar si el usuario ya aceptó o rechazó las cookies anteriormente
+    // efecto para escuchar cambios externos o sincronizacion con el modal de preferencias
     useEffect(() => {
-        // leemos la cookie real de consentimiento
-        const decisionGuardada = leerCookie(NOMBRE_COOKIE);
-
-        // si no existe desicion previa, activamos la visibilidad del banner
-        if(!decisionGuardada){
+        // si no existe decision previa, nos aseguramos de que permanezca visible
+        if(!leerCookie(NOMBRE_COOKIE)){
             setVisible(true);
         }
 
