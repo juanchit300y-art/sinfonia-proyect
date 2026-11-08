@@ -90,16 +90,16 @@ export default function BannerCokies({
         setVisible(false);
     }
 
-    // si ya se tomo una decision previa, o el banner esta cerrado, o los textos de la API aun no cargan, no renderizamos nada del DOM
-    if (!visible || !textos){
+    // si el usuario ya tomo una decision (aceptar o rechazar) no renderizamos nada
+    if (!visible){
         return null;
     }
 
-    // obtenemos los textos desde la API con respaldo entre texto y descripcion
-    const titulo = textos?.titulo;
-    const descripcion = textos?.texto ?? textos?.descripcion;
-    const botonRechazar = textos?.botones?.rechazar;
-    const botonAceptar = textos?.botones?.aceptar;
+    // obtenemos los textos desde la API con respaldo seguro para que se muestre de inmediato sin depender de latencia de red
+    const titulo = textos?.titulo || "Usamos cookies";
+    const descripcion = textos?.texto ?? textos?.descripcion ?? "Usamos solo las cookies necesarias para mantener tu sesión y recordar tu idioma. Puedes aceptarlas o rechazarlas.";
+    const botonRechazar = textos?.botones?.rechazar || "Rechazar";
+    const botonAceptar = textos?.botones?.aceptar || "Aceptar";
 
     return(
         // etiqueta semantica aside con rol accesible
