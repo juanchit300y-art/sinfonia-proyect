@@ -1,6 +1,7 @@
 import {useState, useEffect } from "react";
 
-const API_BASE = import.meta.env.VITE_API_URL;
+// direccion base de la API con respaldo seguro si no esta definida en el entorno
+const API_BASE = import.meta.env.VITE_API_URL || "https://yanethm-sintonia-api.fly.dev/api/v1";
 
 const GENEROS_DESTACADOS = [
     "gen_indie",

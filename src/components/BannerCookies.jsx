@@ -93,8 +93,8 @@ export default function BannerCokies({
         setVisible(false);
     }
 
-    // si ya se tomó una deisicion o aun está verificando no renderizamos nada del DOM
-    if (!visible){
+    // si ya se tomo una decision previa, o el banner esta cerrado, o los textos de la API aun no cargan, no renderizamos nada del DOM
+    if (!visible || !textos){
         return null;
     }
 

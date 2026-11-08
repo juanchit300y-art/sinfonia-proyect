@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-const API = `${import.meta.env.VITE_API_URL}/textos`;
+// direccion base oficial de la API de Sintonia con respaldo automatico si no esta definida en el entorno
+const API_BASE = import.meta.env.VITE_API_URL || "https://yanethm-sintonia-api.fly.dev/api/v1";
+// endpoint completo para la consulta de textos traducidos
+const API = `${API_BASE}/textos`;
 const CLAVES_MENU = ["inicio", "catalogo"];
 
 function validarTextos(datos){
@@ -44,7 +47,9 @@ export function useTextos(idioma){
         let vigente = true
         setCargando(true);
         setError(false);
-        setTextos(null);
+        // no seteamos textos a null aqui para evitar que el navbar y los componentes hijos (como accesibilidad)
+        // se desmonten bruscamente de la interfaz mientras se reciben los textos del nuevo idioma
+        // setTextos(null);
 
         async function cargarTextosNavbar(){
             try{

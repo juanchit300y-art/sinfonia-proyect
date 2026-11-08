@@ -17,6 +17,9 @@ const TAMANO_MAX = 140;
 // incremento o decremento por cada clic en los botones - y +
 const PASO_TAMANO = 10;
 
+// cache en memoria para mantener las preferencias activas del usuario durante la sesion, impidiendo que se reseteen al cambiar de idioma
+let preferenciasEnMemoria = null;
+
 // funcion auxiliar para leer una cookie especifica del navegador
 function leerCookie(nombre) {
   // buscamos la cookie por su nombre mediante expresion regular
@@ -77,6 +80,10 @@ function obtenerValoresSistema() {
 
 // funcion para cargar las preferencias guardadas previamente en este dispositivo
 function cargarPreferenciasGuardadas() {
+  // si el usuario ya modifico preferencias durante la sesion activa, las mantenemos intactas
+  if (preferenciasEnMemoria) {
+    return preferenciasEnMemoria;
+  }
   // obtenemos los valores base del sistema como respaldo
   const base = obtenerValoresSistema();
   // si el usuario NO tiene activadas las cookies de preferencias, limpiamos cualquier rastro y usamos los valores base
@@ -189,8 +196,9 @@ export default function Accesibilidad({
   useEffect(() => {
     // funcion que actualiza el estado local cuando otra instancia dispara un cambio
     function sincronizarInstancias(evento) {
-      // si el evento trae nuevas preferencias, actualizamos el estado
+      // si el evento trae nuevas preferencias, actualizamos el estado y la memoria global de sesion
       if (evento.detail) {
+        preferenciasEnMemoria = evento.detail;
         setPreferencias(evento.detail);
       }
     }
@@ -215,6 +223,8 @@ export default function Accesibilidad({
 
   // funcion centralizada para actualizar cualquier preferencia, guardarla y notificar a otras instancias
   function actualizarPreferencias(nuevas) {
+    // respaldamos en la variable en memoria de la sesion
+    preferenciasEnMemoria = nuevas;
     // actualizamos el estado de React
     setPreferencias(nuevas);
     // persistimos en el dispositivo
@@ -328,6 +338,8 @@ export default function Accesibilidad({
   function restablecerOpciones() {
     // obtenemos los valores limpios del sistema operativo
     const valoresIniciales = obtenerValoresSistema();
+    // reiniciamos el respaldo en memoria
+    preferenciasEnMemoria = valoresIniciales;
     // eliminamos el registro guardado en localStorage
     try {
       localStorage.removeItem(CLAVE_STORAGE);
