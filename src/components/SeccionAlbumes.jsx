@@ -122,6 +122,7 @@ export default function SeccionAlbumes({
                                 {/* componente de portada dibujado con patrones vectoriales */}
                                 <Portada 
                                     className="seccion-album-portada-svg"
+                                    portada={album.portada}
                                     patron={album.portada?.patron ?? 0}
                                     colores={album.portada?.colores ?? ["portada/1", "portada/2"]}
                                     alt={album.titulo}

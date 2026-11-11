@@ -11,18 +11,18 @@ export default function CollagePortadas(){
 
             {/* caratula principal grande ubicada en el centro del collage */}
             <div className="collage-item collage-item--principal">
-                {/* renderizo el patron 3 */}
+                {/* renderizo el patron 2 (colina) */}
                 <Portada 
                     className="collage-portada-svg"
-                    patron={3}
-                    colores={["portada/3", "var(--fijo-negro)", "var(--fijo-blanco)"]}
+                    patron={2}
+                    colores={["portada/3", "fijo/negro", "fijo/blanco"]}
                 >
                 </Portada>
             </div>
 
             {/* caratula pequeña inclinada en la esquina superior derecha */}
             <div className="collage-item collage-item--superior">
-                {/* renderizo el patron 1 */}
+                {/* renderizo el patron 1 (rayas) */}
                 <Portada 
                     className="collage-portada-svg"
                     patron={1}
@@ -33,11 +33,11 @@ export default function CollagePortadas(){
 
             {/* caratula mediana inclinada en la esquina inferior izquierda */}
             <div className="collage-item collage-item--inferior">
-                {/* renderizo el patrón 5*/}
+                {/* renderizo el patron 0 (anillos) */}
                 <Portada
                 className="collage-portada-svg"
-                patron={5}
-                colores={["portada/5", "portada/1", "portada/1"]}
+                patron={0}
+                colores={["portada/5", "portada/1"]}
                 />
             </div>
 

@@ -114,8 +114,19 @@
 
 /* estado activo cuando el genero está seleccionado como filtro en el catalogo */
 .seccion-genero-tarjeta--activo{
-    /* dibuja el borde blanco de 2px hacia ADENTRO*/
-    box-shadow: inset 0 0 0 2px var(--texto-principal), var(--sombra-tarjeta);
+    /* sombra exterior de tarjeta activa */
+    box-shadow: var(--sombra-tarjeta);
+}
+
+/* contorno blanco interior de 2px que se pinta POR ENCIMA de la portada decorativa de la esquina */
+.seccion-genero-tarjeta--activo::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--fijo-blanco);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 3;
 }
 
 /* contorno accesible al navegar con la tecla tab */
@@ -137,7 +148,7 @@
     position: relative;
     z-index: 2;
     margin: 0;
-    color: var(--texto-inverso);
+    color: var(--fijo-negro);
     font-family: var(--fuente-syne);
     font-weight: 700;
     font-size: 18px;
@@ -146,6 +157,11 @@
     max-width: 75%;
     /* permite partir palabras largas si la pantalla es muy estrecha */
     overflow-wrap: break-word;
+}
+
+/* variante con texto blanco para generos de fondo oscuro como Lo-fi (fondo/sutil) */
+.seccion-genero-nombre--claro{
+    color: var(--fijo-blanco);
 }
 
 /* recuadro decorativo en la esquina inferior derecha */

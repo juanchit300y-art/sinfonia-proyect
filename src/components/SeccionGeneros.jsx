@@ -99,9 +99,14 @@ export default function SeccionGeneros({
                 <div className="seccion-generos-cuadricula">
                     {/* recorremos cada genero disponible en el arreglo */}
                     {generos.map((genero) => {
-                        // traducimos el token  de color de la API
-                        const colorFondo = resolverColor(genero.color, "var(--portada-1)")
-                        // comprobamos si este genero coincide co el genero activo seleccionado
+                        // traducimos el token de color de la API
+                        const colorFondo = resolverColor(genero.color, "var(--portada-1)");
+                        // comprobamos si este genero usa un fondo oscuro (como Lo-fi con fondo/sutil) para mostrar su nombre en blanco
+                        const esFondoOscuro =
+                            genero.color === "fondo/sutil" ||
+                            genero.color === "fijo/negro" ||
+                            genero.id === "gen_lofi";
+                        // comprobamos si este genero coincide con el genero activo seleccionado
                         const estaActivo = generoActivo === genero.id;
 
                         // retornamos la targeta interactiva del genero
@@ -124,7 +129,7 @@ export default function SeccionGeneros({
                                 }}
                             >
                                 {/* titulo con el nombre del genero en la esquina superior izquierda */}
-                                <h3 className="seccion-genero-nombre titular-h3">
+                                <h3 className={`seccion-genero-nombre titular-h3 ${esFondoOscuro ? "seccion-genero-nombre--claro" : ""}`}>
                                     {genero.nombre}
                                 </h3>
                                 
@@ -133,6 +138,7 @@ export default function SeccionGeneros({
                                     {/* dibujamos la miniatura de portada */}
                                     <Portada 
                                         className="seccion-genero-portada-svg"
+                                        portada={genero.portada}
                                         patron={genero.portada?.patron ?? 0}
                                         colores={genero.portada?.colores ?? ["portada/1", "portada/2"]}
                                     >

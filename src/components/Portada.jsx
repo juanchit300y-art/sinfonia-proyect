@@ -4,8 +4,11 @@ import "./Portada.css"
 export function resolverColor(colorApi, fallback = "transparent"){
     // si no se proporciona color, devuelve color de respaldo
     if(!colorApi) return fallback;
-    // si viene en formato oficial de la API (portada/1..6 o fijo/negro, fijo/blanco)
-    if (typeof colorApi === "string" && (colorApi.startsWith("portada/") || colorApi.startsWith("fijo/"))){
+    // si viene en formato oficial de la API (portada/1..6, fijo/negro, fijo/blanco o fondo/sutil)
+    if (
+        typeof colorApi === "string" &&
+        (colorApi.startsWith("portada/") || colorApi.startsWith("fijo/") || colorApi.startsWith("fondo/"))
+    ){
         // reemplaza la barra inclinada por un guion para formar la variable css del token
         return `var(--${colorApi.replace("/", "-")})`;
     }
@@ -13,13 +16,13 @@ export function resolverColor(colorApi, fallback = "transparent"){
     return colorApi
 }
 
-// componente principal portada, dibuja la caratula mediante SVG
+// componente principal portada, dibuja la caratula mediante SVG siguiendo la Guia de portadas del contrato
 export default function Portada({
-    // puede recibir un objeto completo "portada" de la API o de las propiedades sueltas
+    // puede recibir un objeto completo "portada" de la API o las propiedades sueltas
     portada,
-    // numero del 0 al 5 qeu define la figura geometrica
+    // numero del 0 al 3 que define la figura geometrica (0: anillos, 1: rayas, 2: colina, 3: puntos)
     patron,
-    // arreglo de 2 o 3 colores para fondo y figuras
+    // arreglo de colores de tokens para fondo, figura y detalle
     colores,
     // clases css opcionales para personalizar tamaño o bordes desde el componente padre
     className = "",
@@ -28,98 +31,75 @@ export default function Portada({
 }) {
     // extrae el patron desde el objeto o la propiedad directa (por defecto 0)
     const numPatron = portada?.patron ?? patron ?? 0;
-    // extrae la lista de colores
+    // extrae la lista de nombres de colores de tokens si fue provista
     const listaColores = portada?.colores ?? colores ?? [];
     
-    // color 1: fondo base de la caratula
-    const colorFondo = resolverColor(listaColores[0], "var(--portada-1)")
-    // colo 2: primera figura geometrica destacada
-    const colorFigura1 = resolverColor(listaColores[1], "var(--portada-4)")
-    // color 3: segunda figura o detalles contrastantes - blanco por defecto
-    const colorFigura2 = resolverColor(listaColores[2], "var(--fijo-blanco)")
+    // color 1 (FONDO): prioriza el token en colores[0] o el hexadecimal portada.fondo
+    const colorFondo = resolverColor(listaColores[0] ?? portada?.fondo, "var(--portada-1)");
+    // color 2 (FIGURA): prioriza el token en colores[1] o el hexadecimal portada.figura
+    const colorFigura1 = resolverColor(listaColores[1] ?? portada?.figura, "var(--portada-4)");
+    // color 3 (DETALLE): prioriza el token en colores[2] o portada.detalle (siempre blanco por defecto)
+    const colorFigura2 = resolverColor(listaColores[2] ?? portada?.detalle, "var(--fijo-blanco)");
 
-    // funcion que genera los trazados SVG vectoriales segun el numero del patron
+    // funcion que genera los trazados SVG vectoriales segun el numero del patron oficial (0 a 3)
     function renderizarTrazos(){
         switch(numPatron){
-            // patron 0 - matris de 9 puntos ordenados en cuadricula 3x3
+            // patron 0 · anillos: tres circulos que salen de la esquina inferior derecha (figura, fondo, figura)
             case 0:
                 return (
                     <g>
-                        {/* Fila superior de 3 puntos */}
-                        <circle cx="25" cy="25" r="8" fill={colorFigura2} />
-                        <circle cx="50" cy="25" r="8" fill={colorFigura1} />
-                        <circle cx="75" cy="25" r="8" fill={colorFigura2} />
-                        {/* Fila central de 3 puntos */}
-                        <circle cx="25" cy="50" r="8" fill={colorFigura1} />
-                        <circle cx="50" cy="50" r="8" fill={colorFigura2} />
-                        <circle cx="75" cy="50" r="8" fill={colorFigura1} />
-                        {/* Fila inferior de 3 puntos */}
-                        <circle cx="25" cy="75" r="8" fill={colorFigura2} />
-                        <circle cx="50" cy="75" r="8" fill={colorFigura1} />
-                        <circle cx="75" cy="75" r="8" fill={colorFigura2} />
+                        {/* circulo exterior con el color de la figura */}
+                        <circle cx="100" cy="100" r="85" fill={colorFigura1} />
+                        {/* circulo intermedio con el color del fondo */}
+                        <circle cx="100" cy="100" r="62.5" fill={colorFondo} />
+                        {/* circulo interior con el color de la figura */}
+                        <circle cx="100" cy="100" r="40" fill={colorFigura1} />
                     </g>
                 );
             
-            // patron 1 - rayas diagonales paralelas a 45 grados
+            // patron 1 · rayas: cuatro rayas diagonales del color de la figura
             case 1:
                 return(
-                    <g stroke={colorFigura1} strokeWidth="12" strokeLinecap="square">
-                        <line x1="-20" y1="20" x2="20" y2="-20" />
-                        <line x1="-10" y1="50" x2="50" y2="-10" />
-                        <line x1="0" y1="80" x2="80" y2="0" />
-                        <line x1="20" y1="110" x2="110" y2="20" />
-                        <line x1="50" y1="130" x2="130" y2="50" />
-                        <line x1="80" y1="140" x2="140" y2="80" />
+                    <g fill={colorFigura1}>
+                        <rect x="-34" y="40" width="182" height="11.4" transform="rotate(-35 -34 40)" />
+                        <rect x="-30.7" y="66" width="182" height="11.4" transform="rotate(-35 -30.7 66)" />
+                        <rect x="-27.3" y="92" width="182" height="11.4" transform="rotate(-35 -27.3 92)" />
+                        <rect x="-23.9" y="118.2" width="182" height="11.4" transform="rotate(-35 -23.9 118.2)" />
                     </g>
                 );
             
-            // patron 2 - arcos concentricos tipo arcoiris / ondas desde la esquina inferior izquierda
+            // patron 2 · colina: un circulo grande abajo (la colina) y uno pequeño arriba a la derecha (el sol blanco)
             case 2:
-                return(
-                    <g fill="none">
-                        {/* Arco exterior más amplio */}
-                        <circle cx="0" cy="100" r="80" stroke={colorFigura1} strokeWidth="16" />
-                        {/* Arco medio con el segundo color */}
-                        <circle cx="0" cy="100" r="50" stroke={colorFigura2} strokeWidth="16" />
-                        {/* Arco interior pequeño */}
-                        <circle cx="0" cy="100" r="20" stroke={colorFigura1} strokeWidth="16" />
-                    </g>
-                );
-            
-            // patron 3 - domo en la base y círculo blanco en la parte superior derecha
-            case 3:
                 return (
-                <g>
-                    {/* Círculo grande en la base que rebasa y=100 */}
-                    <circle cx="50" cy="86" r="35" fill={colorFigura1} />
-                    {/* Círculo flotante en la esquina superior derecha*/}
-                    <circle cx="75" cy="27" r="11" fill={colorFigura2} />
-                </g>
+                    <g>
+                        {/* colina en la base con el color de la figura */}
+                        <circle cx="50" cy="86.4" r="34.1" fill={colorFigura1} />
+                        {/* sol en la esquina superior derecha con el detalle (blanco) */}
+                        <circle cx="76.7" cy="23.3" r="10.8" fill={colorFigura2} />
+                    </g>
                 );
 
-            
-            // patron 4 - rayas diagonales gruesas alternadas con dos colores
-            case 4:
-                return (
-                <g strokeWidth="13" strokeLinecap="square">
-                    <line x1="-15" y1="30" x2="30" y2="-15" stroke={colorFigura1} />
-                    <line x1="5" y1="65" x2="65" y2="5" stroke={colorFigura2} />
-                    <line x1="25" y1="100" x2="100" y2="25" stroke={colorFigura1} />
-                    <line x1="45" y1="125" x2="125" y2="45" stroke={colorFigura2} />
-                    <line x1="70" y1="145" x2="145" y2="70" stroke={colorFigura1} />
-                </g>
-                );
-            
-            // patron 5 - arco exterior grueso y cuarto de círculo relleno en la esquina inferior derecha
-            case 5:
+            // patron 3 · puntos: nueve puntos en tres filas; las esquinas y el centro con el detalle (blanco), los demas con la figura
+            case 3:
             default:
                 return (
-                <g>
-                    {/* arco exterior morado grueso centrado en la esquina inferior derecha */}
-                    <circle cx="100" cy="100" r="72" stroke={colorFigura1} strokeWidth="20" fill="none" />
-                    {/* cuarto de círculo interior relleno en la esquina inferior derecha*/}
-                    <circle cx="100" cy="100" r="38" fill={colorFigura1} />
-                </g>
+                    <g>
+                        {/* cinco puntos (esquinas y centro) con el color de detalle */}
+                        <g fill={colorFigura2}>
+                            <circle cx="22.7" cy="22.7" r="9.1" />
+                            <circle cx="77.3" cy="22.7" r="9.1" />
+                            <circle cx="50" cy="50" r="9.1" />
+                            <circle cx="22.7" cy="77.3" r="9.1" />
+                            <circle cx="77.3" cy="77.3" r="9.1" />
+                        </g>
+                        {/* cuatro puntos intermedios con el color de la figura */}
+                        <g fill={colorFigura1}>
+                            <circle cx="50" cy="22.7" r="9.1" />
+                            <circle cx="22.7" cy="50" r="9.1" />
+                            <circle cx="77.3" cy="50" r="9.1" />
+                            <circle cx="50" cy="77.3" r="9.1" />
+                        </g>
+                    </g>
                 );
         }
     }
@@ -140,6 +120,8 @@ export default function Portada({
                 aria-hidden="true"
                 focusable="false"
             >
+                {/* rectangulo de fondo del lienzo SVG */}
+                <rect width="100" height="100" fill={colorFondo} />
                 {/* dibuja la figura correspondiente */}
                 {renderizarTrazos()}
             </svg>
