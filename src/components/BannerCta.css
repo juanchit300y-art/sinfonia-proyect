@@ -29,14 +29,13 @@
     flex: 1;
 }
 
-/* titulo principal de la targeta */
+/* titulo principal de la targeta (escala oficial titular-h2 de Figma: 28px) */
 .banner-cta-titulo {
   font-family: var(--fuente-syne);
   font-weight: 700;
-  /* tamaño fluido adaptable */
-  font-size: clamp(22px, 2.2vw, 32px);
-  line-height: 1.2;
-  letter-spacing: -0.015em;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: -0.01em;
   color: var(--texto-sobre-marca);
   margin: 0 0 var(--espacio-2) 0;
 }
@@ -98,10 +97,11 @@
     gap: var(--espacio-4);
   }
 
-  /* título blanco en móvil */
+  /* título blanco en móvil (escala oficial titular-h3 de Figma: 20px) */
   .banner-cta-titulo {
     color: var(--texto-principal);
-    font-size: 22px;
+    font-size: 20px;
+    line-height: 26px;
   }
 
   /* descripción gris en móvil */

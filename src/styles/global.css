@@ -23,7 +23,14 @@ a{color: var(--marca-primario);}
 a:hover{color: var(--marca-primario-hover);}
 
 .contenedor{
-    max-width: 1440px;
-    margin-inline:auto;
+    max-width: 1280px;
+    margin-inline: auto;
     width: calc(100% - var(--espacio-8));
+}
+
+/* en escritorio (1440px) deja exactamente 80px de margen lateral (1280px de ancho util) como en Figma */
+@media (min-width: 1200px){
+    .contenedor{
+        width: min(1280px, calc(100% - 160px));
+    }
 }

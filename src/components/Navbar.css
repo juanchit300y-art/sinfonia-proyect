@@ -25,9 +25,10 @@
   /* centra verticalmente los elementos de la fila */
   align-items: center;
   justify-content: space-between;
-  min-height: 72px;
-  /* relleno vertical arriba y abajo */
-  padding-block: var(--espacio-3);
+  /* altura oficial de 60px en moviles segun Figma */
+  min-height: 60px;
+  /* relleno vertical compacto en movil */
+  padding-block: var(--espacio-2);
 }
 
 /* reseteo de todos los enlaces dentro del navbar */
@@ -160,8 +161,8 @@
   gap: var(--espacio-4);
   /* posicion fija en pantalla para actuar como cortina completa */
   position: fixed;
-  /* comienza justo debajo de la barra superior */
-  top:72px;
+  /* comienza justo debajo de la barra superior movil (60px) */
+  top: 60px;
   /* estiramientos por todos los lados */
   left: 0;
   right: 0;
@@ -382,8 +383,10 @@
 /* BLOQUE 9 - como se presenta en la web */
 
 @media (min-width: 900px) {
-  /* separacion horizontal mas amplia entre logo y navegacion */
+  /* altura oficial de 72px en escritorio y separacion horizontal amplia entre logo y navegacion */
   .navbar-interior {
+    min-height: 72px;
+    padding-block: var(--espacio-3);
     gap: var(--espacio-8);
   }
 

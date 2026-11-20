@@ -96,6 +96,14 @@
     }
 }
 
+/* en escritorio amplio (1440px) compensa el relleno de la caja gris para que el contenido quede a 80px exactos del borde */
+@media (min-width: 1200px) {
+    .catalogo-musical {
+        margin-inline: calc(var(--espacio-8) * -1);
+        width: calc(100% + var(--espacio-8) * 2);
+    }
+}
+
 /* bloque 2 - adaptacion responsiva para pantallas moviles */
 @media (max-width: 768px) {
 

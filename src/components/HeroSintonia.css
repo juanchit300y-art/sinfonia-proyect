@@ -2,12 +2,12 @@
 
 /* contenedor principal */
 .hero-sintonia{
-    /* activa css grid para poner el texto a la izquierda y el colalge a la derecha */
+    /* activa css grid para poner el texto a la izquierda y el collage a la derecha */
     display: grid;
-    /* da 1.18fr para el texto y 1fr para el collage de portadas */
-    grid-template-columns: 1.18fr 1fr;
+    /* da el espacio libre al titular gigante de 120px y reserva hasta 480px exactos para el collage */
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 480px);
     /* separacion entre ambas columnas */
-    gap: var(--espacio-12);
+    gap: var(--espacio-8);
     align-items: center;
     /* separacion vertical generosa con respecto al navbar segun el diseno de Figma */
     padding-top: var(--espacio-16);
@@ -27,18 +27,18 @@
     font-weight: 600;
 }
 
-/* titulo principal */
+/* titulo principal: usa la escala oficial titular-gigante de Figma (120px) */
 .hero-sintonia h1{
     margin: var(--espacio-6) 0;
-    /* ancho maximo para asegurar qeu corte en 3 lineas */
-    max-width: 8ch;
+    /* evita cortar palabras a la mitad (como "músic-a") al heredar overflow-wrap: anywhere de global.css */
+    max-width: none;
+    overflow-wrap: normal;
+    word-break: normal;
     font-family: var(--fuente-syne);
-    /* tamaño fluido segun el ancho de la pantalla */
-    font-size: clamp(64px, 7.2vw, 104px);
+    font-size: 120px;
     font-weight: 800;
-    /* interlineado compacto */
-    line-height: 0.96;
-    letter-spacing: -0.035em;
+    line-height: 108px;
+    letter-spacing: -0.03em;
     color: var(--texto-principal);
 }
 
@@ -126,12 +126,13 @@
   padding: 0;
 }
 
-/* numero grande de cada metrica - dt */
+/* numero grande de cada metrica - dt (escala oficial dato-cifra de Figma: 32px) */
 .cifras-sintonia dt {
   font-family: var(--fuente-syne);
   font-weight: 700;
-  font-size: 30px;
-  line-height: 1.1;
+  font-size: 32px;
+  line-height: 36px;
+  letter-spacing: -0.01em;
   color: var(--marca-primario);
 }
 
@@ -143,17 +144,19 @@
   color: var(--texto-secundario);
 }
 
-/* ajuste intermedio para pantallas medianas */
-@media (max-width: 1000px) {
+/* ajuste intermedio para portatiles medianos (usa titular-display de Figma: 64px) */
+@media (max-width: 1360px) {
 
-  /* eeduce la separación entre columnas del Hero */
+  /* reduce la separación entre columnas del Hero */
   .hero-sintonia {
     gap: var(--espacio-6);
   }
 
-  /* reduce ligeramente el tamaño del título H1 */
+  /* escala oficial titular-display de Figma */
   .hero-sintonia h1 {
     font-size: 64px;
+    line-height: 68px;
+    letter-spacing: -0.02em;
   }
 
   /* reduce la separación entre las 3 cifras */
@@ -175,14 +178,13 @@
     padding-bottom: var(--espacio-4);
   }
 
-  /* tamaño del título H1 en móvil */
+  /* tamaño del título H1 en móvil (escala oficial titular-h1 de Figma: 40px) */
   .hero-sintonia h1 {
     /* en móvil permite usar todo el ancho de la columna */
     max-width: none;
-    /* escala fluida */
-    font-size: clamp(42px, 10vw, 56px);
-    line-height: 1.05;
-    letter-spacing: -0.025em;
+    font-size: 40px;
+    line-height: 46px;
+    letter-spacing: -0.015em;
     /* margen inferior antes del párrafo */
     margin: 0 0 var(--espacio-4);
   }

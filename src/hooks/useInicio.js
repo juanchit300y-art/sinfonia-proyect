@@ -1,20 +1,10 @@
 // es un hook personalizado para consultar los generos y albumes destacados desde la API
-// usa los endpoints de GET /api/v1/generos (lista de todos los 12 géneros disponibles) y GET /api/v1/generos/:id (detalle de género con su lista de álbumes reales)
+// usa los endpoints oficiales GET /api/v1/generos y GET /api/v1/albumes?orden=populares&limite=6
 
 import { useState, useEffect } from "react";
 
 // direccion base de la API con respaldo seguro si no esta definida en el entorno
 const API_BASE = import.meta.env.VITE_API_URL || "https://yanethm-sintonia-api.fly.dev/api/v1";
-
-// lista de IDs de los generos representativos que consultaremos para "suena esta semana"
-const GENEROS_DESTACADOS = [
-    "gen_indie",
-    "gen_pop",
-    "gen_electronica",
-    "gen_andina",
-    "gen_rock",
-    "gen_salsa"
-];
 
 // funcion del hook exportadora para ser consumida en la vista de inicio
 export function useInicio() {
@@ -51,54 +41,33 @@ export function useInicio() {
         // funcion asincronica interna para coordinar las llamadas a la API
         async function cargarDatosInicio(){
             try {
-                // consultamos la lista completa de generos
-                const respuestaGeneros = await fetch(`${API_BASE}/generos`,{
-                    signal: controlador.signal
-                });
-                
-                // si la respuesta no fue exitosa, disparamos error
-                if(!respuestaGeneros.ok){
+                // consultamos en paralelo la lista completa de generos y los 6 albumes populares del contrato oficial
+                const [respuestaGeneros, respuestaAlbumes] = await Promise.all([
+                    fetch(`${API_BASE}/generos`, { signal: controlador.signal }),
+                    fetch(`${API_BASE}/albumes?orden=populares&limite=6`, { signal: controlador.signal })
+                ]);
+
+                // si falla alguna peticion principal, disparamos error
+                if (!respuestaGeneros.ok) {
                     throw new Error(`Error HTTP al consultar géneros: ${respuestaGeneros.status}`);
                 }
-
-                // parseamos la respuesta a JSON
-                const datosGeneros = await respuestaGeneros.json();
-
-                // extraemos el arreglo de generos de la propiedad "datos"
-                const listaGeneros = datosGeneros?.datos ?? [];
-
-                // consultamos los detalles de los generos destacados en paralelo usando Promise.all
-                const promesasDetalles = GENEROS_DESTACADOS.map(async(idGenero) => {
-                    try {
-                        const respuestaDetalle = await fetch(`${API_BASE}/generos/${idGenero}`, {
-                            signal: controlador.signal
-                        });
-
-                        // si falla un genero individual, devolvemos null para no romper todos los demas
-                        if (!respuestaDetalle.ok) return null;
-                        return await respuestaDetalle.json();
-                    } catch {
-                        return null;
-                    }
-                });
-
-                // esperamos a que se terminen todas las consultas de albumes
-                const resultadosDetalles = await Promise.all(promesasDetalles);
-
-                // recolectamos los albumes obtenidos en unasola lista
-                const listaAlbumes = [];
-                for (const detalle of resultadosDetalles){
-                    if (detalle && Array.isArray(detalle.albumes)){
-                        for(const alb of detalle.albumes){
-                            listaAlbumes.push(alb);
-                        }
-                    }
+                if (!respuestaAlbumes.ok) {
+                    throw new Error(`Error HTTP al consultar álbumes: ${respuestaAlbumes.status}`);
                 }
 
-                // si el componente sigue activo en pantalla, actualizamos el restado
+                // parseamos ambas respuestas JSON en paralelo
+                const [datosGeneros, datosAlbumes] = await Promise.all([
+                    respuestaGeneros.json(),
+                    respuestaAlbumes.json()
+                ]);
+
+                // extraemos los arreglos desde la propiedad "datos" de cada respuesta
+                const listaGeneros = datosGeneros?.datos ?? [];
+                const listaAlbumes = datosAlbumes?.datos ?? [];
+
+                // si el componente sigue activo en pantalla, actualizamos el estado
                 if (vigente) {
                     setGeneros(listaGeneros);
-                    // tomtamos los primeros 6 albumes para la cuadricula
                     setAlbumes(listaAlbumes.slice(0, 6));
                 }
             } catch (errorPeticion){

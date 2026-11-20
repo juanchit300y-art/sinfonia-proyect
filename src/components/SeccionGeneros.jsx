@@ -101,11 +101,13 @@ export default function SeccionGeneros({
                     {generos.map((genero) => {
                         // traducimos el token de color de la API
                         const colorFondo = resolverColor(genero.color, "var(--portada-1)");
-                        // comprobamos si este genero usa un fondo oscuro (como Lo-fi con fondo/sutil) para mostrar su nombre en blanco
+                        // comprobamos si este genero usa un fondo oscuro segun el token o colorHex de la API para mostrar su nombre en blanco
+                        const hexNormalizado = genero.colorHex?.toLowerCase();
                         const esFondoOscuro =
                             genero.color === "fondo/sutil" ||
                             genero.color === "fijo/negro" ||
-                            genero.id === "gen_lofi";
+                            hexNormalizado === "#2a2935" ||
+                            hexNormalizado === "#0c0b10";
                         // comprobamos si este genero coincide con el genero activo seleccionado
                         const estaActivo = generoActivo === genero.id;
 

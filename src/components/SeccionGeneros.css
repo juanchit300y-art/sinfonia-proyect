@@ -142,7 +142,7 @@
     display: none;
 }
 
-/* nombre del genero */
+/* nombre del genero (escala titular-h4 en movil: 16px) */
 .seccion-genero-nombre{
     /* posicion relativa con z-index para estar siempre por encima de la figura decorativa */
     position: relative;
@@ -151,8 +151,8 @@
     color: var(--fijo-negro);
     font-family: var(--fuente-syne);
     font-weight: 700;
-    font-size: 18px;
-    line-height: 1.25;
+    font-size: 16px;
+    line-height: 22px;
     /* limita el ancho maximo del texto para no chocar con la esquina derecha */
     max-width: 75%;
     /* permite partir palabras largas si la pantalla es muy estrecha */

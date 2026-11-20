@@ -11,7 +11,8 @@
     right: 0;
     /* capa superior para flotar por encima de cualquier contenido */
     z-index: 100;
-    max-width: 1440px;
+    /* alineado con el ancho util de 1280px + 16px de padding lateral a cada lado */
+    max-width: 1312px;
     margin-inline: auto;
     /* espaciado lateral */
     padding-inline: var(--espacio-4);

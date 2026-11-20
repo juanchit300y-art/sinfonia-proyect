@@ -3,15 +3,6 @@ import {useState, useEffect } from "react";
 // direccion base de la API con respaldo seguro si no esta definida en el entorno
 const API_BASE = import.meta.env.VITE_API_URL || "https://yanethm-sintonia-api.fly.dev/api/v1";
 
-const GENEROS_DESTACADOS = [
-    "gen_indie",
-    "gen_pop",
-    "gen_electronica",
-    "gen_andina",
-    "gen_rock",
-    "gen_salsa"
-];
-
 // funcion para leer el id del genero desde la url
 function obtenerGeneroDeUrl(){
     // objeto para analizar los parametros de busqeuda de la url actual
@@ -111,29 +102,14 @@ export function useCatalogo(){
                         detalle = await respuestaDetalle.json();
                     }
                 } else { //cuando no hay ningun genero seleccionado en la url
-                    // mapeamos los generos destacados para consultar sus albumes en paralelo
-                    const promesasDetalles = GENEROS_DESTACADOS.map(async (idDestacado) => {
-                        try{ //bloque try para proteger cada consulta individual
-                            // consultamos el genero destacado
-                            const res = await fetch(`${API_BASE}/generos/${idDestacado}`, {
-                                signal: controlador.signal
-                            });
-
-                            return res.ok ? await res.json() : null; //retornamos el json si fue exitoso o null si fallo
-                        } catch {
-                            return null;
-                        }
+                    // consultamos los 6 albumes destacados directamente del endpoint oficial sin depender de IDs fijos de generos
+                    const respuestaAlbumes = await fetch(`${API_BASE}/albumes?orden=populares&limite=6`, {
+                        signal: controlador.signal
                     });
 
-                    const resultados = await Promise.all(promesasDetalles); //esperamos que finalicen todas las consultas en paralelo
-                    for (const item of resultados){
-                        // verificamos que tenga un arreglo de albumes
-                        if(item && Array.isArray(item.albumes)){
-                            // recorremos los albumes de ese genero
-                            for (const alb of item.albumes){
-                                listaDestacados.push(alb); // intertamos cada album en la lista acumuladora
-                            }
-                        }
+                    if (respuestaAlbumes.ok) {
+                        const datosAlbumes = await respuestaAlbumes.json();
+                        listaDestacados = datosAlbumes?.datos ?? [];
                     }
                 }
 
