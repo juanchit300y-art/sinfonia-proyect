@@ -22,6 +22,33 @@ export class ErrorApi extends Error {
   }
 }
 
+// Lee parametros opcionales de simulacion en la URL (?simularLatencia=2000&simularError=503)
+// y los traduce a las cabeceras oficiales X-Simular-Latencia y X-Simular-Error de la API.
+function obtenerCabecerasSimulacion(ruta) {
+  // En entornos sin window o al pedir /textos no inyectamos simulacion para mantener la interfaz traducida
+  if (typeof window === "undefined" || !ruta || ruta.includes("/textos")) {
+    return {};
+  }
+
+  // Consultamos los parametros query actuales de la barra de direcciones
+  const parametros = new URLSearchParams(window.location.search);
+  const cabecerasSimulacion = {};
+
+  // Si existe ?simularLatencia= con milisegundos enteros positivos, agregamos X-Simular-Latencia
+  const latencia = parametros.get("simularLatencia");
+  if (latencia && /^\d+$/.test(latencia)) {
+    cabecerasSimulacion["X-Simular-Latencia"] = latencia;
+  }
+
+  // Si existe ?simularError= con codigo HTTP de 3 digitos (ej. 500 o 503), agregamos X-Simular-Error
+  const errorSimulado = parametros.get("simularError");
+  if (errorSimulado && /^\d{3}$/.test(errorSimulado)) {
+    cabecerasSimulacion["X-Simular-Error"] = errorSimulado;
+  }
+
+  return cabecerasSimulacion;
+}
+
 /**
  * Cliente HTTP base para cualquier peticion (GET, POST, DELETE, etc.) a la API de Sintonia.
  * Usar directamente en eventos (onSubmit/onClick) o mediante el hook useConsulta para lecturas GET.
@@ -38,7 +65,8 @@ export async function peticionApi(ruta, opciones = {}) {
     ? ruta
     : `${API_BASE}${ruta.startsWith("/") ? ruta : `/${ruta}`}`;
 
-  const cabeceras = { ...headers };
+  // Combinamos cabeceras de simulacion (si las hay en la URL) con las cabeceras explicitas del llamador
+  const cabeceras = { ...obtenerCabecerasSimulacion(ruta), ...headers };
   if (cuerpo !== undefined && !cabeceras["Content-Type"]) {
     cabeceras["Content-Type"] = "application/json";
   }

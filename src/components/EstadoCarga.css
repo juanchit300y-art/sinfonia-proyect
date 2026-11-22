@@ -1,0 +1,507 @@
+/* Hoja de estilos concisa para los esqueletos de carga (EstadoCarga) */
+/* primero desarrolla mobile */
+
+/* Contenedor raiz que ocupa todo el ancho disponible sin desbordar */
+.estado-carga {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Texto oculto visualmente pero accesible para lectores de pantalla (tecnica sr-only) */
+.estado-carga-lector {
+  /* Lo saca del flujo normal */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  /* Oculta la caja completa visualmente */
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Animacion suave de barrido luminoso para cada bloque esqueleto */
+@keyframes estado-carga-brillo {
+  /* Inicio del gradiente a la derecha */
+  0% {
+    background-position: 200% 0;
+  }
+  /* Fin del recorrido hacia la izquierda */
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Clase base compartida por todos los bloques animados del esqueleto */
+.estado-carga-pulso {
+  /* Gradiente basado en tokens del tema activo (oscuro, claro o alto contraste) */
+  background: linear-gradient(
+    90deg,
+    var(--fondo-elevada) 25%,
+    var(--fondo-sutil) 50%,
+    var(--fondo-elevada) 75%
+  );
+  /* Doble ancho para desplazar el reflejo de forma continua */
+  background-size: 200% 100%;
+  /* Ciclo suave infinito */
+  animation: estado-carga-brillo 1.6s ease-in-out infinite;
+}
+
+/* Barra generica de texto esqueleto */
+.estado-carga-linea {
+  display: block;
+  height: 14px;
+  border-radius: var(--radio-sm);
+}
+
+/* Ancho de barra para titulo de tarjeta o pista */
+.estado-carga-linea--titulo {
+  width: 72%;
+  height: 16px;
+}
+
+/* Ancho de barra para subtitulo o nombre de artista */
+.estado-carga-linea--subtitulo {
+  width: 48%;
+  height: 12px;
+}
+
+/* Ancho corto para etiquetas secundarias */
+.estado-carga-linea--corta {
+  width: 36%;
+  height: 12px;
+}
+
+/* Barra de encabezado h2 de seccion */
+.estado-carga-linea--seccion {
+  width: 220px;
+  max-width: 65%;
+  height: 26px;
+  margin-bottom: var(--espacio-6);
+}
+
+/* Barra que simula el nombre dentro de una tarjeta de genero */
+.estado-carga-linea--genero {
+  width: 58%;
+  height: 18px;
+  background-color: var(--borde-fuerte);
+  opacity: 0.55;
+}
+
+/* Barra del numero ordinal en filas de canciones */
+.estado-carga-linea--num {
+  width: 20px;
+  height: 14px;
+  /* Evita encogimiento */
+  flex-shrink: 0;
+}
+
+/* Barra de duracion "m:ss" alineada a la derecha */
+.estado-carga-linea--duracion {
+  width: 38px;
+  height: 14px;
+  /* Evita encogimiento */
+  flex-shrink: 0;
+  /* Alinea a la derecha dentro de grid o flex */
+  justify-self: end;
+}
+
+/* Barra de reproducciones en escritorio */
+.estado-carga-linea--repros {
+  width: 96px;
+  height: 14px;
+}
+
+/* Barra del titulo principal del detalle de album */
+.estado-carga-linea--display {
+  width: 78%;
+  height: 32px;
+  border-radius: var(--radio-md);
+}
+
+/* Barra de la linea de resumen (artista · anio · canciones · duracion) */
+.estado-carga-linea--resumen {
+  width: 62%;
+  height: 16px;
+}
+
+/* --- Variante: Generos (fiel a .seccion-generos-cuadricula) --- */
+.estado-carga-generos {
+  /* Rejilla de 2 columnas en movil */
+  display: grid;
+  /* Dos columnas iguales */
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--espacio-3);
+}
+
+/* Tarjeta esqueleto individual de genero */
+.estado-carga-genero {
+  min-height: 108px;
+  padding: var(--espacio-4);
+  border-radius: var(--radio-lg);
+  border: 1px solid var(--borde-sutil);
+}
+
+/* En movil imita la cantidad exacta de tarjetas visibles en Inicio (4) y Catalogo (8) */
+#inicio .estado-carga-genero:nth-child(n + 5),
+#catalogo .estado-carga-genero:nth-child(n + 9) {
+  display: none;
+}
+
+/* --- Variante: Albumes (fiel a .seccion-albumes-cuadricula) --- */
+.estado-carga-albumes {
+  /* Carrusel horizontal en movil igual que SeccionAlbumes */
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  gap: var(--espacio-4);
+  /* Desplazamiento horizontal sin romper el layout movil */
+  overflow-x: hidden;
+  padding-bottom: var(--espacio-3);
+}
+
+/* Tarjeta esqueleto individual de album */
+.estado-carga-album {
+  /* Mismo ancho fijo de 200px en movil */
+  flex: 0 0 200px;
+  width: 200px;
+  background-color: var(--fondo-superficie);
+  padding: var(--espacio-3);
+  border-radius: var(--radio-lg);
+  border: 1px solid var(--borde-sutil);
+  /* Columna vertical */
+  display: flex;
+  /* Apila portada y textos */
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+/* Caja cuadrada 1:1 para la portada del album */
+.estado-carga-portada {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: var(--radio-lg);
+  margin-bottom: var(--espacio-1);
+}
+
+/* --- Variante: Detalle de genero (artistas + albumes + canciones) --- */
+.estado-carga-detalle-genero {
+  /* Apila los tres bloques con separacion amplia */
+  display: flex;
+  /* Direccion columna */
+  flex-direction: column;
+  gap: var(--espacio-8);
+  margin-top: var(--espacio-6);
+}
+
+/* Grupo interno de cada subseccion del genero */
+.estado-carga-grupo {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Fila horizontal de esqueletos de artistas */
+.estado-carga-artistas {
+  /* Flexbox horizontal con ajuste */
+  display: flex;
+  /* Permite saltar de linea si no caben */
+  flex-wrap: wrap;
+  gap: var(--espacio-4);
+}
+
+/* Columna individual de esqueleto de artista */
+.estado-carga-artista {
+  /* Disposicion centrada en columna */
+  display: flex;
+  /* Direccion vertical */
+  flex-direction: column;
+  /* Centra circulo y textos */
+  align-items: center;
+  width: 114px;
+  gap: var(--espacio-2);
+}
+
+/* Avatar circular de artista */
+.estado-carga-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radio-completo);
+}
+
+/* Contenedor vertical de filas de canciones */
+.estado-carga-pistas {
+  /* Columna vertical */
+  display: flex;
+  /* Apila cada pista */
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+/* Fila de pista simple usada en detalleGenero */
+.estado-carga-pista-simple {
+  /* Distribucion horizontal */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  gap: var(--espacio-4);
+  padding: var(--espacio-3) var(--espacio-2);
+  border-bottom: 1px solid var(--borde-sutil);
+}
+
+/* --- Variante: DetalleAlbum (fiel a Vista 3 movil y escritorio) --- */
+.estado-carga-detalle-album {
+  width: 100%;
+}
+
+/* Circulo reservado para la flecha volver "<" en movil */
+.estado-carga-volver {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radio-completo);
+  margin-bottom: var(--espacio-4);
+}
+
+/* Encabezado del esqueleto de album (columna en movil) */
+.estado-carga-album-cabecera {
+  /* Flexbox en columna */
+  display: flex;
+  /* Direccion vertical en movil */
+  flex-direction: column;
+  gap: var(--espacio-6);
+  margin-bottom: var(--espacio-8);
+}
+
+/* Portada grande 220x220 igual que DetalleAlbum */
+.estado-carga-album-portada {
+  width: 220px;
+  height: 220px;
+  /* Centrada en movil */
+  margin-inline: auto;
+  border-radius: var(--radio-lg);
+  /* No se encoge en flex */
+  flex-shrink: 0;
+}
+
+/* Bloque de metadatos del encabezado */
+.estado-carga-album-meta {
+  /* Columna vertical */
+  display: flex;
+  /* Direccion columna */
+  flex-direction: column;
+  gap: var(--espacio-3);
+  /* Permite crecer en escritorio */
+  flex: 1;
+  min-width: 0;
+}
+
+/* Fila de pastillas esqueleto */
+.estado-carga-pastillas {
+  /* Flexbox horizontal */
+  display: flex;
+  gap: var(--espacio-2);
+}
+
+/* Pastilla redondeada que simula Etiqueta */
+.estado-carga-pastilla {
+  width: 68px;
+  height: 24px;
+  border-radius: var(--radio-completo);
+}
+
+/* Fila de pista en DetalleAlbum (movil: portada + textos + duracion) */
+.estado-carga-pista-album {
+  /* Flexbox horizontal en movil */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Separa el bloque principal de la duracion */
+  justify-content: space-between;
+  gap: var(--espacio-3);
+  /* Relleno vertical */
+  padding-block: var(--espacio-2);
+}
+
+/* Bloque izquierdo con mini portada y textos */
+.estado-carga-pista-principal {
+  /* Flexbox horizontal */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  gap: var(--espacio-3);
+  /* Toma el ancho restante */
+  flex: 1;
+  min-width: 0;
+}
+
+/* Miniatura cuadrada de cada pista (48px movil) */
+.estado-carga-pista-mini {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radio-sm);
+  /* No se aplasta */
+  flex-shrink: 0;
+}
+
+/* Columna con titulo y artista de una pista */
+.estado-carga-pista-textos {
+  /* Columna vertical */
+  display: flex;
+  /* Direccion columna */
+  flex-direction: column;
+  gap: var(--espacio-2);
+  /* Ocupa todo el espacio disponible */
+  flex: 1;
+  min-width: 0;
+}
+
+/* Columnas exclusivas de escritorio ocultas en movil */
+.estado-carga-solo-web {
+  display: none;
+}
+
+/* Reglas adaptadas a escritorio (>= 900px) */
+@media (min-width: 900px) {
+  /* Rejilla de 4 columnas para generos igual que SeccionGeneros */
+  .estado-carga-generos {
+    /* 4 columnas iguales */
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--espacio-4);
+    max-width: 86%;
+  }
+
+  /* Ancho maximo de Catalogo en escritorio */
+  #catalogo .estado-carga-generos {
+    max-width: 80%;
+  }
+
+  /* Altura de tarjeta de genero en escritorio */
+  .estado-carga-genero {
+    min-height: 132px;
+    padding: var(--espacio-6);
+  }
+
+  /* En escritorio se muestran todas las tarjetas de esqueleto */
+  #inicio .estado-carga-genero:nth-child(n + 5),
+  #catalogo .estado-carga-genero:nth-child(n + 9) {
+    display: block;
+  }
+
+  /* Cuadricula de 6 columnas para albumes igual que SeccionAlbumes */
+  .estado-carga-albumes {
+    /* Pasa de flex a grid de 6 columnas */
+    display: grid;
+    /* 6 columnas iguales */
+    grid-template-columns: repeat(6, 1fr);
+    /* Sin recorte horizontal */
+    overflow-x: visible;
+  }
+
+  /* Tarjeta de album adaptada a su columna de grid */
+  .estado-carga-album {
+    /* Quita el ancho fijo movil */
+    flex: auto;
+    width: 100%;
+  }
+
+  /* En catalogo escritorio las tarjetas descansan directo sobre la caja gris */
+  #catalogo .estado-carga-album {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+  }
+
+  /* Avatares de artistas mas grandes en escritorio */
+  .estado-carga-artistas {
+    gap: var(--espacio-8);
+  }
+
+  /* Columna de artista en escritorio */
+  .estado-carga-artista {
+    width: 160px;
+  }
+
+  /* Circulo de avatar de 160px en escritorio */
+  .estado-carga-avatar {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* En escritorio no hay boton volver movil */
+  .estado-carga-volver {
+    display: none;
+  }
+
+  /* Encabezado horizontal en DetalleAlbum escritorio */
+  .estado-carga-album-cabecera {
+    /* Pasa a fila horizontal */
+    flex-direction: row;
+    /* Alinea textos con la base de la portada */
+    align-items: flex-end;
+  }
+
+  /* Portada anclada a la izquierda en escritorio */
+  .estado-carga-album-portada {
+    margin-inline: 0;
+  }
+
+  /* Titulo de album mas alto en escritorio (escala display) */
+  .estado-carga-linea--display {
+    height: 56px;
+    width: 60%;
+  }
+
+  /* Fila de pista de 4 columnas exactas igual que DetalleAlbum */
+  .estado-carga-pista-album {
+    /* Misma cuadricula de 4 columnas que DetalleAlbum */
+    display: grid;
+    /* Numero, titulo, reproducciones y duracion */
+    grid-template-columns: 40px minmax(0, 1fr) 180px 64px;
+    /* Centrado vertical */
+    align-items: center;
+    gap: var(--espacio-4);
+    padding-inline: var(--espacio-3);
+  }
+
+  /* Miniatura de pista de 40px en escritorio */
+  .estado-carga-pista-mini {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Muestra numero de pista y reproducciones en escritorio */
+  .estado-carga-solo-web {
+    display: block;
+  }
+}
+
+/* Ajuste de contraste del brillo en modo claro donde fondo-elevada coincide con blanco */
+[data-tema="claro"] .estado-carga-pulso {
+  /* Usa tonos crema y borde sutil para que el esqueleto destaque sobre tarjetas blancas */
+  background: linear-gradient(
+    90deg,
+    var(--fondo-sutil) 25%,
+    var(--borde-sutil) 50%,
+    var(--fondo-sutil) 75%
+  );
+  /* Conserva el doble ancho para el desplazamiento continuo */
+  background-size: 200% 100%;
+}
+
+/* Respeta la preferencia del sistema y del panel de accesibilidad de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  /* Detiene el barrido animado y deja un fondo estatico limpio tanto en tema oscuro como claro */
+  .estado-carga-pulso,
+  [data-tema="claro"] .estado-carga-pulso {
+    /* Sin animacion */
+    animation: none;
+    background: var(--fondo-sutil);
+  }
+}
+
+/* Tambien detiene la animacion si el usuario activo Reducir movimiento en el panel de Sintonia */
+html[data-reducir-movimiento="true"] .estado-carga-pulso {
+  animation: none;
+  background: var(--fondo-sutil);
+}

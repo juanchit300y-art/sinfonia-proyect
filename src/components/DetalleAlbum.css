@@ -6,51 +6,6 @@
   margin-block: var(--espacio-4) var(--espacio-12);
 }
 
-/* Caja base para estados de carga y error */
-.detalle-album-estado {
-  /* Relleno generoso centrado */
-  padding: var(--espacio-12) var(--espacio-6);
-  text-align: center;
-  color: var(--texto-secundario);
-  background-color: var(--fondo-superficie);
-  border: 1px solid var(--borde-sutil);
-  border-radius: var(--radio-lg);
-}
-
-/* Distribucion en columna para el bloque de error con boton reintentar */
-.detalle-album-estado--error {
-  /* Flexbox vertical */
-  display: flex;
-  /* Apila titulo, mensaje y boton */
-  flex-direction: column;
-  /* Centra horizontalmente */
-  align-items: center;
-  gap: var(--espacio-3);
-}
-
-/* Quita margenes por defecto del titulo de error */
-.detalle-album-estado-titulo {
-  margin: 0;
-  color: var(--texto-principal);
-}
-
-/* Boton secundario de reintento (tipografia heredada de .cuerpo-p-fuerte) */
-.detalle-album-boton-reintentar {
-  background: transparent;
-  border: 1px solid var(--marca-primario);
-  color: var(--marca-primario);
-  padding: var(--espacio-2) var(--espacio-6);
-  border-radius: var(--radio-completo);
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* Hover del boton de reintento */
-.detalle-album-boton-reintentar:hover {
-  background-color: var(--marca-primario);
-  color: var(--texto-sobre-marca);
-}
-
 /* Barra superior movil que aloja la flecha "<" */
 .detalle-album-barra-movil {
   display: flex;

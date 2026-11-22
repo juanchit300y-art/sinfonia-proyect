@@ -160,6 +160,7 @@ function App() {
           <InicioPublico
             textosInicio={datos.textos?.paginas?.inicioPublico}
             textosEstados={datos.textos?.estados}
+            textosErrores={datos.textos?.errores}
             albumes={albumes}
             generos={generos}
             cargando={cargando}
@@ -174,6 +175,7 @@ function App() {
           <CatalogoMusical
             textosCatalogo={datos.textos?.paginas?.catalogo}
             textosEstados={datos.textos?.estados}
+            textosErrores={datos.textos?.errores}
             idioma={idioma}
             onNavegar={navegar}
           />
