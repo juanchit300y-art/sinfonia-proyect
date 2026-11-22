@@ -1,0 +1,72 @@
+/* Estilo base compartido por las 6 variantes de la pastilla Etiqueta (la tipografia viene de .detalle-nota-fuerte en tokens.css) */
+.etiqueta {
+  /* Caja en linea flexible para centrar el texto */
+  display: inline-flex;
+  /* Centra verticalmente el contenido */
+  align-items: center;
+  /* Centra horizontalmente el contenido */
+  justify-content: center;
+  /* Ajusta el ancho exactamente al texto sin estirarse */
+  width: fit-content;
+  /* Relleno compacto de 4px arriba/abajo y 12px a los lados */
+  padding: var(--espacio-1) var(--espacio-3);
+  border-radius: var(--radio-completo);
+  border: none;
+  /* Evita que el texto de la etiqueta salte a dos renglones */
+  white-space: nowrap;
+}
+
+/* Variante 1: pastilla gris neutra (ej. tipo de album en web o genero) */
+.etiqueta--neutra {
+  background-color: var(--fondo-sutil);
+  color: var(--texto-secundario);
+}
+
+/* Variante 2: pastilla verde lima de la marca */
+.etiqueta--marca {
+  background-color: var(--marca-suave);
+  color: var(--texto-marca);
+}
+
+/* Variante 3: pastilla verde de estado exito */
+.etiqueta--exito {
+  background-color: var(--estado-exito-suave);
+  color: var(--estado-exito);
+}
+
+/* Variante 4: pastilla ambar de estado alerta */
+.etiqueta--alerta {
+  background-color: var(--estado-alerta-suave);
+  color: var(--estado-alerta);
+}
+
+/* Variante 5: pastilla roja de estado error */
+.etiqueta--error {
+  background-color: var(--estado-error-suave);
+  color: var(--estado-error);
+}
+
+/* Variante 6: pastilla morada secundaria (ej. "Album" en movil) */
+.etiqueta--secundaria {
+  background-color: var(--marca-secundario-suave);
+  color: var(--marca-secundario);
+}
+
+/* Ajustes visuales cuando la etiqueta recibe onClick y funciona como boton */
+.etiqueta--interactiva {
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Efecto hover sobre etiquetas interactivas */
+.etiqueta--interactiva:hover {
+  opacity: 0.9;
+  /* Eleva 1px la pastilla */
+  transform: translateY(-1px);
+}
+
+/* Contorno accesible visible al navegar con la tecla Tab */
+.etiqueta--interactiva:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 2px;
+}

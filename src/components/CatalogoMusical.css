@@ -50,8 +50,8 @@
         border-radius: var(--radio-lg);
         /* relleno interno en todas las direcciones para escritorio */
         padding: var(--espacio-8);
-        /* separacion vertical externa con la barra superior y el pie */
-        margin-block: var(--espacio-6) var(--espacio-12);
+        /* separacion vertical compacta con el navbar (12px) y el footer (16px) igual que en Figma */
+        margin-block: var(--espacio-3) var(--espacio-4);
     }
 
     /* margen inferior del encabezado en escritorio */
@@ -93,6 +93,11 @@
         flex: 0 1 calc((100% - 5 * var(--espacio-4)) / 6);
         max-width: 180px;
         width: 100%;
+    }
+
+    /* evita que el margen inferior del ultimo bloque (albumes o canciones) sume espacio vacio extra dentro de la caja gris */
+    #catalogo > :last-child {
+        margin-bottom: 0;
     }
 }
 

@@ -1,0 +1,547 @@
+/* Hoja de estilos concisa de Vista 3 */
+
+/* Contenedor principal de la vista en movil (390px) */
+.detalle-album {
+  width: 100%;
+  margin-block: var(--espacio-4) var(--espacio-12);
+}
+
+/* Caja base para estados de carga y error */
+.detalle-album-estado {
+  /* Relleno generoso centrado */
+  padding: var(--espacio-12) var(--espacio-6);
+  text-align: center;
+  color: var(--texto-secundario);
+  background-color: var(--fondo-superficie);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-lg);
+}
+
+/* Distribucion en columna para el bloque de error con boton reintentar */
+.detalle-album-estado--error {
+  /* Flexbox vertical */
+  display: flex;
+  /* Apila titulo, mensaje y boton */
+  flex-direction: column;
+  /* Centra horizontalmente */
+  align-items: center;
+  gap: var(--espacio-3);
+}
+
+/* Quita margenes por defecto del titulo de error */
+.detalle-album-estado-titulo {
+  margin: 0;
+  color: var(--texto-principal);
+}
+
+/* Boton secundario de reintento (tipografia heredada de .cuerpo-p-fuerte) */
+.detalle-album-boton-reintentar {
+  background: transparent;
+  border: 1px solid var(--marca-primario);
+  color: var(--marca-primario);
+  padding: var(--espacio-2) var(--espacio-6);
+  border-radius: var(--radio-completo);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover del boton de reintento */
+.detalle-album-boton-reintentar:hover {
+  background-color: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+}
+
+/* Barra superior movil que aloja la flecha "<" */
+.detalle-album-barra-movil {
+  display: flex;
+  margin-bottom: var(--espacio-4);
+}
+
+/* Boton circular transparente de volver en movil */
+.detalle-album-volver {
+  /* Centra el icono SVG */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  /* Compensa el padding interno para alinear visualmente la flecha con el borde izquierdo */
+  margin-left: calc(var(--espacio-2) * -1);
+  border: none;
+  border-radius: var(--radio-completo);
+  background: transparent;
+  color: var(--texto-principal);
+  cursor: pointer;
+}
+
+/* Fondo sutil al pasar o tocar el boton volver */
+.detalle-album-volver:hover {
+  background-color: var(--fondo-sutil);
+}
+
+/* Contorno de foco accesible por teclado */
+.detalle-album-volver:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 2px;
+}
+
+/* Encabezado en movil: portada arriba y metadatos debajo */
+.detalle-album-encabezado {
+  /* Flexbox en columna para movil */
+  display: flex;
+  /* Direccion vertical */
+  flex-direction: column;
+  gap: var(--espacio-6);
+  margin-bottom: var(--espacio-6);
+}
+
+/* Caja cuadrada de 220x220px para la portada principal */
+.detalle-album-portada-caja {
+  width: 220px;
+  height: 220px;
+  margin-inline: auto;
+  border-radius: var(--radio-lg);
+  /* Recorta el SVG a las esquinas redondeadas */
+  overflow: hidden;
+  /* Evita que la portada se encoja dentro de flex */
+  flex-shrink: 0;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+/* Hace que cualquier SVG de Portada llene el 100% de su caja */
+.detalle-album-portada-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Bloque de metadatos del encabezado (etiquetas, titulo, resumen) */
+.detalle-album-meta {
+  /* Apila verticalmente */
+  display: flex;
+  /* Columna vertical */
+  flex-direction: column;
+  gap: var(--espacio-2);
+  min-width: 0;
+}
+
+/* Fila horizontal de pastillas (tipo + genero) */
+.detalle-album-etiquetas {
+  /* Flexbox horizontal */
+  display: flex;
+  /* Permite saltar de linea si no caben */
+  flex-wrap: wrap;
+  /* Separacionentre pastillas */
+  gap: var(--espacio-2);
+}
+
+/* En movil la pastilla "Album" usa el tono morado secundario (doble clase para ganar siempre a .etiqueta--neutra) */
+.detalle-album .detalle-album-etiqueta-tipo {
+  background-color: var(--marca-secundario-suave);
+  color: var(--marca-secundario);
+}
+
+/* Titulo del album (toma base de .titular-h2 en movil: 28px/34px) */
+.detalle-album-titulo {
+  margin: 0;
+  color: var(--texto-principal);
+  /* Evita desbordes en titulos muy largos */
+  overflow-wrap: break-word;
+}
+
+/* Fila de resumen: artista · anio · canciones · duracion */
+.detalle-album-resumen {
+  /* Flexbox horizontal */
+  display: flex;
+  /* Permite salto ordenado en pantallas muy estrechas */
+  flex-wrap: wrap;
+  /* Centra verticalmente mini avatar y textos */
+  align-items: center;
+  gap: 6px;
+  color: var(--texto-secundario);
+}
+
+/* Elementos exclusivos de escritorio: ocultos por defecto en movil (390px) segun Figma */
+.detalle-album-avatar-mini,
+.detalle-album-tabla-cabecera,
+.detalle-album-col-num,
+.detalle-album-col-reproducciones,
+.detalle-album-pie,
+.detalle-album-mas {
+  /* No se renderizan visualmente en celular */
+  display: none;
+}
+
+/* Lista ordenada de canciones */
+.detalle-album-lista-pistas {
+  /* Quita numeracion nativa del navegador */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Apila cada cancion en columna */
+  display: flex;
+  /* Direccion vertical */
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+/* Fila individual de cancion en movil */
+.detalle-album-fila-pista {
+  /* Flexbox horizontal: izquierda (portada + texto) y derecha (duracion) */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Separa el bloque izquierdo de la duracion */
+  justify-content: space-between;
+  gap: var(--espacio-3);
+  /* Relleno vertical de 8px */
+  padding-block: var(--espacio-2);
+  border-radius: var(--radio-md);
+  transition: background-color 0.15s ease;
+}
+
+/* Bloque con miniatura de portada + titulo/artista */
+.detalle-album-col-titulo {
+  /* Flexbox horizontal */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  gap: var(--espacio-3);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Miniatura cuadrada de cada cancion (48px en movil) */
+.detalle-album-pista-portada {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radio-sm);
+  overflow: hidden;
+  /* No se aplasta */
+  flex-shrink: 0;
+}
+
+/* Columna vertical con titulo y artista de la cancion */
+.detalle-album-pista-info {
+  /* Flexbox vertical */
+  display: flex;
+  /* Direccion columna */
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  /* Ocupa el ancho restante */
+  flex: 1;
+}
+
+/* Fila interna que agrupa titulo de cancion y posible etiqueta Explicito */
+.detalle-album-pista-titulo-fila {
+  /* Flexbox horizontal */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  gap: var(--espacio-2);
+  min-width: 0;
+}
+
+/* Recorte limpio en una linea para titulo y artista de pista */
+.detalle-album-pista-titulo,
+.detalle-album-pista-artista {
+  white-space: nowrap;
+  overflow: hidden;
+  /* Agrega puntos suspensivos si excede */
+  text-overflow: ellipsis;
+}
+
+/* Color blanco principal para el titulo de cada cancion */
+.detalle-album-pista-titulo {
+  color: var(--texto-principal);
+}
+
+/* Color gris secundario para el artista de cada cancion */
+.detalle-album-pista-artista {
+  color: var(--texto-secundario);
+}
+
+/* Ajuste compacto para la pastilla Explicito junto al titulo */
+.detalle-album-explicito {
+  padding: 2px 6px;
+}
+
+/* Columna de duracion (y reloj) alineada siempre a la derecha */
+.detalle-album-col-duracion {
+  color: var(--texto-secundario);
+  text-align: right;
+  /* Digitos monoespaciados para que 1:10 y 3:42 queden alineados */
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Tamano del icono de reloj en la cabecera de duracion */
+.detalle-album-icono-reloj {
+  width: 16px;
+  height: 16px;
+  /* Alineado a la derecha junto con los tiempos */
+  vertical-align: middle;
+}
+
+/* ---------------------------------------------------------------------------------------------------------- */
+/* Reglas exclusivas de escritorio (a partir de 900px) */
+@media (min-width: 900px) {
+  /* Caja envolvente de superficie gris con separacion compacta de 16px antes del footer igual que en Figma */
+  .detalle-album {
+    background-color: var(--fondo-superficie);
+    border-radius: var(--radio-lg);
+    padding: var(--espacio-8);
+    /* Margen compacto arriba  y abajo  */
+    margin-block: var(--espacio-3) var(--espacio-4);
+  }
+
+  /* Ocultamos la flecha movil "<" en escritorio */
+  .detalle-album-barra-movil {
+    display: none;
+  }
+
+  /* Encabezado horizontal: portada 220x220 a la izquierda y textos alineados abajo a la derecha */
+  .detalle-album-encabezado {
+    /* Pasa de columna a fila horizontal */
+    flex-direction: row;
+    /* Alinea el bloque de textos con la base de la portada */
+    align-items: flex-end;
+    gap: var(--espacio-6);
+    margin-bottom: var(--espacio-8);
+  }
+
+  /* Quita el centrado movil para anclar la portada a la izquierda */
+  .detalle-album-portada-caja {
+    margin-inline: 0;
+  }
+
+  /* En web la etiqueta "Album" vuelve al tono gris neutro de Figma 1440px */
+  .detalle-album .detalle-album-etiqueta-tipo {
+    background-color: var(--fondo-sutil);
+    color: var(--texto-secundario);
+  }
+
+  /* Titulo en web sube a la escala oficial titular-display (64px) ganando en especificidad a .titular-h2 */
+  .detalle-album .detalle-album-titulo {
+    font-size: calc(64px * var(--escala-texto, 1));
+    font-weight: 800;
+    line-height: 1.06;
+    /* Tracking oficial de titular-display */
+    letter-spacing: -0.02em;
+  }
+
+  /* Respiro superior del resumen en escritorio */
+  .detalle-album-resumen {
+    margin-top: var(--espacio-2);
+  }
+
+  /* Muestra la mini portada circular junto al nombre del artista en web */
+  .detalle-album-avatar-mini {
+    /* Visible como bloque en linea */
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radio-completo);
+    overflow: hidden;
+    /* No se deforma */
+    flex-shrink: 0;
+  }
+
+  /* Destaca el nombre del artista en blanco negrita en escritorio */
+  .detalle-album-artista {
+    color: var(--texto-principal);
+    font-weight: 600;
+  }
+
+  /* Tabla de 4 columnas en web: # | TITULO | REPRODUCCIONES (izq) | reloj/duracion (der) */
+  .detalle-album-tabla-cabecera,
+  .detalle-album-fila-pista {
+    /* Activa CSS Grid de 4 columnas exactas */
+    display: grid;
+    /* 40px numero, resto titulo, 180px reproducciones, 64px duracion */
+    grid-template-columns: 40px minmax(0, 1fr) 180px 64px;
+    /* Centrado vertical de todas las celdas */
+    align-items: center;
+    gap: var(--espacio-4);
+    /* Relleno lateral interno de cada fila */
+    padding-inline: var(--espacio-3);
+  }
+
+  /* Linea divisoria inferior de la cabecera de columnas */
+  .detalle-album-tabla-cabecera {
+    padding-bottom: var(--espacio-3);
+    margin-bottom: var(--espacio-2);
+    border-bottom: 1px solid var(--borde-sutil);
+    color: var(--texto-terciario);
+  }
+
+  /* Espacio mas compacto entre filas en escritorio */
+  .detalle-album-lista-pistas {
+    gap: var(--espacio-1);
+  }
+
+  /* Resaltado suave al pasar el raton sobre una fila de pista en web */
+  .detalle-album-fila-pista:hover {
+    background-color: var(--fondo-elevada);
+  }
+
+  /* Muestra el numero de pista centrado en web */
+  .detalle-album-col-num {
+    /* Visible en web */
+    display: block;
+    color: var(--texto-terciario);
+    text-align: center;
+    /* Numeros alineados verticalmente */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* En web la miniatura de pista mide 40x40px como en Figma */
+  .detalle-album-pista-portada {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Muestra las reproducciones alineadas a la IZQUIERDA igual que en Figma */
+  .detalle-album-col-reproducciones {
+    /* Visible en web */
+    display: block;
+    text-align: left;
+    color: var(--texto-secundario);
+    /* Cifras tabulares limpias */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Mantiene el color terciario en el encabezado "REPRODUCCIONES" */
+  .detalle-album-tabla-cabecera .detalle-album-col-reproducciones {
+    color: var(--texto-terciario);
+  }
+
+  /* Muestra el pie con fecha larga y nota legal solo en escritorio */
+  .detalle-album-pie {
+    /* Visible en columna vertical */
+    display: flex;
+    /* Direccion columna */
+    flex-direction: column;
+    gap: var(--espacio-1);
+    margin-top: var(--espacio-6);
+  }
+
+  /* Color secundario y sin margen para la fecha larga */
+  .detalle-album-fecha {
+    margin: 0;
+    color: var(--texto-secundario);
+  }
+
+  /* Color terciario y sin margen para el aviso legal */
+  .detalle-album-legal {
+    margin: 0;
+    color: var(--texto-terciario);
+  }
+
+  /* Muestra la seccion "Mas de {artista}" solo en escritorio */
+  .detalle-album-mas {
+    display: block;
+    margin-top: var(--espacio-12);
+  }
+
+  /* Cabecera de "Mas de {artista}" con enlace a la derecha */
+  .detalle-album-mas-cabecera {
+    /* Flexbox horizontal */
+    display: flex;
+    /* Centrado vertical */
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espacio-4);
+    margin-bottom: var(--espacio-6);
+  }
+
+  /* Reinicio de margen del titulo h2 */
+  .detalle-album-mas-titulo {
+    margin: 0;
+    color: var(--texto-principal);
+  }
+
+  /* Enlace "Ver discografia" */
+  .detalle-album-mas-enlace {
+    color: var(--texto-secundario);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Hover del enlace "Ver discografia" */
+  .detalle-album-mas-enlace:hover {
+    color: var(--texto-principal);
+    text-decoration: underline;
+  }
+
+  /* Cuadricula con tarjetas exactas de 176px (proporcion fiel a Figma 176x176 vs 220x220 arriba) */
+  .detalle-album-mas-cuadricula {
+    display: grid;
+    /* Columnas fijas de 176px para que nunca se estiren mas grandes que la portada principal */
+    grid-template-columns: repeat(auto-fill, 176px);
+    gap: var(--espacio-12);
+  }
+
+  /* Enlace tarjeta de cada otro lanzamiento (176px de ancho exactos) */
+  .detalle-album-mas-tarjeta {
+    width: 176px;
+    /* Disposicion en columna */
+    display: flex;
+    /* Direccion columna */
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--radio-md);
+    transition: transform 0.2s ease;
+  }
+
+  /* Ligera elevacion al pasar el raton por la tarjeta */
+  .detalle-album-mas-tarjeta:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Contorno accesible al tabular sobre la tarjeta */
+  .detalle-album-mas-tarjeta:focus-visible {
+    outline: 2px solid var(--marca-primario);
+    outline-offset: 4px;
+  }
+
+  /* Caja exacta de 176x176px para cada portada de "Mas de {artista}" */
+  .detalle-album-mas-portada {
+    width: 176px;
+    height: 176px;
+    border-radius: var(--radio-lg);
+    overflow: hidden;
+    margin-bottom: var(--espacio-3);
+  }
+
+  /* Titulo de la tarjeta recortado en una linea */
+  .detalle-album-mas-nombre {
+    margin: 0 0 var(--espacio-1) 0;
+    color: var(--texto-principal);
+    white-space: nowrap;
+    overflow: hidden;
+    /* Puntos suspensivos si es largo */
+    text-overflow: ellipsis;
+  }
+
+  /* Subtitulo "{anio} · {tipo}" debajo del titulo */
+  .detalle-album-mas-meta {
+    margin: 0;
+    color: var(--texto-secundario);
+  }
+}
+
+/* En escritorio amplio (1440px) compensa el relleno de la caja gris para alinear el contenido a 80px */
+@media (min-width: 1200px) {
+  .detalle-album {
+    /* Expande 32px hacia afuera a izquierda y derecha */
+    margin-inline: calc(var(--espacio-8) * -1);
+    /* Suma los 64px compensados al ancho total */
+    width: calc(100% + var(--espacio-8) * 2);
+  }
+}

@@ -45,6 +45,7 @@ export default function InicioPublico({
                 textoReintentar={textoReintentar}
                 onRecargar={onRecargar}
                 onNavegar={onNavegar}
+                onAlbumClick={(album) => onNavegar?.(`/albumes/${encodeURIComponent(album.id)}`)}
             />
 
             {/* explora por genero */}

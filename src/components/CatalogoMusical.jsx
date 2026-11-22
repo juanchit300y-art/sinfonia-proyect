@@ -120,8 +120,8 @@ export default function CatalogoMusical({
                         textoReintentar={textoReintentar}
                         onRecargar={recargar}
                         onNavegar={onNavegar}
-                        // navega a la ruta de detalle del álbum
-                        onAlbumClick={(album) => onNavegar?.(`/album/${album.id}`)}
+                        // navega a la ruta oficial de detalle del álbum (/albumes/:id)
+                        onAlbumClick={(album) => onNavegar?.(`/albumes/${encodeURIComponent(album.id)}`)}
                     />
 
                     {/* sección con el ranking de las 5 canciones más escuchadas del género */}
@@ -129,8 +129,12 @@ export default function CatalogoMusical({
                         textos={textosCatalogo?.genero?.canciones}
                         canciones={detalleGenero?.pistas || detalleGenero?.canciones}
                         idioma={idioma}
-                        // navega a la ruta de detalle del álbum de la canción
-                        onCancionClick={(cancion) => onNavegar?.(cancion.album?.id ? `/album/${cancion.album.id}` : `/album/${cancion.id}`)}
+                        // navega a la ruta oficial de detalle del álbum de la canción (/albumes/:id)
+                        onCancionClick={(cancion) => {
+                            if (cancion.album?.id) {
+                                onNavegar?.(`/albumes/${encodeURIComponent(cancion.album.id)}`);
+                            }
+                        }}
                     />
                 </>
             ) :(
@@ -150,8 +154,8 @@ export default function CatalogoMusical({
                     onRecargar={recargar}
                     // función de navegación SPA
                     onNavegar={onNavegar}
-                    // navega a la ruta de detalle del álbum destacado
-                    onAlbumClick={(album) => onNavegar?.(`/album/${album.id}`)}
+                    // navega a la ruta oficial de detalle del álbum destacado (/albumes/:id)
+                    onAlbumClick={(album) => onNavegar?.(`/albumes/${encodeURIComponent(album.id)}`)}
                 />
             )}
         </section>
