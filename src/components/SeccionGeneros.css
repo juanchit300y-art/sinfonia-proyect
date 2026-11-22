@@ -46,38 +46,6 @@
     text-decoration: underline;
 }
 
-/* caja para los estados de carga y error */
-.seccion-generos-estado{
-    padding: var(--espacio-8);
-    text-align: center;
-    color: var(--texto-secundario);
-    background-color: var(--fondo-superficie);
-    border-radius: var(--radio-lg);
-    margin-block: var(--espacio-4);
-}
-
-/* botón para reintentar carga en caso de error */
-.seccion-generos-boton-reintentar {
-    background: transparent;
-    /* borde de 1px */
-    border: 1px solid var(--marca-primario);
-    color: var(--marca-primario);
-    /* relleno vertical y horizontal */
-    padding: var(--espacio-2) var(--espacio-6);
-    border-radius: var(--radio-completo);
-    font-family: var(--fuente-inter);
-    font-weight: 600;
-    /* cursor de mano */
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-/* estado hover del botón de reintentar */
-.seccion-generos-boton-reintentar:hover {
-    background-color: var(--marca-primario);
-    color: var(--texto-sobre-marca);
-}
-
 /* cuadricula de targetas (en movil 2 columnas para que quepa perfecto) */
 .seccion-generos-cuadricula{
     display: grid;

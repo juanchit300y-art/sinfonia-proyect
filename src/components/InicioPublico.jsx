@@ -9,6 +9,7 @@ import BannerCta from "./BannerCta";
 export default function InicioPublico({
     textosInicio,
     textosEstados,
+    textosErrores,
     albumes = [],
     generos = [],
     cargando = false,
@@ -41,6 +42,8 @@ export default function InicioPublico({
                 albumes={albumes}
                 cargando={cargando}
                 error={error}
+                textosEstados={textosEstados}
+                textosErrores={textosErrores}
                 textoCargando={textoCargando}
                 textoReintentar={textoReintentar}
                 onRecargar={onRecargar}
@@ -56,6 +59,9 @@ export default function InicioPublico({
                 generos={generosInicio}
                 cargando={cargando}
                 error={error}
+                textosEstados={textosEstados}
+                textosErrores={textosErrores}
+                cantidadEsqueletos={8}
                 textoCargando={textoCargando}
                 textoReintentar={textoReintentar}
                 onRecargar={onRecargar}

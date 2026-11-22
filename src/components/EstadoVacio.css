@@ -1,0 +1,101 @@
+/* Hoja de estilos concisa para el estado vacio (EstadoVacio) */
+
+/* Tarjeta centrada con contraste limpio en modo oscuro, claro y alto contraste */
+.estado-vacio {
+  /* Disposicion en columna centrada */
+  display: flex;
+  /* Apila icono, titulo, descripcion y boton opcional */
+  flex-direction: column;
+  /* Centrado horizontal */
+  align-items: center;
+  /* Texto centrado */
+  text-align: center;
+  /* Espacio uniforme entre elementos */
+  gap: var(--espacio-3);
+  /* Ocupa todo el ancho disponible */
+  width: 100%;
+  /* Relleno generoso vertical y lateral */
+  padding: var(--espacio-12) var(--espacio-6);
+  /* Fondo elevado que se distingue tanto sobre fondo-base como sobre fondo-superficie */
+  background-color: var(--fondo-elevada);
+  /* Borde sutil del sistema de diseno */
+  border: 1px solid var(--borde-sutil);
+  /* Esquinas grandes consistentes con las tarjetas */
+  border-radius: var(--radio-lg);
+}
+
+/* Medallon circular para el icono decorativo de disco */
+.estado-vacio-icono {
+  /* Centra el icono SVG */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  /* Tamano cuadrado compacto */
+  width: 48px;
+  /* Alto igual al ancho */
+  height: 48px;
+  /* Forma circular perfecta */
+  border-radius: var(--radio-completo);
+  /* Fondo sutil del tema activo */
+  background-color: var(--fondo-sutil);
+  /* Color secundario del icono */
+  color: var(--texto-secundario);
+}
+
+/* Reinicio de margen y color principal para el titulo (tipografia viene de .titular-h3) */
+.estado-vacio-titulo {
+  /* Elimina margen por defecto del navegador */
+  margin: 0;
+  /* Color de texto principal */
+  color: var(--texto-principal);
+}
+
+/* Reinicio de margen y limite de lectura para la descripcion (tipografia viene de .cuerpo-p) */
+.estado-vacio-descripcion {
+  /* Elimina margen por defecto */
+  margin: 0;
+  /* Ancho maximo comodo de lectura */
+  max-width: 440px;
+  /* Color secundario tenue */
+  color: var(--texto-secundario);
+}
+
+/* Boton secundario opcional (tipografia viene de .cuerpo-p-fuerte) */
+.estado-vacio-boton {
+  /* Margen superior de respiro */
+  margin-top: var(--espacio-2);
+  /* Fondo transparente */
+  background-color: transparent;
+  /* Borde de alto contraste (verde lima en oscuro, verde oliva oscuro en modo claro) */
+  border: 1px solid var(--texto-marca);
+  /* Color accesible del texto segun el tema activo */
+  color: var(--texto-marca);
+  /* Relleno comodo */
+  padding: var(--espacio-2) var(--espacio-6);
+  /* Forma pildora */
+  border-radius: var(--radio-completo);
+  /* Cursor interactivo */
+  cursor: pointer;
+  /* Transicion suave */
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Estado hover del boton opcional */
+.estado-vacio-boton:hover {
+  /* Relleno solido con color de marca */
+  background-color: var(--marca-primario);
+  /* Borde sincronizado con el relleno */
+  border-color: var(--marca-primario);
+  /* Texto oscuro de alto contraste sobre la marca */
+  color: var(--texto-sobre-marca);
+}
+
+/* Contorno accesible al navegar con teclado */
+.estado-vacio-boton:focus-visible {
+  /* Contorno de foco de 2px */
+  outline: 2px solid var(--marca-primario);
+  /* Separacion del borde */
+  outline-offset: 2px;
+}

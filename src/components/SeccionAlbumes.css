@@ -53,34 +53,6 @@
     text-decoration: underline;
 }
 
-/* contenedor de estado de carga y error */
-.seccion-albumes-estado{
-    padding: var(--espacio-8);
-    text-align: center;
-    color: var(--texto-secundario);
-    background-color: var(--fondo-superficie);
-    border-radius: var(--radio-lg);
-    margin-block: var(--espacio-4);
-}
-
-/* botón de reintento en caso de fallo de red */
-.seccion-albumes-boton-reintentar{
-  border: 1px solid var(--marca-primario);
-  color: var(--marca-primario);
-  padding: var(--espacio-2) var(--espacio-6);
-  border-radius: var(--radio-completo);
-  font-family: var(--fuente-inter);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-/* efecto hover del boton de reintento */
-.seccion-albumes-boton-reintentar:hover {
-  background-color: var(--marca-primario);
-  color: var(--texto-sobre-marca);
-}
-
 /* cuadricula de targetas de albumes en dispositivos moviles */
 .seccion-albumes-cuadricula{
     /* contenedor flexible para permitir desplazamiento horizontal tactil */

@@ -1,5 +1,8 @@
 import React from "react";
 import Portada from "./Portada.jsx";
+import EstadoCarga from "./EstadoCarga.jsx";
+import EstadoError from "./EstadoError.jsx";
+import EstadoVacio from "./EstadoVacio.jsx";
 import "./SeccionAlbumes.css";
 
 // definimos el componente reutilizable SeccionAlbumes con sus propiedades
@@ -11,12 +14,20 @@ export default function SeccionAlbumes({
     albumes = [], //lista de albumes a mostrar obtenida desde la API
     cargando = false,
     error = false,
+    textosEstados, // subobjeto textos.estados de la API para carga, vacio y error
+    textosErrores, // subobjeto textos.errores de la API para mensajes por codigo
+    textoVacioTitulo = "", // titulo especifico de vacio (ej. textos.paginas.catalogo.vacio.titulo)
+    textoVacioDescripcion = "", // descripcion especifica de vacio (ej. textos.paginas.catalogo.vacio.texto)
+    cantidadEsqueletos = 6, // cantidad de tarjetas esqueleto mientras carga
     textoCargando = "",
     textoReintentar = "",
     onRecargar, //funcion callback para reintenar la peticion en caso de fallo
     onNavegar, //funcion de navegacion para dirigir dentro de la pagina
     onAlbumClick //callback al hacer clic en un album especifico
 }) {
+    // normalizamos el arreglo para soportar de forma segura null o undefined sin errores
+    const listaAlbumes = Array.isArray(albumes) ? albumes : [];
+
     // funcion interna para manejar la navegacion del enlace superior sin recargar la pagina
     function manejarClickEnlace(evento) {
         if (evento) evento.preventDefault();
@@ -70,37 +81,42 @@ export default function SeccionAlbumes({
                 )}
             </div>
 
-            {/* estado de carga accesible visible unicamente mientras se descarga la API */}
-            {cargando && albumes.length === 0 && (
-                // contendor con atributo aria-live para anunciar cambios a lectores de pantalla
-                <div className="seccion-albumes-estado cuerpo-m" aria-live="polite">
-                    {/* mensaje de espera */}
-                    {textoCargando}
-                </div>
+            {/* esqueleto accesible de carga visible unicamente mientras se descarga la API */}
+            {cargando && listaAlbumes.length === 0 && (
+                <EstadoCarga
+                    variante="albumes"
+                    cantidad={cantidadEsqueletos}
+                    textoAria={textosEstados?.cargando?.aria}
+                    textoTitulo={textosEstados?.cargando?.titulo ?? textoCargando}
+                />
             )}
 
-            {/* estadp de errpr cpm eñ boton de reintento si falla la conexion */}
+            {/* tarjeta de error recuperable con boton de reintento si falla la peticion */}
+            {!cargando && error && listaAlbumes.length === 0 && (
+                <EstadoError
+                    error={error}
+                    textosEstados={textosEstados}
+                    textosErrores={textosErrores}
+                    textoReintentar={textoReintentar}
+                    onReintentar={onRecargar}
+                />
+            )}
 
-            {error && albumes.length === 0 && (
-                <div className="seccion-albumes-estado seccion-albumes-error" role="alert">
-                    {/* boton interactivo para reintentar la descarga */}
-                    <button
-                        type="button"
-                        className="seccion-albumes-boton-reintentar"
-                        onClick={onRecargar}
-                    >
-                        {textoReintentar}
-                    </button>
-                </div>     
+            {/* estado vacio cuando la API respondio sin errores pero la lista de albumes esta vacia */}
+            {!cargando && !error && listaAlbumes.length === 0 && (
+                <EstadoVacio
+                    titulo={textoVacioTitulo || textosEstados?.vacio?.generico}
+                    descripcion={textoVacioDescripcion}
+                />
             )}
 
             {/* ---------------------- */}
             {/* cuadricula de targetas de albumes que se dibuja cuando existen albumes */}
-            {albumes.length>0 &&(
+            {listaAlbumes.length > 0 && (
                 // contenedor responsive con cuadricula de targetas
                 <div className="seccion-albumes-cuadricula">
                     {/* recorro el arreglo de albumes recibido */}
-                    {albumes.map((album) => (
+                    {listaAlbumes.map((album) => (
                         // targeta interactiva dle album
                         <article 
                             className="seccion-album-targeta"

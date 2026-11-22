@@ -1,5 +1,8 @@
 import React from "react";
 import Portada, { resolverColor } from "./Portada.jsx";
+import EstadoCarga from "./EstadoCarga.jsx";
+import EstadoError from "./EstadoError.jsx";
+import EstadoVacio from "./EstadoVacio.jsx";
 import "./SeccionGeneros.css";
 
 // definimos y exportamos el componente reutilizable SeccionGeneros
@@ -12,12 +15,18 @@ export default function SeccionGeneros({
     generoActivo = null, //id del genero actualmente seleccionado como filtro
     cargando = false,
     error = false,
+    textosEstados, // subobjeto textos.estados de la API para carga, vacio y error
+    textosErrores, // subobjeto textos.errores de la API para mensajes por codigo
+    cantidadEsqueletos = 8, // cantidad de tarjetas esqueleto (8 en Inicio, 12 en Catalogo)
     textoCargando = "",
     textoReintentar = "",
     onRecargar,
     onNavegar,
     onGeneroClick //funcion para manejar la seleccion de un genero especifico
 }){
+    // normalizamos la lista para evitar errores si algun padre envia null en lugar de []
+    const listaGeneros = Array.isArray(generos) ? generos : [];
+
     // manejador para el clic en el enlace superior derecho de ver catalogo
     function manejarClickEnlace(evento){
         if(evento) evento.preventDefault(); // se previene que el navegador recargue toda la pagina
@@ -74,31 +83,37 @@ export default function SeccionGeneros({
                 )}
             </div>
 
-            {/* mensaje accesible de carga cuando aun no hay generos disponibles */}
-            {cargando && generos.length === 0 && (
-                <div className="seccion-generos-estado cuerpo-m" aria-live="polite">
-                    {textoCargando}
-                </div>
+            {/* esqueleto accesible de carga cuando aun no hay generos disponibles */}
+            {cargando && listaGeneros.length === 0 && (
+                <EstadoCarga
+                    variante="generos"
+                    cantidad={cantidadEsqueletos}
+                    textoAria={textosEstados?.cargando?.aria}
+                    textoTitulo={textosEstados?.cargando?.titulo ?? textoCargando}
+                />
             )}
 
-            {/* bloque de erro con boton de reintento si la peticion falló */}
-            {error && generos.length === 0 &&(
-                <div className="seccion-generos-estado seccion-generos-error" role="alert">
-                    <button 
-                        className="seccion-generos-boton-reintentar"
-                        type="button"
-                        onClick={onRecargar}
-                    >
-                        {textoReintentar}
-                    </button>
-                </div>
+            {/* tarjeta de error recuperable con boton de reintento si la peticion falló */}
+            {!cargando && error && listaGeneros.length === 0 && (
+                <EstadoError
+                    error={error}
+                    textosEstados={textosEstados}
+                    textosErrores={textosErrores}
+                    textoReintentar={textoReintentar}
+                    onReintentar={onRecargar}
+                />
+            )}
+
+            {/* estado vacio si la API respondio correctamente pero sin generos */}
+            {!cargando && !error && listaGeneros.length === 0 && (
+                <EstadoVacio titulo={textosEstados?.vacio?.generico} />
             )}
 
             {/* cuadricula de targetas de generos cuando ya tenemos datos */}
-            {generos.length>0 && (
+            {listaGeneros.length > 0 && (
                 <div className="seccion-generos-cuadricula">
                     {/* recorremos cada genero disponible en el arreglo */}
-                    {generos.map((genero) => {
+                    {listaGeneros.map((genero) => {
                         // traducimos el token de color de la API
                         const colorFondo = resolverColor(genero.color, "var(--portada-1)");
                         // comprobamos si este genero usa un fondo oscuro segun el token o colorHex de la API para mostrar su nombre en blanco

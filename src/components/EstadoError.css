@@ -1,0 +1,119 @@
+/* Hoja de estilos concisa para el estado de error recuperable (EstadoError) */
+
+/* Tarjeta centrada con borde sutil y jerarquia clara */
+.estado-error {
+  /* Disposicion vertical centrada */
+  display: flex;
+  /* Apila icono, pastilla, titulo, descripcion y boton */
+  flex-direction: column;
+  /* Centra elementos horizontalmente */
+  align-items: center;
+  /* Centra el texto */
+  text-align: center;
+  /* Separacion uniforme entre bloques */
+  gap: var(--espacio-3);
+  /* Ocupa todo el ancho del contenedor padre */
+  width: 100%;
+  /* Relleno amplio vertical y lateral */
+  padding: var(--espacio-12) var(--espacio-6);
+  /* Fondo elevado para resaltar tanto sobre fondo-base como sobre fondo-superficie */
+  background-color: var(--fondo-elevada);
+  /* Borde sutil del sistema de diseno */
+  border: 1px solid var(--borde-sutil);
+  /* Esquinas grandes consistentes con la plataforma */
+  border-radius: var(--radio-lg);
+}
+
+/* Medallon circular con los tokens oficiales de estado de error */
+.estado-error-icono {
+  /* Centra el SVG */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  /* Tamano cuadrado */
+  width: 48px;
+  /* Alto igual al ancho */
+  height: 48px;
+  /* Circulo completo */
+  border-radius: var(--radio-completo);
+  /* Fondo rojo suave oficial de tokens.css */
+  background-color: var(--estado-error-suave);
+  /* Trazo rojo oficial de tokens.css */
+  color: var(--estado-error);
+}
+
+/* Titulo del fallo (la tipografia viene de .titular-h3 en tokens.css) */
+.estado-error-titulo {
+  /* Quita margen por defecto del navegador */
+  margin: 0;
+  /* Color principal del tema */
+  color: var(--texto-principal);
+}
+
+/* Mensaje descriptivo del fallo (la tipografia viene de .cuerpo-p en tokens.css) */
+.estado-error-descripcion {
+  /* Quita margen por defecto */
+  margin: 0;
+  /* Limite de ancho para lectura comoda */
+  max-width: 460px;
+  /* Color secundario del tema */
+  color: var(--texto-secundario);
+}
+
+/* Boton de reintento con icono y texto (tipografia viene de .cuerpo-p-fuerte) */
+.estado-error-boton {
+  /* Alinea icono y etiqueta en linea */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  /* Separacion entre icono y texto */
+  gap: var(--espacio-2);
+  /* Respiro superior respecto a la descripcion */
+  margin-top: var(--espacio-2);
+  /* Altura minima accesible de objetivo tactil */
+  min-height: 44px;
+  /* Relleno horizontal generoso */
+  padding: 0 var(--espacio-6);
+  /* Fondo transparente por defecto */
+  background-color: transparent;
+  /* Borde de alto contraste (verde lima en oscuro, verde oliva oscuro en modo claro) */
+  border: 1px solid var(--texto-marca);
+  /* Color accesible del texto segun el tema activo */
+  color: var(--texto-marca);
+  /* Forma pildora */
+  border-radius: var(--radio-completo);
+  /* Cursor interactivo */
+  cursor: pointer;
+  /* Transicion suave */
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover del boton de reintento */
+.estado-error-boton:hover {
+  /* Relleno con color primario de marca */
+  background-color: var(--marca-primario);
+  /* Borde sincronizado con el relleno */
+  border-color: var(--marca-primario);
+  /* Texto oscuro de alto contraste sobre la marca */
+  color: var(--texto-sobre-marca);
+}
+
+/* Contorno accesible al tabular sobre el boton de reintento */
+.estado-error-boton:focus-visible {
+  /* Contorno visible de 2px */
+  outline: 2px solid var(--marca-primario);
+  /* Separacion externa */
+  outline-offset: 2px;
+}
+
+/* Ajuste compacto del icono de recarga dentro del boton */
+.estado-error-boton-icono {
+  /* Ancho compacto de 16px */
+  width: 16px;
+  /* Alto compacto de 16px */
+  height: 16px;
+}

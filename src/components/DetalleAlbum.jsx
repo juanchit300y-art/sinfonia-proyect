@@ -22,6 +22,10 @@ import Etiqueta from "./Etiqueta.jsx";
 import Icono from "./Icono.jsx";
 // Importamos la vista reutilizable 404 para cuando la API devuelve 404 no_encontrado
 import NoEncontrado from "./NoEncontrado.jsx";
+// Importamos los componentes reutilizables de estados (esqueleto de carga, error recuperable y vacio)
+import EstadoCarga from "./EstadoCarga.jsx";
+import EstadoError from "./EstadoError.jsx";
+import EstadoVacio from "./EstadoVacio.jsx";
 // Importamos la hoja de estilos concisa de esta vista
 import "./DetalleAlbum.css";
 
@@ -160,49 +164,35 @@ export default function DetalleAlbum({
     );
   }
 
-  // Mientras la peticion GET /albumes/:id esta en curso, mostramos el estado accesible de carga
+  // Mientras la peticion GET /albumes/:id esta en curso, mostramos el esqueleto accesible fiel a Vista 3
   if (cargando && !album) {
-    // Retornamos la seccion con aria-busy="true" para lectores de pantalla
+    // Retornamos la seccion con la misma caja base que el album cargado para evitar saltos de layout
     return (
-      <section className="detalle-album" aria-busy="true">
-        {/* Mensaje de carga usando la clase predefinida cuerpo-m */}
-        <div className="detalle-album-estado cuerpo-m" role="status" aria-live="polite">
-          {/* Texto "Cargando..." desde la API */}
-          {textosEstados?.cargando?.titulo}
-        </div>
+      <section id="detalle-album" className="seccion detalle-album">
+        {/* Esqueleto de portada, metadatos y lista de pistas traducido desde la API */}
+        <EstadoCarga
+          variante="detalleAlbum"
+          cantidad={6}
+          textoAria={textosEstados?.cargando?.aria}
+          textoTitulo={textosEstados?.cargando?.titulo}
+        />
       </section>
     );
   }
 
-  // Si ocurrio un error distinto de 404 (500, 503 o sin red), mostramos error con boton Reintentar
+  // Si ocurrio un error distinto de 404 (500, 503 o sin red), mostramos EstadoError con boton Reintentar
   if (error && !album) {
-    // Buscamos primero el mensaje exacto por codigo en textos.errores o la descripcion general
-    const mensajeError =
-      (error.codigo && textos?.errores?.[error.codigo]) ||
-      textosEstados?.error?.descripcion;
-
-    // Retornamos la tarjeta de alerta accesible
+    // Retornamos la tarjeta reutilizable de error recuperable dentro de la caja de la vista
     return (
-      <section className="detalle-album">
-        {/* Bloque con role="alert" para anunciar el fallo de inmediato */}
-        <div className="detalle-album-estado detalle-album-estado--error" role="alert">
-          {/* Titulo del error usando clase predefinida titular-h3 */}
-          <h1 className="detalle-album-estado-titulo titular-h3">
-            {textosEstados?.error?.titulo}
-          </h1>
-          {/* Descripcion traducida del error con clase predefinida cuerpo-m */}
-          {mensajeError && <p className="cuerpo-m">{mensajeError}</p>}
-          {/* Boton interactivo que dispara recargar() del hook useConsulta */}
-          <button
-            type="button"
-            className="detalle-album-boton-reintentar cuerpo-p-fuerte"
-            // Reintenta la consulta limpia
-            onClick={recargar}
-          >
-            {/* Etiqueta "Reintentar" desde la API */}
-            {textosEstados?.error?.botones?.reintentar}
-          </button>
-        </div>
+      <section id="detalle-album" className="seccion detalle-album">
+        {/* Alerta accesible que traduce el codigo de textos.errores y ejecuta recargar() */}
+        <EstadoError
+          error={error}
+          textosEstados={textosEstados}
+          textosErrores={textos?.errores}
+          nivelTitulo="h1"
+          onReintentar={recargar}
+        />
       </section>
     );
   }
@@ -367,107 +357,114 @@ export default function DetalleAlbum({
 
       {/* Bloque de la tabla / lista de canciones (sin reproduccion de audio segun contrato) */}
       <div className="detalle-album-pistas">
-        {/* Cabecera de 4 columnas visible solo en escritorio usando clase predefinida detalle-etiqueta */}
-        <div className="detalle-album-tabla-cabecera detalle-etiqueta" aria-hidden="true">
-          {/* Encabezado de numero de pista (#) */}
-          <span className="detalle-album-col-num">
-            {textosAlbum?.tabla?.etiquetas?.numero}
-          </span>
-          {/* Encabezado de titulo de la cancion */}
-          <span className="detalle-album-col-titulo">
-            {textosAlbum?.tabla?.etiquetas?.titulo}
-          </span>
-          {/* Encabezado de reproducciones alineado a la izquierda igual que Figma */}
-          <span className="detalle-album-col-reproducciones">
-            {textosAlbum?.tabla?.etiquetas?.reproducciones}
-          </span>
-          {/* Encabezado de duracion con icono de reloj alineado a la derecha */}
-          <span
-            // Columna derecha de duracion
-            className="detalle-album-col-duracion"
-            // Tooltip accesible con el texto "Duracion" de la API
-            title={textosAlbum?.tabla?.etiquetas?.duracion}
-          >
-            {/* Icono vectorial de reloj */}
-            <Icono nombre="reloj" className="detalle-album-icono-reloj" />
-          </span>
-        </div>
+        {/* Si el album llego sin canciones mostramos el estado vacio traducido desde la API */}
+        {pistas.length === 0 ? (
+          <EstadoVacio titulo={textosEstados?.vacio?.generico} />
+        ) : (
+          <>
+            {/* Cabecera de 4 columnas visible solo en escritorio usando clase predefinida detalle-etiqueta */}
+            <div className="detalle-album-tabla-cabecera detalle-etiqueta" aria-hidden="true">
+              {/* Encabezado de numero de pista (#) */}
+              <span className="detalle-album-col-num">
+                {textosAlbum?.tabla?.etiquetas?.numero}
+              </span>
+              {/* Encabezado de titulo de la cancion */}
+              <span className="detalle-album-col-titulo">
+                {textosAlbum?.tabla?.etiquetas?.titulo}
+              </span>
+              {/* Encabezado de reproducciones alineado a la izquierda igual que Figma */}
+              <span className="detalle-album-col-reproducciones">
+                {textosAlbum?.tabla?.etiquetas?.reproducciones}
+              </span>
+              {/* Encabezado de duracion con icono de reloj alineado a la derecha */}
+              <span
+                // Columna derecha de duracion
+                className="detalle-album-col-duracion"
+                // Tooltip accesible con el texto "Duracion" de la API
+                title={textosAlbum?.tabla?.etiquetas?.duracion}
+              >
+                {/* Icono vectorial de reloj */}
+                <Icono nombre="reloj" className="detalle-album-icono-reloj" />
+              </span>
+            </div>
 
-        {/* Lista ordenada semantica con todas las pistas reales devueltas por la API */}
-        <ol className="detalle-album-lista-pistas">
-          {/* Recorremos cada pista del arreglo album.pistas */}
-          {pistas.map((pista, indice) => {
-            // Tomamos el artista propio de la pista o el del album como respaldo
-            const nombreArtistaPista =
-              pista.artista?.nombre;
-            // Duracion ya formateada en "m:ss" (ej. 70 -> "1:10")
-            const duracionFormateada = formatearDuracion(pista.duracionSeg);
+            {/* Lista ordenada semantica con todas las pistas reales devueltas por la API */}
+            <ol className="detalle-album-lista-pistas">
+              {/* Recorremos cada pista del arreglo album.pistas */}
+              {pistas.map((pista, indice) => {
+                // Tomamos el artista propio de la pista o el del album como respaldo
+                const nombreArtistaPista =
+                  pista.artista?.nombre;
+                // Duracion ya formateada en "m:ss" (ej. 70 -> "1:10")
+                const duracionFormateada = formatearDuracion(pista.duracionSeg);
 
-            // Retornamos la fila individual de la cancion
-            return (
-              <li key={pista.id || indice} className="detalle-album-fila-pista">
-                {/* Columna 1 (solo web): numero de pista con clase predefinida cuerpo-p */}
-                <span className="detalle-album-col-num cuerpo-p">
-                  {pista.numero ?? indice + 1}
-                </span>
+                // Retornamos la fila individual de la cancion
+                return (
+                  <li key={pista.id || indice} className="detalle-album-fila-pista">
+                    {/* Columna 1 (solo web): numero de pista con clase predefinida cuerpo-p */}
+                    <span className="detalle-album-col-num cuerpo-p">
+                      {pista.numero ?? indice + 1}
+                    </span>
 
-                {/* Columna 2: miniatura de portada + titulo y artista */}
-                <div className="detalle-album-col-titulo">
-                  {/* Mini portada cuadrada (48px movil / 40px web) */}
-                  <div className="detalle-album-pista-portada" aria-hidden="true">
-                    {/* Reutilizamos Portada tomando la portada de la pista o la del album */}
-                    <Portada
-                      portada={pista.portada ?? album.portada}
-                      className="detalle-album-portada-svg"
-                    />
-                  </div>
-                  {/* Columna vertical de textos de la pista */}
-                  <div className="detalle-album-pista-info">
-                    {/* Fila del titulo con posible badge Explicito al lado */}
-                    <div className="detalle-album-pista-titulo-fila">
-                      {/* Nombre de la cancion usando clase predefinida cuerpo-p-fuerte */}
-                      <span className="detalle-album-pista-titulo cuerpo-p-fuerte">
-                        {pista.titulo}
-                      </span>
-                      {/* Si la pista es explicita, mostramos la etiqueta reutilizable desde la API */}
-                      {pista.explicita && textosGeneral?.etiquetas?.explicito && (
-                        <Etiqueta variante="neutra" className="detalle-album-explicito">
-                          {textosGeneral.etiquetas.explicito}
-                        </Etiqueta>
-                      )}
+                    {/* Columna 2: miniatura de portada + titulo y artista */}
+                    <div className="detalle-album-col-titulo">
+                      {/* Mini portada cuadrada (48px movil / 40px web) */}
+                      <div className="detalle-album-pista-portada" aria-hidden="true">
+                        {/* Reutilizamos Portada tomando la portada de la pista o la del album */}
+                        <Portada
+                          portada={pista.portada ?? album.portada}
+                          className="detalle-album-portada-svg"
+                        />
+                      </div>
+                      {/* Columna vertical de textos de la pista */}
+                      <div className="detalle-album-pista-info">
+                        {/* Fila del titulo con posible badge Explicito al lado */}
+                        <div className="detalle-album-pista-titulo-fila">
+                          {/* Nombre de la cancion usando clase predefinida cuerpo-p-fuerte */}
+                          <span className="detalle-album-pista-titulo cuerpo-p-fuerte">
+                            {pista.titulo}
+                          </span>
+                          {/* Si la pista es explicita, mostramos la etiqueta reutilizable desde la API */}
+                          {pista.explicita && textosGeneral?.etiquetas?.explicito && (
+                            <Etiqueta variante="neutra" className="detalle-album-explicito">
+                              {textosGeneral.etiquetas.explicito}
+                            </Etiqueta>
+                          )}
+                        </div>
+                        {/* Nombre del artista de la pista usando clase predefinida detalle-nota */}
+                        {nombreArtistaPista && (
+                          <span className="detalle-album-pista-artista detalle-nota">
+                            {nombreArtistaPista}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {/* Nombre del artista de la pista usando clase predefinida detalle-nota */}
-                    {nombreArtistaPista && (
-                      <span className="detalle-album-pista-artista detalle-nota">
-                        {nombreArtistaPista}
-                      </span>
-                    )}
-                  </div>
-                </div>
 
-                {/* Columna 3 (solo web): reproducciones alineadas a la izquierda con clase cuerpo-p */}
-                <span className="detalle-album-col-reproducciones cuerpo-p">
-                  {formatearReproducciones(pista.reproducciones, idioma)}
-                </span>
+                    {/* Columna 3 (solo web): reproducciones alineadas a la izquierda con clase cuerpo-p */}
+                    <span className="detalle-album-col-reproducciones cuerpo-p">
+                      {formatearReproducciones(pista.reproducciones, idioma)}
+                    </span>
 
-                {/* Columna 4: duracion formateada "m:ss" alineada a la derecha con clase cuerpo-p */}
-                <span
-                  // Columna derecha de duracion
-                  className="detalle-album-col-duracion cuerpo-p"
-                  // Lectura accesible completa para lectores de pantalla
-                  aria-label={
-                    textosAlbum?.tabla?.etiquetas?.duracion
-                      ? `${textosAlbum.tabla.etiquetas.duracion}: ${duracionFormateada}`
-                      : duracionFormateada
-                  }
-                >
-                  {/* Tiempo de la cancion */}
-                  {duracionFormateada}
-                </span>
-              </li>
-            );
-          })}
-        </ol>
+                    {/* Columna 4: duracion formateada "m:ss" alineada a la derecha con clase cuerpo-p */}
+                    <span
+                      // Columna derecha de duracion
+                      className="detalle-album-col-duracion cuerpo-p"
+                      // Lectura accesible completa para lectores de pantalla
+                      aria-label={
+                        textosAlbum?.tabla?.etiquetas?.duracion
+                          ? `${textosAlbum.tabla.etiquetas.duracion}: ${duracionFormateada}`
+                          : duracionFormateada
+                      }
+                    >
+                      {/* Tiempo de la cancion */}
+                      {duracionFormateada}
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+          </>
+        )}
       </div>
 
       {/* Pie con fecha larga y aviso legal: oculto en movil y visible en escritorio segun Figma */}

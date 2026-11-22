@@ -8,6 +8,10 @@ const TRAZOS = {
   chevronAbajo: <path d="m6 9 6 6 6-6" />,
   chevronIzquierda: <path d="m15 18-6-6 6-6" />,
   reloj: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
+  alerta: <><circle cx="12" cy="12" r="9" /><path d="M12 8v4m0 4h.01" /></>,
+  sinConexion: <><path d="M2 2 22 22" /><path d="M8.5 16.5a5 5 0 0 1 7 0" /><path d="M5 13a10 10 0 0 1 5.2-2.6" /><path d="M15.8 10.6A10 10 0 0 1 19 13" /><path d="M12 20h.01" /></>,
+  reintentar: <><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8" /><path d="M21 3v5h-5" /></>,
+  disco: <><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="2.5" /></>,
   logo: (
     <svg viewBox="0 0 32 32" width="32" height="32" fill="none" aria-hidden="true">
       <rect width="32" height="32" rx="16" fill="var(--marca-primario, #C6F24E)" />

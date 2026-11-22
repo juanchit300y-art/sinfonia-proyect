@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useConsulta } from "./useConsulta.js";
 
-const extraerLista = (respuesta) => respuesta?.datos ?? [];
-const extraerAlbumes = (respuesta) => (respuesta?.datos ?? []).slice(0, 6);
+const LISTA_VACIA = [];
+const extraerLista = (respuesta) => respuesta?.datos ?? LISTA_VACIA;
+const extraerAlbumes = (respuesta) => (respuesta?.datos ?? LISTA_VACIA).slice(0, 6);
 
 function obtenerGeneroDeUrl() {
   const parametros = new URLSearchParams(window.location.search);
@@ -30,16 +31,22 @@ export function useCatalogo() {
   function seleccionarGenero(id) {
     // Si se toca el mismo genero activo, se quita el filtro
     const nuevoId = id === generoId ? null : id;
-    const nuevaRuta = nuevoId
-      ? `/catalogo?genero=${encodeURIComponent(nuevoId)}`
-      : "/catalogo";
-    window.history.pushState(null, "", nuevaRuta);
+    // Conservamos otros query params activos (ej. simularLatencia o simularError para pruebas)
+    const parametros = new URLSearchParams(window.location.search);
+    if (nuevoId) {
+      parametros.set("genero", nuevoId);
+    } else {
+      parametros.delete("genero");
+    }
+    const consulta = parametros.toString();
+    const nuevaRuta = consulta ? `/catalogo?${consulta}` : "/catalogo";
+    window.history.pushState({ interno: true }, "", nuevaRuta);
     setGeneroId(nuevoId);
   }
 
   // Los 12 generos se consultan una sola vez al montar la vista
   const consultaGeneros = useConsulta("/generos", {
-    valorInicial: [],
+    valorInicial: LISTA_VACIA,
     transformar: extraerLista,
   });
 
@@ -52,15 +59,26 @@ export function useCatalogo() {
   const consultaDestacados = useConsulta(
     generoId ? null : "/albumes?orden=populares&limite=6",
     {
-      valorInicial: [],
+      valorInicial: LISTA_VACIA,
       transformar: extraerAlbumes,
     }
   );
 
-  function recargar() {
-    if (consultaGeneros.error || consultaGeneros.datos.length === 0) {
-      consultaGeneros.recargar();
-    }
+  // Estados independientes del bloque de contenido (detalle del genero activo o destacados)
+  const cargandoContenido = generoId
+    ? consultaDetalle.cargando
+    : consultaDestacados.cargando;
+  const errorContenido = generoId
+    ? consultaDetalle.error
+    : consultaDestacados.error;
+
+  // Reintenta exclusivamente la consulta de generos
+  function recargarGeneros() {
+    consultaGeneros.recargar();
+  }
+
+  // Reintenta exclusivamente el contenido principal (genero activo o albumes destacados)
+  function recargarContenido() {
     if (generoId) {
       consultaDetalle.recargar();
     } else {
@@ -68,18 +86,30 @@ export function useCatalogo() {
     }
   }
 
+  // Reintenta toda la vista (generos si fallaron o estan vacios + contenido actual)
+  function recargar() {
+    if (consultaGeneros.error || consultaGeneros.datos.length === 0) {
+      consultaGeneros.recargar();
+    }
+    recargarContenido();
+  }
+
   return {
     generos: consultaGeneros.datos,
     generoId,
     detalleGenero: consultaDetalle.datos,
     albumesDestacados: consultaDestacados.datos,
-    cargando:
-      consultaGeneros.cargando ||
-      (generoId ? consultaDetalle.cargando : consultaDestacados.cargando),
-    error:
-      consultaGeneros.error ||
-      (generoId ? consultaDetalle.error : consultaDestacados.error),
+    // Estados combinados (compatibilidad)
+    cargando: consultaGeneros.cargando || cargandoContenido,
+    error: consultaGeneros.error || errorContenido,
+    // Estados granulares para aislar carga/error entre generos y contenido
+    cargandoGeneros: consultaGeneros.cargando,
+    errorGeneros: consultaGeneros.error,
+    cargandoContenido,
+    errorContenido,
     seleccionarGenero,
     recargar,
+    recargarGeneros,
+    recargarContenido,
   };
 }
