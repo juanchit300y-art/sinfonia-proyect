@@ -1,0 +1,85 @@
+/* PRIMERO CONFIGURAMOS LA VISTA MOBILE */
+
+/* Contenedor exterior que centra vertical y horizontalmente el mensaje 404 */
+.no-encontrado {
+  /* Flexbox para centrar la tarjeta en la pantalla */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  width: 100%;
+  min-height: 55vh;
+  /* Separacion vertical arriba y abajo */
+  padding-block: var(--espacio-12);
+}
+
+/* Caja interior con fondo de superficie y borde sutil */
+.no-encontrado-caja {
+  /* Disposicion en columna vertical */
+  display: flex;
+  /* Apila codigo, titulo, descripcion y boton */
+  flex-direction: column;
+  /* Centra los elementos horizontalmente */
+  align-items: center;
+  /* Centra el texto de los parrafos */
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  padding: var(--espacio-8);
+  background-color: var(--fondo-superficie);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-lg);
+  /* Espacio uniforme entre cada bloque interno */
+  gap: var(--espacio-3);
+}
+
+/* Color verde de la marca para el numero 404 */
+.no-encontrado-codigo {
+  color: var(--marca-primario);
+}
+
+/* Color principal y reinicio de margen para el titulo 404 */
+.no-encontrado-titulo {
+  margin: 0;
+  color: var(--texto-principal);
+}
+
+/* Color secundario y reinicio de margen para la descripcion */
+.no-encontrado-descripcion {
+  margin: 0;
+  color: var(--texto-secundario);
+}
+
+/* Boton primario de retorno (la tipografia viene de .cuerpo-p-fuerte en tokens.css) */
+.no-encontrado-boton {
+  /* Caja en linea flexible para centrar el texto */
+  display: inline-flex;
+  /* Centra verticalmente */
+  align-items: center;
+  /* Centra horizontalmente */
+  justify-content: center;
+  margin-top: var(--espacio-3);
+  min-height: var(--espacio-12);
+  /* Relleno lateral de 24px */
+  padding: 0 var(--espacio-6);
+  border-radius: var(--radio-completo);
+  background-color: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+/* Efecto hover del boton 404 */
+.no-encontrado-boton:hover {
+  background-color: var(--marca-primario-hover);
+  color: var(--texto-sobre-marca);
+  /* Ligera elevacion */
+  transform: translateY(-1px);
+}
+
+/* Foco visible para navegacion con teclado */
+.no-encontrado-boton:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 2px;
+}

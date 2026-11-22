@@ -6,6 +6,8 @@ const TRAZOS = {
   idioma: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a18 18 0 0 1 0 18 18 18 0 0 1 0-18Z" /></>,
   accesibilidad: <><circle cx="12" cy="4" r="2" /><path d="M4 8h16M12 6v8m0 0-4 7m4-7 4 7" /></>,
   chevronAbajo: <path d="m6 9 6 6 6-6" />,
+  chevronIzquierda: <path d="m15 18-6-6 6-6" />,
+  reloj: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
   logo: (
     <svg viewBox="0 0 32 32" width="32" height="32" fill="none" aria-hidden="true">
       <rect width="32" height="32" rx="16" fill="var(--marca-primario, #C6F24E)" />
