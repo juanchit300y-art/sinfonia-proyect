@@ -1,0 +1,539 @@
+/* Hoja de estilos concisa de Vista 4 · Iniciar sesion (movil primero + escritorio 1440x900) */
+
+/* Contenedor raiz a pantalla completa que ocupa al menos el 100% del alto visible */
+.ingresar {
+  /* Rejilla de una sola columna en movil */
+  display: grid;
+  /* Una columna de ancho completo */
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 100dvh;
+  width: 100%;
+  background-color: var(--fondo-base);
+}
+
+/* Columna izquierda (en movil ocupa toda la pantalla de arriba hacia abajo como en Figma 390px) */
+.ingresar-columna-formulario {
+  /* Disposicion vertical flexible */
+  display: flex;
+  /* Direccion columna */
+  flex-direction: column;
+  /* En movil apila desde arriba: collage, logo y formulario */
+  justify-content: flex-start;
+  padding: var(--espacio-8) var(--espacio-6);
+  background-color: var(--fondo-base);
+}
+
+/* Collage superior de 3 portadas superpuestas exclusivo de la vista movil (390px) */
+.ingresar-collage-movil {
+  /* Referencia de posicionamiento para las 3 portadas superpuestas */
+  position: relative;
+  width: 296px;
+  max-width: 100%;
+  height: 176px;
+  /* Centrado horizontal con separacion hacia el logo */
+  margin: 0 auto var(--espacio-6) auto;
+  /* Evita encogerse en contenedores flex */
+  flex-shrink: 0;
+}
+
+/* Caja base para cada portada del collage movil */
+.ingresar-collage-item {
+  /* Posicion absoluta dentro del marco de 296x176 */
+  position: absolute;
+  border-radius: var(--radio-lg);
+  /* Recorta el SVG dentro de las esquinas */
+  overflow: hidden;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+/* Portada central trasera (turquesa con colina negra y sol blanco) */
+.ingresar-collage-centro {
+  width: 146px;
+  height: 146px;
+  /* Ubicacion superior */
+  top: 8px;
+  /* Centrado horizontal exacto */
+  left: 50%;
+  /* Desplaza la mitad de su ancho hacia la izquierda */
+  transform: translateX(-50%);
+  /* Capa trasera detras de las dos tarjetas inclinadas */
+  z-index: 1;
+}
+
+/* Portada izquierda delantera (rosa con anillos violeta inclinada hacia la izquierda) */
+.ingresar-collage-izq {
+  width: 96px;
+  height: 96px;
+  /* Apoyada en la zona inferior izquierda */
+  bottom: 10px;
+  /* Desplazada hacia la izquierda para solapar el borde de la central */
+  left: 14px;
+  /* Inclinacion antihoraria fiel a Figma */
+  transform: rotate(-12deg);
+  /* Capa delantera sobre la central */
+  z-index: 2;
+}
+
+/* Portada derecha delantera (coral con rayas amarillas inclinada hacia la derecha) */
+.ingresar-collage-der {
+  width: 98px;
+  height: 98px;
+  top: 28px;
+  /* Solapa el borde derecho de la tarjeta central */
+  right: 10px;
+  transform: rotate(10deg);
+  z-index: 2;
+}
+
+/* Cabecera del logo alineada al mismo ancho de 400px que el formulario en movil */
+.ingresar-cabecera {
+  width: 100%;
+  max-width: 400px;
+  /* Centrada en movil y separada 16px del titulo h1 */
+  margin: 0 auto var(--espacio-4) auto;
+}
+
+/* Enlace del logotipo superior izquierdo */
+.ingresar-marca {
+  /* Alinea isotipo y nombre en fila */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  gap: var(--espacio-2);
+  text-decoration: none;
+  color: var(--texto-principal);
+}
+
+/* Evita cambio de color verde al pasar el raton sobre el logo */
+.ingresar-marca:hover {
+  color: var(--texto-principal);
+}
+
+/* Foco accesible por teclado en el logo */
+.ingresar-marca:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 4px;
+  border-radius: var(--radio-sm);
+}
+
+/* Ajusta el peso visual del texto de la marca (tipografia viene de .titular-h3) */
+.ingresar-marca-texto {
+  /* Tracking ligeramente cerrado como en Navbar */
+  letter-spacing: -0.02em;
+}
+
+/* Bloque central del formulario limitado a 400px de ancho maximo igual que en Figma */
+.ingresar-cuerpo {
+  width: 100%;
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+/* Titulo principal (toma tamano, fuente y peso de .titular-h1 en tokens.css) */
+.ingresar-titulo {
+  margin: 0 0 var(--espacio-3) 0;
+  color: var(--texto-principal);
+  max-width: 320px;
+}
+
+/* Subtitulo explicativo debajo del h1 (tipografia viene de .cuerpo-p) */
+.ingresar-subtitulo {
+  margin: 0 0 var(--espacio-6) 0;
+  color: var(--texto-secundario);
+}
+
+/* Contenedor vertical del formulario */
+.ingresar-formulario {
+  /* Apila campos, opciones y boton */
+  display: flex;
+  /* Direccion vertical */
+  flex-direction: column;
+  gap: var(--espacio-4);
+}
+
+/* Grupo individual etiqueta + input */
+.ingresar-grupo {
+  /* Apila label arriba e input abajo */
+  display: flex;
+  /* Direccion vertical */
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+/* Etiqueta superior de cada campo (tipografia viene de .detalle-nota-fuerte) */
+.ingresar-etiqueta {
+  color: var(--texto-principal);
+}
+
+/* Contenedor relativo para el campo de contrasena y el futuro boton de ojo (Paso 2) */
+.ingresar-campo-clave {
+  /* Referencia de posicionamiento para el boton interior */
+  position: relative;
+  /* Centra verticalmente el icono cuando se agregue */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+}
+
+/* Caja de entrada de texto (tipografia viene de .cuerpo-p) */
+.ingresar-campo {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--espacio-4);
+  background-color: var(--fondo-superficie);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-md);
+  color: var(--texto-principal);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Color discreto para el texto guia (placeholder) */
+.ingresar-campo::placeholder {
+  color: var(--texto-terciario);
+}
+
+/* Resaltado accesible cuando el campo tiene foco por clic o por teclado */
+.ingresar-campo:focus,
+.ingresar-campo:focus-visible {
+  outline: none;
+  border-color: var(--marca-primario);
+  box-shadow: 0 0 0 2px var(--marca-suave);
+}
+
+/* Mantiene el fondo y texto del tema activo cuando Chrome o Edge autocompletan correo/contrasena */
+.ingresar-campo:-webkit-autofill,
+.ingresar-campo:-webkit-autofill:hover,
+.ingresar-campo:-webkit-autofill:focus {
+  /* Rellena el interior con el color de superficie para tapar el fondo claro nativo */
+  -webkit-box-shadow: 0 0 0 1000px var(--fondo-superficie) inset;
+  /* Fuerza el color de texto del tema activo */
+  -webkit-text-fill-color: var(--texto-principal);
+  /* Color del cursor de escritura */
+  caret-color: var(--texto-principal);
+}
+
+/* Reserva espacio derecho en el campo de contrasena para el boton ojo */
+.ingresar-campo--clave {
+  /* 48px a la derecha para que el texto nunca se encime sobre el icono */
+  padding-right: var(--espacio-12);
+}
+
+/* Oculta el icono de ojo nativo que inserta Microsoft Edge para evitar dos ojos encimados */
+.ingresar-campo--clave::-ms-reveal,
+.ingresar-campo--clave::-ms-clear {
+  /* Desactiva el control duplicado del navegador */
+  display: none;
+}
+
+/* Boton interior del ojo para mostrar u ocultar la contrasena */
+.ingresar-boton-clave {
+  /* Posicionado absoluto respecto a .ingresar-campo-clave */
+  position: absolute;
+  right: 6px;
+  /* Centra el icono SVG dentro del boton */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: var(--radio-sm);
+  color: var(--texto-secundario);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+/* Efecto hover del boton ojo */
+.ingresar-boton-clave:hover {
+  color: var(--texto-principal);
+  background-color: var(--fondo-sutil);
+}
+
+/* Contorno accesible al navegar con la tecla Tab sobre el boton ojo */
+.ingresar-boton-clave:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 2px;
+}
+
+/* Tamano compacto del SVG del ojo igual al arte de Figma */
+.ingresar-boton-clave-icono {
+  width: 18px;
+  height: 18px;
+}
+
+/* Fila de opciones: en movil apilada verticalmente (checkbox arriba, enlace abajo) segun Figma 390px */
+.ingresar-opciones {
+  /* Disposicion vertical en movil */
+  display: flex;
+  /* Apila "Mantener la sesion iniciada" encima de "Olvidaste tu contrasena?" */
+  flex-direction: column;
+  /* Alinea ambos elementos al borde izquierdo */
+  align-items: flex-start;
+  gap: var(--espacio-3);
+  /* Pequeno respiro vertical respecto a los campos y el boton */
+  margin-block: var(--espacio-1);
+}
+
+/* Etiqueta contenedora de la casilla recordar sesion (tipografia de .detalle-nota) */
+.ingresar-recordar {
+  /* Alinea casilla y texto en fila */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  gap: var(--espacio-2);
+  color: var(--texto-secundario);
+  cursor: pointer;
+}
+
+/* Casilla de verificacion personalizada fiel al cuadro verde lima con palomita oscura de Figma */
+.ingresar-checkbox {
+  /* Elimina la apariencia nativa distinta en cada navegador */
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin: 0;
+  background-color: var(--fondo-superficie);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 4px;
+  /* Centra la palomita interior */
+  display: inline-grid;
+  /* Centrado vertical y horizontal */
+  place-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Estado marcado del checkbox en color verde lima de la marca */
+.ingresar-checkbox:checked {
+  background-color: var(--marca-primario);
+  border-color: var(--marca-primario);
+}
+
+/* Dibuja la palomita oscura dentro del checkbox marcado usando bordes rotados */
+.ingresar-checkbox:checked::after {
+  /* Contenido vacio para formar la figura */
+  content: "";
+  width: 5px;
+  height: 9px;
+  border: solid var(--texto-sobre-marca);
+  /* Solo borde derecho e inferior */
+  border-width: 0 2px 2px 0;
+  /* Rotacion a 45 grados y leve ajuste vertical */
+  transform: rotate(45deg) translate(-0.5px, -1px);
+}
+
+/* Foco visible con teclado sobre el checkbox */
+.ingresar-checkbox:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 2px;
+}
+
+/* Enlaces subrayados del formulario (tipografia de .detalle-nota-fuerte) */
+.ingresar-enlace {
+  color: var(--texto-marca);
+  text-decoration: underline;
+  /* Separacion limpia entre texto y linea */
+  text-underline-offset: 3px;
+  /* Transicion suave sobre la opacidad que cambia en hover */
+  transition: opacity 0.15s ease;
+}
+
+/* Hover del enlace reafirmando el color accesible para ganarle a a:hover de global.css en modo claro */
+.ingresar-enlace:hover {
+  /* Mantiene el color accesible del tema activo */
+  color: var(--texto-marca);
+  /* Atenua ligeramente al pasar el cursor */
+  opacity: 0.82;
+}
+
+/* Foco visible por teclado en los enlaces */
+.ingresar-enlace:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Boton primario verde lima de ancho completo (tipografia viene de .cuerpo-p-fuerte) */
+.ingresar-boton {
+  width: 100%;
+  min-height: 50px;
+  margin-top: var(--espacio-1);
+  /* Relleno lateral de seguridad */
+  padding: 0 var(--espacio-6);
+  border: none;
+  border-radius: var(--radio-completo);
+  background-color: var(--marca-primario);
+  color: var(--texto-sobre-marca);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+/* Hover del boton primario */
+.ingresar-boton:hover {
+  background-color: var(--marca-primario-hover);
+}
+
+/* Estado presionado del boton */
+.ingresar-boton:active {
+  background-color: var(--marca-primario-presionado);
+  /* Ligera sensacion tactil */
+  transform: scale(0.99);
+}
+
+/* Foco accesible por teclado en el boton primario */
+.ingresar-boton:focus-visible {
+  outline: 2px solid var(--marca-primario);
+  outline-offset: 3px;
+}
+
+/* Linea inferior centrada "No tienes cuenta? Crea una cuenta" (tipografia de .detalle-nota) */
+.ingresar-registro {
+  margin: var(--espacio-4) 0 0 0;
+  /* Centrado horizontal */
+  text-align: center;
+  color: var(--texto-secundario);
+}
+
+/* Contenedor del pie legal: oculto en movil (390px) y visible en escritorio (1440px)*/
+.ingresar-pie {
+  display: none;
+}
+
+/* Pie inferior con copyright (tipografia de .detalle-nota) */
+.ingresar-derechos {
+  margin: 0;
+  color: var(--texto-terciario);
+}
+
+/* Hace que cualquier Portada decorativa (collage movil o galeria web) llene su caja sin hover (mayor especificidad que .portada) */
+.ingresar .ingresar-galeria-portada {
+  width: 100%;
+  height: 100%;
+  /* Sin espacio inferior de linea */
+  display: block;
+  /* Hereda las esquinas redondeadas de su contenedor padre */
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Evita la elevacion hover de Portada.css ganandole en especificidad sin depender del orden de imports */
+.ingresar .ingresar-galeria-portada:hover {
+  /* Mantiene las portadas quietas al pasar el raton */
+  transform: none;
+  box-shadow: none;
+}
+
+/* Columna derecha decorativa: oculta en movil para priorizar el formulario */
+.ingresar-columna-visual {
+  display: none;
+}
+
+/* Reglas de escritorio (>= 960px) para el layout dividido fiel a Figma 1440x900 */
+@media (min-width: 960px) {
+  /* Divide la pantalla en 44.2% izquierda (formulario) y el resto derecha (galeria) */
+  .ingresar {
+    /* Misma proporcion medida en el arte 1440x900 */
+    grid-template-columns: minmax(480px, 44.2%) 1fr;
+  }
+
+  /* Oculta el collage superior movil porque en escritorio se muestra la galeria derecha 4x2 */
+  .ingresar-collage-movil {
+    display: none;
+  }
+
+  /* Alinea logo arriba, formulario al centro y derechos abajo con relleno de 58px */
+  .ingresar-columna-formulario {
+    /* Empuja logo arriba, formulario al centro y pie legal abajo */
+    justify-content: space-between;
+    /* Separacion minima entre cabecera, cuerpo y pie */
+    gap: var(--espacio-8);
+    /* 40px arriba/abajo y 58px a los lados igual que Figma */
+    padding: 40px 58px;
+  }
+
+  /* En escritorio el logo se ancla arriba a la izquierda sin margen inferior extra */
+  .ingresar-cabecera {
+    max-width: none;
+    margin: 0;
+  }
+
+  /* Ancla el formulario al borde izquierdo de la columna en escritorio igual que el logo */
+  .ingresar-cuerpo {
+    /* Quita el centrado horizontal movil */
+    margin-inline: 0;
+  }
+
+  /* En escritorio checkbox y enlace se colocan en la misma fila a extremos opuestos */
+  .ingresar-opciones {
+    /* Direccion horizontal */
+    flex-direction: row;
+    /* Centrado vertical */
+    align-items: center;
+    /* Uno a la izquierda y otro a la derecha */
+    justify-content: space-between;
+    /* Permite envolver si el zoom de accesibilidad agranda el texto */
+    flex-wrap: wrap;
+    gap: var(--espacio-2);
+  }
+
+  /* Muestra el pie legal en el borde inferior izquierdo en escritorio */
+  .ingresar-pie {
+    /* Visible como bloque */
+    display: block;
+  }
+
+  /* Muestra el panel derecho con fondo de superficie gris */
+  .ingresar-columna-visual {
+    /* Centra el bloque visual vertical y horizontalmente */
+    display: flex;
+    /* Centrado vertical */
+    align-items: center;
+    /* Centrado horizontal */
+    justify-content: center;
+    padding: var(--espacio-12);
+    background-color: var(--fondo-superficie);
+  }
+
+  /* Ancho maximo del bloque derecho (cuadricula 4x2 + titulo + subtitulo) */
+  .ingresar-visual-contenido {
+    width: 100%;
+    max-width: 688px;
+  }
+
+  /* Cuadricula exacta de 4 columnas x 2 filas de portadas SVG */
+  .ingresar-galeria {
+    /* Activa CSS Grid */
+    display: grid;
+    /* 4 columnas iguales */
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--espacio-4);
+    margin-bottom: var(--espacio-8);
+  }
+
+  /* Caja cuadrada 1:1 para cada portada decorativa */
+  .ingresar-galeria-item {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radio-lg);
+    overflow: hidden;
+  }
+
+  /* Titulo promocional derecho escalado a 36px respetando --escala-texto de accesibilidad */
+  .ingresar .ingresar-presentacion-titulo {
+    /* Margen inferior hacia el subtitulo */
+    margin: 0 0 var(--espacio-3) 0;
+    font-size: calc(36px * var(--escala-texto, 1));
+    line-height: 1.18;
+    color: var(--texto-principal);
+  }
+
+  /* Subtitulo derecho descriptivo (tipografia viene de .cuerpo-m) */
+  .ingresar-presentacion-texto {
+    margin: 0;
+    color: var(--texto-secundario);
+  }
+}

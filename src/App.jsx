@@ -10,6 +10,7 @@ import InicioPublico from "./components/InicioPublico.jsx";
 import BannerCookies from "./components/BannerCookies.jsx";
 import CatalogoMusical from "./components/CatalogoMusical.jsx";
 import DetalleAlbum from "./components/DetalleAlbum.jsx";
+import IniciarSesion from "./components/IniciarSesion.jsx";
 import NoEncontrado from "./components/NoEncontrado.jsx";
 
 // Extrae la vista principal (primer segmento) y el ID dinamico (segundo segmento, ej. /albumes/alb_luz-de-paramo)
@@ -103,13 +104,14 @@ function App() {
 
   const esInicio = activo === "inicio" || activo === "descubrir" || activo === "";
   const esDetalleAlbum = (activo === "albumes" || activo === "album") && Boolean(parametroId);
+  const esIngresar = activo === "ingresar";
   const esCrearCuenta = activo === "crear-cuenta" || activo === "crearCuenta";
   const esRutaConocida =
     esInicio ||
     activo === "catalogo" ||
     esDetalleAlbum ||
     activo === "artista" ||
-    activo === "ingresar" ||
+    esIngresar ||
     esCrearCuenta ||
     activo === "terminos" ||
     activo === "accesibilidad";
@@ -147,14 +149,18 @@ function App() {
 
   return (
     <div className="sitio">
-      <Navbar
-        {...datos}
-        idioma={idioma}
-        cambiarIdioma={cambiarIdiomaSeguro}
-        activo={activo}
-        onNavegar={navegar}
-      />
-      <main className="contenido contenedor">
+      {/* En la vista dividida de inicio de sesion no se muestra el navbar global segun Figma */}
+      {!esIngresar && (
+        <Navbar
+          {...datos}
+          idioma={idioma}
+          cambiarIdioma={cambiarIdiomaSeguro}
+          activo={activo}
+          onNavegar={navegar}
+        />
+      )}
+      {/* En /ingresar el main ocupa el 100% sin margenes de .contenedor para llegar de borde a borde */}
+      <main className={esIngresar ? "contenido" : "contenido contenedor"}>
         {/* Vista 1 · Inicio publico */}
         {esInicio && (
           <InicioPublico
@@ -199,12 +205,11 @@ function App() {
         )}
 
         {/* Vista 4 · Iniciar sesion */}
-        {activo === "ingresar" && (
-          <section id="ingresar" className="seccion">
-            <h1 className="titular-h1">
-              {datos.textos?.navbar?.botones?.invitado?.ingresar}
-            </h1>
-          </section>
+        {esIngresar && (
+          <IniciarSesion
+            textos={datos.textos}
+            onNavegar={navegar}
+          />
         )}
 
         {/* Vista 5 · Crear cuenta */}
@@ -254,7 +259,10 @@ function App() {
           }
         }}
       />
-      <Footer textos={datos.textos} idioma={idioma} onNavegar={navegar} />
+      {/* En la vista de inicio de sesion el pie legal vive dentro de su propia columna izquierda */}
+      {!esIngresar && (
+        <Footer textos={datos.textos} idioma={idioma} onNavegar={navegar} />
+      )}
     </div>
   );
 }
