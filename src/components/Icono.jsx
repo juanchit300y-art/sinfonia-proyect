@@ -9,9 +9,13 @@ const TRAZOS = {
   chevronIzquierda: <path d="m15 18-6-6 6-6" />,
   reloj: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
   alerta: <><circle cx="12" cy="12" r="9" /><path d="M12 8v4m0 4h.01" /></>,
+  exito: <><circle cx="12" cy="12" r="9" /><path d="m8.5 12.2 2.4 2.4 4.8-4.8" /></>,
+  info: <><circle cx="12" cy="12" r="9" /><path d="M12 11v5m0-8h.01" /></>,
   sinConexion: <><path d="M2 2 22 22" /><path d="M8.5 16.5a5 5 0 0 1 7 0" /><path d="M5 13a10 10 0 0 1 5.2-2.6" /><path d="M15.8 10.6A10 10 0 0 1 19 13" /><path d="M12 20h.01" /></>,
   reintentar: <><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8" /><path d="M21 3v5h-5" /></>,
   disco: <><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="2.5" /></>,
+  ojo: <><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></>,
+  ojoTachado: <><path d="M3 3l18 18" /><path d="M10.6 10.6a3 3 0 0 0 4.2 4.2" /><path d="M9.9 5.2A10.6 10.6 0 0 1 12 5c6.5 0 10 7 10 7a18.5 18.5 0 0 1-3.1 4.2" /><path d="M6.6 6.6A18.3 18.3 0 0 0 2 12s3.5 7 10 7a10.4 10.4 0 0 0 5.4-1.5" /></>,
   logo: (
     <svg viewBox="0 0 32 32" width="32" height="32" fill="none" aria-hidden="true">
       <rect width="32" height="32" rx="16" fill="var(--marca-primario, #C6F24E)" />
