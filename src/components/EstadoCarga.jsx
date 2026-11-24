@@ -1,4 +1,3 @@
-// Importamos la hoja de estilos concisa de los esqueletos de carga
 import "./EstadoCarga.css";
 
 // Funcion auxiliar que crea un arreglo numerado del tamano solicitado para iterar esqueletos
@@ -15,13 +14,13 @@ export default function EstadoCarga({
   cantidad,
   // Texto accesible para lectores de pantalla proveniente de textos.estados.cargando.aria
   textoAria = "",
-  // Texto de respaldo proveniente de textos.estados.cargando.titulo
+  // Texto visible del indicador proveniente de textos.estados.cargando.titulo ("Cargando...")
   textoTitulo = "",
   // Clase CSS opcional adicional enviada por el componente padre
   className = "",
 }) {
-  // Seleccionamos el mensaje accesible traducido desde la API (nunca texto quemado)
-  const mensajeAccesible = textoAria || textoTitulo || "";
+  // Seleccionamos la etiqueta aria-label oficial desde textos.estados.cargando.aria (con respaldo a titulo)
+  const etiquetaAria = textoAria || textoTitulo || "";
 
   // Determinamos cuantas tarjetas o filas renderizar segun la variante si no se paso cantidad
   const totalElementos =
@@ -36,25 +35,31 @@ export default function EstadoCarga({
   // Combinamos la clase base, la variante activa y cualquier clase adicional
   const clasesContenedor = `estado-carga estado-carga--${variante} ${className}`.trim();
 
-  // Retornamos la region accesible con esqueletos que imitan la geometria real de cada vista
+  // Retornamos la region accesible con texto visible + esqueletos que imitan la geometria real de cada vista
   return (
     // Region de estado en vivo que informa carga activa a tecnologias de asistencia
     <div
-      // Clases de contenedor y variante
       className={clasesContenedor}
-      // Rol semantico de estado para cambios no intrusivos
       role="status"
-      // Indica a lectores de pantalla que esta region esta cargando datos
       aria-busy="true"
-      // Anuncia el cambio de forma educada sin interrumpir al usuario
       aria-live="polite"
-      // Etiqueta accesible solo cuando ya llegaron los textos de la API
-      aria-label={mensajeAccesible || undefined}
+      // Etiqueta accesible oficial proveniente de textos.estados.cargando.aria
+      aria-label={etiquetaAria || undefined}
     >
-      {/* Texto oculto visualmente pero legible por lectores de pantalla */}
-      {mensajeAccesible && (
-        // Span con tecnica sr-only para accesibilidad real
-        <span className="estado-carga-lector">{mensajeAccesible}</span>
+      {/* Indicador textual visible ("Cargando...") proveniente de textos.estados.cargando.titulo */}
+      {textoTitulo ? (
+        // Parrafo discreto con punto animado reutilizando la clase tipografica cuerpo-p
+        <p className="estado-carga-titulo cuerpo-p">
+          {/* Punto decorativo de estado oculto a lectores de pantalla */}
+          <span className="estado-carga-punto" aria-hidden="true" />
+          {/* Texto visible "Cargando..." / "Loading..." desde la API */}
+          <span>{textoTitulo}</span>
+        </p>
+      ) : (
+        // Respaldo oculto para lectores de pantalla si solo llego textoAria sin textoTitulo
+        etiquetaAria && (
+          <span className="estado-carga-lector">{etiquetaAria}</span>
+        )
       )}
 
       {/* Variante 1: cuadricula de esqueletos de tarjetas de generos */}

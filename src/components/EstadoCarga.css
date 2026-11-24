@@ -7,6 +7,49 @@
   min-width: 0;
 }
 
+/* Indicador visible superior con el texto textos.estados.cargando.titulo (tipografia de .cuerpo-p) */
+.estado-carga-titulo {
+  /* Alinea el punto luminoso y el texto "Cargando..." en una misma fila */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Separacion compacta entre el punto y el texto */
+  gap: var(--espacio-2);
+  /* Margen inferior hacia los esqueletos */
+  margin: 0 0 var(--espacio-4) 0;
+  /* Tono secundario discreto para no competir con los encabezados */
+  color: var(--texto-secundario);
+}
+
+/* Punto decorativo que acompana al texto "Cargando..." */
+.estado-carga-punto {
+  /* Tamano compacto de 8px */
+  width: 8px;
+  /* Alto igual al ancho */
+  height: 8px;
+  /* Forma circular completa */
+  border-radius: var(--radio-completo);
+  /* Color de marca con contraste en modo oscuro y claro */
+  background-color: var(--texto-marca);
+  /* Evita encogimiento */
+  flex-shrink: 0;
+  /* Pulso suave de opacidad */
+  animation: estado-carga-latido 1.4s ease-in-out infinite;
+}
+
+/* Animacion suave del punto indicador */
+@keyframes estado-carga-latido {
+  /* Opacidad completa al inicio y final */
+  0%,
+  100% {
+    opacity: 1;
+  }
+  /* Opacidad atenuada a mitad del ciclo */
+  50% {
+    opacity: 0.35;
+  }
+}
+
 /* Texto oculto visualmente pero accesible para lectores de pantalla (tecnica sr-only) */
 .estado-carga-lector {
   /* Lo saca del flujo normal */
@@ -498,10 +541,23 @@
     animation: none;
     background: var(--fondo-sutil);
   }
+
+  /* Detiene tambien el pulso del punto junto a "Cargando..." */
+  .estado-carga-punto {
+    /* Sin animacion */
+    animation: none;
+  }
 }
 
 /* Tambien detiene la animacion si el usuario activo Reducir movimiento en el panel de Sintonia */
-html[data-reducir-movimiento="true"] .estado-carga-pulso {
+html[data-reducir-movimiento="true"] .estado-carga-pulso,
+html[data-reducir-movimiento="true"] .estado-carga-punto {
+  /* Sin animacion */
   animation: none;
+}
+
+/* Fondo estatico limpio para los bloques del esqueleto cuando Reducir movimiento esta activo */
+html[data-reducir-movimiento="true"] .estado-carga-pulso {
+  /* Color solido estable */
   background: var(--fondo-sutil);
 }
