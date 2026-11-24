@@ -1,5 +1,7 @@
 import { useTextos } from "./hooks/useTextos.js";
 import { useInicio } from "./hooks/useInicio.js";
+// Importamos el hook global de sesion persistente (GET /sesion y DELETE /sesion con cookie httpOnly)
+import { useSesion } from "./hooks/useSesion.js";
 
 import "./App.css";
 import { useEffect, useState } from "react";
@@ -89,6 +91,29 @@ function App() {
     window.dispatchEvent(new CustomEvent("sintonia-navegacion"));
   }
 
+  // Consultamos y gestionamos la sesion global desde la cookie httpOnly "sesion" (sin usar localStorage)
+  const {
+    usuario,
+    cargandoSesion,
+    cerrandoSesion,
+    iniciarSesionLocal,
+    cerrarSesion,
+  } = useSesion({
+    // Si una peticion autenticada recibe 401 no_autenticado, redirigimos a /ingresar
+    onNoAutenticado: () => navegar("/ingresar"),
+  });
+
+  // Cierra la sesion en el servidor (DELETE /sesion) y lleva al usuario de vuelta al inicio
+  async function manejarCerrarSesion() {
+    // Esperamos a que el servidor borre la cookie httpOnly "sesion"
+    const cerro = await cerrarSesion();
+    // Si la sesion quedo cerrada limpiamente, regresamos a la portada principal
+    if (cerro) {
+      // Navegacion SPA hacia el inicio
+      navegar("/");
+    }
+  }
+
   // Sincroniza la vista cuando el usuario usa los botones Atras / Adelante del navegador
   useEffect(() => {
     function actualizar() {
@@ -115,6 +140,19 @@ function App() {
     esCrearCuenta ||
     activo === "terminos" ||
     activo === "accesibilidad";
+
+  // Si el usuario ya tiene sesion iniciada y entra a /ingresar, lo redirigimos al inicio
+  useEffect(() => {
+    // Esperamos a que termine GET /sesion para no redirigir por error durante la verificacion inicial
+    if (!cargandoSesion && usuario && esIngresar) {
+      // Reemplazamos la entrada de /ingresar en el historial por "/" para que el boton Atras no vuelva al login
+      window.history.replaceState({ interno: true }, "", "/");
+      // Actualizamos el estado de ruta de React hacia la vista de inicio
+      setRutaActual(leerRutaActual());
+      // Notificamos el cambio de ruta a otros hooks suscritos
+      window.dispatchEvent(new CustomEvent("sintonia-navegacion"));
+    }
+  }, [cargandoSesion, usuario, esIngresar]);
 
   // Mantiene titulo y meta description sincronizados en vistas principales y 404 (DetalleAlbum maneja los suyos)
   useEffect(() => {
@@ -157,6 +195,10 @@ function App() {
           cambiarIdioma={cambiarIdiomaSeguro}
           activo={activo}
           onNavegar={navegar}
+          usuario={usuario}
+          cargandoSesion={cargandoSesion}
+          cerrandoSesion={cerrandoSesion}
+          onCerrarSesion={manejarCerrarSesion}
         />
       )}
       {/* En /ingresar el main ocupa el 100% sin margenes de .contenedor para llegar de borde a borde */}
@@ -209,6 +251,7 @@ function App() {
           <IniciarSesion
             textos={datos.textos}
             onNavegar={navegar}
+            onIngresoExitoso={iniciarSesionLocal}
           />
         )}
 

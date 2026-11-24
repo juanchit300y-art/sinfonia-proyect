@@ -172,8 +172,6 @@
   background-color: var(--fondo-base);
   /* linea divisoria superior para no tapar la linea del navbar*/
   border-top: 1px solid var(--borde-sutil);
-  /* linea divisoria en el fondo */
-  border-bottom: 1px solid var(--borde-sutil);
   padding: var(--espacio-6);
 }
 
@@ -215,6 +213,10 @@
 
 /* cada enlace individual dentro de la lista */
 .navbar-enlaces a{
+  /* coloca el icono movil y el texto del enlace alineados en una fila */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-3);
   position: relative;
   color: var(--texto-secundario);
   /* para facil toque en movil */
@@ -222,6 +224,13 @@
   font-weight: 600;
   padding-block: var(--espacio-2);
   transition: color 150ms ease;
+}
+
+/* tamano compacto de los iconos de Inicio y Catalogo dentro del menu movil */
+.navbar-enlace-icono-movil {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 /* color al pasar el cursor sobre cualquier enlace de la lista */
@@ -309,7 +318,8 @@
   gap: var(--espacio-3);
   width: calc(100% + var(--espacio-6) * 2);
   margin-inline: calc(var(--espacio-6) * -1);
-  margin-bottom: calc(var(--espacio-4) * -1);
+  /* compensa por completo los 24px de padding inferior de .navbar-panel para pegar el pie al borde inferior */
+  margin-bottom: calc(var(--espacio-6) * -1);
   margin-top: 0;
   padding: var(--espacio-4) var(--espacio-6);
   /* fondo para distinguirse de la zona de enlaces */
@@ -380,6 +390,150 @@
   border-color: var(--borde-sutil);
 }
 
+/* BLOQUE 8B - estado con sesion iniciada (movil y escritorio) */
+
+/* El bloque de cuenta de escritorio permanece oculto en movil */
+.navbar-cuenta-web {
+  /* No se muestra en pantallas moviles */
+  display: none;
+}
+
+/* En movil con sesion iniciada, el pie de utilidades usa direccion normal en fila */
+.navbar-utilidades--con-sesion {
+  /* Sobreescribe el column-reverse de invitado */
+  flex-direction: row;
+  /* Alinea verticalmente el bloque de cuenta movil */
+  align-items: center;
+}
+
+/* Barra inferior de cuenta dentro del menu hamburguesa movil (fiel a Fotos 4 y 5 de Figma) */
+.navbar-cuenta-movil {
+  /* Distribuye avatar+nombre a la izquierda y boton "Cerrar sesion" a la derecha */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Separa los dos extremos */
+  justify-content: space-between;
+  /* Espacio minimo entre nombre y boton */
+  gap: var(--espacio-3);
+  /* Ocupa todo el ancho del pie de cortina */
+  width: 100%;
+  /* Permite truncar nombres largos sin romper el layout */
+  min-width: 0;
+}
+
+/* Bloque izquierdo con avatar circular morado y textos */
+.navbar-cuenta-movil-info {
+  /* Alinea avatar y columna de textos en fila */
+  display: flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Separacion entre avatar y nombre */
+  gap: var(--espacio-3);
+  /* Permite encogerse si el nombre es muy largo */
+  min-width: 0;
+}
+
+/* Circulo de 44px con iniciales del usuario y color dinamico de la API en movil */
+.navbar-avatar-movil {
+  /* Centra las iniciales */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  /* Tamano fiel a Figma movil */
+  width: 44px;
+  /* Alto igual al ancho */
+  height: 44px;
+  /* Circulo completo */
+  border-radius: var(--radio-completo);
+  /* Texto blanco sobre fondos de color como portada/1 (morado) */
+  color: var(--fijo-blanco);
+  /* Evita encogimiento */
+  flex-shrink: 0;
+}
+
+/* Variante de texto oscuro para avatares con color claro (ej. portada/4 amarillo) */
+.navbar-avatar-movil--oscuro {
+  /* Contraste accesible sobre tonos claros */
+  color: var(--fijo-negro);
+}
+
+/* Columna con primer nombre ("Sara") y estado ("Sesion iniciada") */
+.navbar-cuenta-movil-textos {
+  /* Apila nombre arriba y estado abajo */
+  display: flex;
+  /* Direccion vertical */
+  flex-direction: column;
+  /* Permite puntos suspensivos en nombres largos */
+  min-width: 0;
+}
+
+/* Primer nombre del usuario en movil (tipografia viene de .cuerpo-m-fuerte) */
+.navbar-cuenta-movil-nombre {
+  /* Color principal blanco/oscuro */
+  color: var(--texto-principal);
+  /* Evita saltos que deformen la barra */
+  white-space: nowrap;
+  /* Oculta excedente */
+  overflow: hidden;
+  /* Agrega puntos suspensivos */
+  text-overflow: ellipsis;
+}
+
+/* Subtitulo "Sesion iniciada" debajo del nombre (tipografia viene de .detalle-nota) */
+.navbar-cuenta-movil-estado {
+  /* Color secundario tenue igual que Figma */
+  color: var(--texto-secundario);
+}
+
+/* Boton pildora con contorno "Cerrar sesion" en el pie del menu movil */
+.navbar .navbar-cuenta-movil-salir {
+  /* Centra el texto del boton */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  /* Altura tactil comoda de 44px fiel a Foto 5 */
+  min-height: 44px;
+  /* Relleno lateral generoso */
+  padding: 0 20px;
+  /* Contorno sutil pero nitido igual que Figma */
+  border: 1px solid var(--borde-fuerte);
+  /* Forma pildora completa */
+  border-radius: var(--radio-completo);
+  /* Color principal del texto */
+  color: var(--texto-principal);
+  /* Reafirma tamano y peso para ganarle a ".navbar button { font: inherit }" respetando accesibilidad */
+  font-size: calc(14px * var(--escala-texto, 1));
+  /* Negrita media igual que Figma */
+  font-weight: 600;
+  /* Evita que "Cerrar sesion" salte a dos lineas */
+  white-space: nowrap;
+  /* No se encoje */
+  flex-shrink: 0;
+  /* Transicion suave en hover */
+  transition: background-color 150ms ease, border-color 150ms ease, opacity 150ms ease;
+}
+
+/* Hover del boton Cerrar sesion en movil */
+.navbar .navbar-cuenta-movil-salir:hover:not(:disabled) {
+  /* Fondo elevado al pasar/tocar */
+  background-color: var(--fondo-elevada);
+  /* Resalta el borde */
+  border-color: var(--texto-secundario);
+}
+
+/* Estado deshabilitado mientras corre DELETE /sesion */
+.navbar .navbar-cuenta-movil-salir:disabled {
+  /* Atenua ligeramente */
+  opacity: 0.6;
+  /* Cursor de espera */
+  cursor: not-allowed;
+}
+
 /* BLOQUE 9 - como se presenta en la web */
 
 @media (min-width: 900px) {
@@ -432,6 +586,11 @@
     font-size: 14px;
     line-height: 20px;
     font-weight: 500;
+  }
+
+  /* en escritorio ocultamos los iconos moviles de Inicio y Catalogo para conservar solo texto */
+  .navbar-enlace-icono-movil {
+    display: none;
   }
 
   /* línea indicadora verde debajo del enlace activo de la página actual */
@@ -492,6 +651,189 @@
   .navbar-boton-registro {
     width: auto;
     height: 42px;
+  }
+
+  /* Oculta la barra de cuenta movil cuando estamos en escritorio */
+  .navbar-cuenta-movil {
+    display: none;
+  }
+
+  /* Contenedor relativo del avatar circular y su desplegable en escritorio */
+  .navbar-cuenta-web {
+    /* Visible como bloque en linea */
+    display: inline-flex;
+    /* Referencia de posicion para el menu desplegable */
+    position: relative;
+    /* Centrado vertical con el selector de idioma */
+    align-items: center;
+  }
+
+  /* Boton circular verde lima de 40px con iniciales ("SQ") fiel a Fotos 1 y 2 */
+  .navbar .navbar-avatar-web {
+    /* Centra las iniciales */
+    display: inline-flex;
+    /* Centrado vertical */
+    align-items: center;
+    /* Centrado horizontal */
+    justify-content: center;
+    /* Misma altura de 40px que el boton de accesibilidad */
+    width: 40px;
+    /* Alto igual al ancho */
+    height: 40px;
+    /* Circulo perfecto */
+    border-radius: var(--radio-completo);
+    /* Fondo verde primario de marca igual que Figma */
+    background-color: var(--marca-primario);
+    /* Texto oscuro de maximo contraste sobre el verde */
+    color: var(--texto-sobre-marca);
+    /* Tamano de 14px respetando --escala-texto y ganandole a .navbar button */
+    font-size: calc(14px * var(--escala-texto, 1));
+    /* Negrita nitida */
+    font-weight: 700;
+    /* Evita encogimiento */
+    flex-shrink: 0;
+    /* Transicion suave al interactuar */
+    transition: background-color 150ms ease, transform 100ms ease;
+  }
+
+  /* Hover del avatar circular disparador */
+  .navbar .navbar-avatar-web:hover {
+    /* Tono hover oficial de la marca */
+    background-color: var(--marca-primario-hover);
+  }
+
+  /* Variante decorativa del avatar dentro del menu desplegable (sin cursor ni cambio hover) */
+  .navbar .navbar-avatar-web--menu,
+  .navbar .navbar-avatar-web--menu:hover {
+    /* Mantiene el verde fijo sin reaccion hover */
+    background-color: var(--marca-primario);
+    /* Cursor por defecto porque no es clickeable */
+    cursor: default;
+  }
+
+  /* Caja flotante desplegable de cuenta en escritorio (272px exactos segun Foto 2 de Figma) */
+  .navbar-menu-cuenta {
+    /* Posicion absoluta anclada debajo del avatar a la derecha */
+    position: absolute;
+    /* Separacion superior limpia de 10px */
+    top: calc(100% + 10px);
+    /* Alineada exactamente con el borde derecho del avatar */
+    right: 0;
+    /* Ancho exacto de 272px medido en Figma */
+    width: 272px;
+    /* Fondo elevado del sistema de diseno */
+    background-color: var(--fondo-elevada);
+    /* Borde nitido */
+    border: 1px solid var(--borde-fuerte);
+    /* Esquinas redondeadas grandes de 16px */
+    border-radius: var(--radio-lg);
+    /* Sombra flotante oficial */
+    box-shadow: var(--sombra-flotante);
+    /* Recorta el hover interno a las esquinas redondeadas */
+    overflow: hidden;
+    /* Por encima del contenido de la pagina */
+    z-index: 120;
+  }
+
+  /* Cabecera del desplegable con avatar verde + nombre completo + correo */
+  .navbar-menu-cuenta-cabecera {
+    /* Distribucion horizontal */
+    display: flex;
+    /* Centrado vertical */
+    align-items: center;
+    /* Separacion entre avatar y textos */
+    gap: var(--espacio-3);
+    /* Relleno interno de 16px */
+    padding: var(--espacio-4);
+  }
+
+  /* Columna de textos del usuario en el desplegable */
+  .navbar-menu-cuenta-datos {
+    /* Apila nombre y correo */
+    display: flex;
+    /* Direccion columna */
+    flex-direction: column;
+    /* Separacion minima */
+    gap: 2px;
+    /* Permite puntos suspensivos en correos largos */
+    min-width: 0;
+  }
+
+  /* Nombre completo y correo con recorte limpio en una linea */
+  .navbar-menu-cuenta-nombre,
+  .navbar-menu-cuenta-correo {
+    /* Mantiene una sola linea */
+    white-space: nowrap;
+    /* Oculta desborde */
+    overflow: hidden;
+    /* Puntos suspensivos si excede el ancho de 272px */
+    text-overflow: ellipsis;
+  }
+
+  /* Color principal para el nombre completo */
+  .navbar-menu-cuenta-nombre {
+    color: var(--texto-principal);
+  }
+
+  /* Color secundario tenue para el correo */
+  .navbar-menu-cuenta-correo {
+    color: var(--texto-secundario);
+  }
+
+  /* Linea divisoria sutil entre cabecera y accion Cerrar sesion */
+  .navbar-menu-cuenta-divisor {
+    /* Altura de 1px */
+    height: 1px;
+    /* Token de borde sutil */
+    background-color: var(--borde-sutil);
+  }
+
+  /* Boton "Cerrar sesion" de ancho completo dentro del desplegable web */
+  .navbar .navbar-menu-cuenta-salir {
+    /* Distribucion en fila con icono a la izquierda y texto a la derecha */
+    display: flex;
+    /* Centrado vertical */
+    align-items: center;
+    /* Separacion de 12px entre icono salir y texto */
+    gap: var(--espacio-3);
+    /* Ancho completo del menu */
+    width: 100%;
+    /* Relleno comodo de 16px */
+    padding: var(--espacio-4);
+    /* Color de texto principal */
+    color: var(--texto-principal);
+    /* Reafirma tamano y peso para ganarle a ".navbar button { font: inherit }" respetando accesibilidad */
+    font-size: calc(14px * var(--escala-texto, 1));
+    /* Seminegrita fiel a Foto 2 de Figma */
+    font-weight: 600;
+    /* Alineado a la izquierda */
+    text-align: left;
+    /* Transicion suave de fondo */
+    transition: background-color 150ms ease, opacity 150ms ease;
+  }
+
+  /* Hover de la opcion Cerrar sesion en el menu web */
+  .navbar .navbar-menu-cuenta-salir:hover:not(:disabled) {
+    /* Resaltado sutil de fila */
+    background-color: var(--fondo-sutil);
+  }
+
+  /* Deshabilitado mientras corre DELETE /sesion */
+  .navbar .navbar-menu-cuenta-salir:disabled {
+    /* Atenua ligeramente */
+    opacity: 0.6;
+    /* Cursor de bloqueo */
+    cursor: not-allowed;
+  }
+
+  /* Tamano compacto de 18px del icono salir */
+  .navbar-menu-cuenta-salir-icono {
+    /* Ancho de 18px */
+    width: 18px;
+    /* Alto de 18px */
+    height: 18px;
+    /* Evita encogimiento */
+    flex-shrink: 0;
   }
 }
 

@@ -110,10 +110,25 @@ export async function peticionApi(ruta, opciones = {}) {
     // Cabecera Retry-After usada por la API en respuestas 429 demasiadas_peticiones
     const retryHeader = respuesta.headers.get("Retry-After");
     const retrySegundos = retryHeader ? Number.parseInt(retryHeader, 10) : null;
+    // Codigo semantico de error devuelto por la API en el cuerpo JSON
+    const codigoError = datos?.error?.codigo ?? "error_interno";
+
+    // Si una ruta privada (distinta a consultar/crear /sesion) responde 401 no_autenticado, avisamos a useSesion
+    const rutaSinQuery = ruta.split("?")[0];
+    const esConsultaSesion = rutaSinQuery === "/sesion" || rutaSinQuery.endsWith("/sesion");
+    if (
+      typeof window !== "undefined" &&
+      respuesta.status === 401 &&
+      codigoError === "no_autenticado" &&
+      !esConsultaSesion
+    ) {
+      // Disparamos el evento global para que useSesion limpie el usuario y redirija a /ingresar
+      window.dispatchEvent(new CustomEvent("sintonia-no-autenticado"));
+    }
 
     throw new ErrorApi({
       status: respuesta.status,
-      codigo: datos?.error?.codigo ?? "error_interno",
+      codigo: codigoError,
       mensaje: datos?.error?.mensaje ?? `Error HTTP ${respuesta.status}`,
       campos: datos?.error?.campos ?? null,
       retryAfter: Number.isFinite(retrySegundos) ? retrySegundos : null,
