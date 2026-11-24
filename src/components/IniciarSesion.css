@@ -142,6 +142,12 @@
   color: var(--texto-secundario);
 }
 
+/* Separacion inferior del banner Aviso antes del primer campo del formulario */
+.ingresar-aviso {
+  /* Espacio comodo de 16px hacia "Correo electronico" */
+  margin-bottom: var(--espacio-4);
+}
+
 /* Contenedor vertical del formulario */
 .ingresar-formulario {
   /* Apila campos, opciones y boton */
@@ -216,6 +222,24 @@
 .ingresar-campo--clave {
   /* 48px a la derecha para que el texto nunca se encime sobre el icono */
   padding-right: var(--espacio-12);
+}
+
+/* Borde rojo oficial cuando el campo tiene un error de validacion */
+.ingresar-campo--error {
+  border-color: var(--estado-error);
+}
+
+/* Conserva el borde rojo y muestra halo suave rojo al enfocar un campo con error */
+.ingresar-campo--error:focus,
+.ingresar-campo--error:focus-visible {
+  border-color: var(--estado-error);
+  box-shadow: 0 0 0 2px var(--estado-error-suave);
+}
+
+/* Texto de error individual debajo de cada campo invalido (tipografia de .detalle-nota) */
+.ingresar-campo-error {
+  margin: 0;
+  color: var(--estado-error);
 }
 
 /* Oculta el icono de ojo nativo que inserta Microsoft Edge para evitar dos ojos encimados */
@@ -360,6 +384,14 @@
 
 /* Boton primario verde lima de ancho completo (tipografia viene de .cuerpo-p-fuerte) */
 .ingresar-boton {
+  /* Centra el texto o el spinner + "Ingresando..." en una fila */
+  display: inline-flex;
+  /* Centrado vertical */
+  align-items: center;
+  /* Centrado horizontal */
+  justify-content: center;
+  /* Separacion entre el spinner y el texto "Ingresando..." */
+  gap: var(--espacio-2);
   width: 100%;
   min-height: 50px;
   margin-top: var(--espacio-1);
@@ -370,19 +402,63 @@
   background-color: var(--marca-primario);
   color: var(--texto-sobre-marca);
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.1s ease;
+  transition: background-color 0.15s ease, opacity 0.15s ease, transform 0.1s ease;
 }
 
-/* Hover del boton primario */
-.ingresar-boton:hover {
+/* Hover del boton primario solo cuando esta habilitado */
+.ingresar-boton:hover:not(:disabled) {
   background-color: var(--marca-primario-hover);
 }
 
-/* Estado presionado del boton */
-.ingresar-boton:active {
+/* Estado presionado del boton solo cuando esta habilitado */
+.ingresar-boton:active:not(:disabled) {
   background-color: var(--marca-primario-presionado);
   /* Ligera sensacion tactil */
   transform: scale(0.99);
+}
+
+/* Estado deshabilitado mientras envia ("Ingresando...") fiel al componente Boton · cargando de Figma */
+.ingresar-boton:disabled {
+  /* Suaviza ligeramente el verde lima igual que en la captura de Figma */
+  opacity: 0.78;
+  /* Indica visualmente que no acepta mas clics */
+  cursor: not-allowed;
+}
+
+/* Spinner circular oscuro (arco de 270 grados) mostrado a la izquierda de "Ingresando..." */
+.ingresar-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radio-completo);
+  border: 2px solid var(--texto-sobre-marca);
+  /* Abre el borde derecho para crear el efecto C-arc de Figma */
+  border-right-color: transparent;
+  /* Evita encogimiento dentro de flex */
+  flex-shrink: 0;
+  /* Rotacion continua suave */
+  animation: ingresar-girar 0.75s linear infinite;
+}
+
+/* Animacion de rotacion completa para el spinner de carga */
+@keyframes ingresar-girar {
+  /* Fin de la vuelta completa */
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Detiene el giro del spinner si el sistema o el panel de accesibilidad reducen movimiento */
+@media (prefers-reduced-motion: reduce) {
+  /* Quita animacion giratoria */
+  .ingresar-spinner {
+    animation: none;
+  }
+}
+
+/* Tambien detiene el giro cuando el usuario activa Reducir movimiento en Sintonia */
+html[data-reducir-movimiento="true"] .ingresar-spinner {
+  /* Sin animacion giratoria */
+  animation: none;
 }
 
 /* Foco accesible por teclado en el boton primario */

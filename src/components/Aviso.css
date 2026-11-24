@@ -1,0 +1,84 @@
+/* Hoja de estilos concisa del componente reutilizable Aviso (3 variantes de Figma: error, exito, info) */
+
+/* Caja base del aviso con icono a la izquierda y textos a la derecha */
+.aviso {
+  /* Distribucion horizontal en fila */
+  display: flex;
+  /* Alinea el icono con la primera linea del titulo */
+  align-items: flex-start;
+  /* Separacion entre icono y bloque de texto */
+  gap: var(--espacio-3);
+  width: 100%;
+  /* Relleno interno comodo con altura automatica para que textos largos nunca se desborden */
+  padding: var(--espacio-3) var(--espacio-4);
+  border-radius: var(--radio-md);
+  border: 1px solid var(--borde-fuerte);
+  background-color: var(--fondo-elevada);
+}
+
+/* Variante error: fondo rojo oscuro suave y borde rojo coral oficial */
+.aviso--error {
+  background-color: var(--estado-error-suave);
+  border-color: var(--estado-error);
+}
+
+/* Variante exito: fondo verde oscuro suave y borde verde oficial */
+.aviso--exito {
+  background-color: var(--estado-exito-suave);
+  border-color: var(--estado-exito);
+}
+
+/* Variante info: fondo elevado neutro y borde fuerte */
+.aviso--info {
+  background-color: var(--fondo-elevada);
+  border-color: var(--borde-fuerte);
+}
+
+/* Contenedor del icono izquierdo sin encogimiento */
+.aviso-icono {
+  /* Alinea el SVG con el texto */
+  display: inline-flex;
+  /* Evita que el icono se aplaste en textos largos */
+  flex-shrink: 0;
+  /* Pequeno ajuste superior para centrarlo con la altura de linea del titulo */
+  margin-top: 1px;
+  color: var(--texto-principal);
+}
+
+/* Color rojo oficial del icono en variante error */
+.aviso--error .aviso-icono {
+  color: var(--estado-error);
+}
+
+/* Color verde oficial del icono en variante exito */
+.aviso--exito .aviso-icono {
+  color: var(--estado-exito);
+}
+
+/* Tamano del icono SVG del aviso fiel a Figma */
+.aviso-icono-svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Columna derecha de textos */
+.aviso-contenido {
+  /* Apila titulo arriba y descripcion abajo */
+  display: flex;
+  /* Direccion columna */
+  flex-direction: column;
+  gap: var(--espacio-1);
+  min-width: 0;
+}
+
+/* Titulo del aviso (tipografia viene de .detalle-nota-fuerte en tokens.css) */
+.aviso-titulo {
+  margin: 0;
+  color: var(--texto-principal);
+}
+
+/* Descripcion del aviso (tipografia viene de .detalle-nota en tokens.css) */
+.aviso-texto {
+  margin: 0;
+  color: var(--texto-secundario);
+}
