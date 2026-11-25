@@ -295,31 +295,12 @@ export default function DetalleAlbum({
 
         {/* Columna derecha (en web) o inferior (en movil) con los metadatos del disco */}
         <div className="detalle-album-meta">
-          {/* Fila de pastillas: tipo de lanzamiento y genero musical */}
+          {/* Fila de pastilla con el tipo de lanzamiento segun Figma */}
           <div className="detalle-album-etiquetas">
             {/* Pastilla de tipo ("Album" / "EP" / "Sencillo"): morada en movil y gris en web */}
             {etiquetaTipo && (
               <Etiqueta variante="neutra" className="detalle-album-etiqueta-tipo">
                 {etiquetaTipo}
-              </Etiqueta>
-            )}
-            {/* Pastilla del genero musical del album (clickeable para filtrar el catalogo) */}
-            {album.genero?.nombre && (
-              <Etiqueta
-                // Variante gris neutra del sistema de diseno
-                variante="neutra"
-                // Solo se vuelve interactiva si la API incluyo el id del genero
-                onClick={
-                  album.genero?.id
-                    ? () =>
-                        onNavegar?.(
-                          `/catalogo?genero=${encodeURIComponent(album.genero.id)}`
-                        )
-                    : undefined
-                }
-              >
-                {/* Nombre del genero desde la API */}
-                {album.genero.nombre}
               </Etiqueta>
             )}
           </div>
@@ -418,18 +399,12 @@ export default function DetalleAlbum({
                       </div>
                       {/* Columna vertical de textos de la pista */}
                       <div className="detalle-album-pista-info">
-                        {/* Fila del titulo con posible badge Explicito al lado */}
+                        {/* Fila del titulo de la cancion */}
                         <div className="detalle-album-pista-titulo-fila">
                           {/* Nombre de la cancion usando clase predefinida cuerpo-p-fuerte */}
                           <span className="detalle-album-pista-titulo cuerpo-p-fuerte">
                             {pista.titulo}
                           </span>
-                          {/* Si la pista es explicita, mostramos la etiqueta reutilizable desde la API */}
-                          {pista.explicita && textosGeneral?.etiquetas?.explicito && (
-                            <Etiqueta variante="neutra" className="detalle-album-explicito">
-                              {textosGeneral.etiquetas.explicito}
-                            </Etiqueta>
-                          )}
                         </div>
                         {/* Nombre del artista de la pista usando clase predefinida detalle-nota */}
                         {nombreArtistaPista && (
