@@ -1,5 +1,6 @@
 import React from "react";
-import Portada from "./Portada.jsx";
+// Importamos el componente reutilizable de tarjeta individual de album
+import TarjetaAlbum from "./TarjetaAlbum.jsx";
 import EstadoCarga from "./EstadoCarga.jsx";
 import EstadoError from "./EstadoError.jsx";
 import EstadoVacio from "./EstadoVacio.jsx";
@@ -32,18 +33,6 @@ export default function SeccionAlbumes({
     function manejarClickEnlace(evento) {
         if (evento) evento.preventDefault();
         if (typeof onNavegar === "function") {
-            onNavegar(enlaceHref)
-        }
-    }
-
-    // funcion interna para capturar el clic o pulsacion de telcado sobre una targeta de album
-    function manejarClickTargeta(evento, album) {
-        if (evento) evento.preventDefault();
-        // si el componente padre definió una accion personalizada para el album la ejecutamos
-        if (typeof onAlbumClick === "function") {
-            onAlbumClick(album);
-            // de lo contrario por defecto navegamos al catalogo
-        } else if (typeof onNavegar === "function") {
             onNavegar(enlaceHref)
         }
     }
@@ -111,55 +100,23 @@ export default function SeccionAlbumes({
             )}
 
             {/* ---------------------- */}
-            {/* cuadricula de targetas de albumes que se dibuja cuando existen albumes */}
+            {/* cuadricula de tarjetas de albumes que se dibuja cuando existen albumes */}
             {listaAlbumes.length > 0 && (
-                // contenedor responsive con cuadricula de targetas
+                // contenedor responsive con cuadricula de tarjetas
                 <div className="seccion-albumes-cuadricula">
-                    {/* recorro el arreglo de albumes recibido */}
+                    {/* recorro el arreglo de albumes recibido usando la tarjeta reutilizable */}
                     {listaAlbumes.map((album) => (
-                        // targeta interactiva dle album
-                        <article 
-                            className="seccion-album-targeta"
+                        // componente reutilizable TarjetaAlbum con enlace semantico a /albumes/:id
+                        <TarjetaAlbum
+                            // clave unica de React por identificador de album
                             key={album.id}
-                            onClick={(evento) => manejarClickTargeta(evento, album)}
-                            role="button"
-                            tabIndex={0} //permitir tab
-                            // maneja las pulsaciones de teclado para personas sin raton
-                            onKeyDown={(evento) => {
-                                // Evaluamos si la tecla presionada es Enter o barra espaciadora
-                                if (evento.key === "Enter" || evento.key === " ") {
-                                    // Disparamos la acción de la tarjeta
-                                    manejarClickTargeta(evento, album);
-                                }
-                            }}
-                        >
-                            {/* contendor cuadrado con relacion 1 a 1 para la portada */}
-                            <div className="seccion-album-portada-caja">
-                                {/* componente de portada dibujado con patrones vectoriales */}
-                                <Portada 
-                                    className="seccion-album-portada-svg"
-                                    portada={album.portada}
-                                    patron={album.portada?.patron ?? 0}
-                                    colores={album.portada?.colores ?? ["portada/1", "portada/2"]}
-                                    alt={album.titulo}
-                                >
-                                </Portada>
-                            </div>
-                            
-                            {/* contenedor con la informacion textual del album */}
-                            <div className="seccion-album-info">
-
-                                {/* titulo del album */}
-                                <h3 className="seccion-album-titulo cuerpo-m-fuerte">
-                                    {album.titulo}
-                                </h3>
-
-                                {/* nombre del artista o grupo musical*/}
-                                <p className="seccion-album-artista cuerpo-p">
-                                    {album.artista?.nombre}
-                                </p>
-                            </div>
-                        </article>
+                            // objeto completo del album recibido desde la API
+                            album={album}
+                            // callback personalizado del padre si fue provisto
+                            onClick={onAlbumClick}
+                            // funcion SPA de navegacion como respaldo directo al detalle
+                            onNavegar={onNavegar}
+                        />
                     ))}
                 </div>
             )}

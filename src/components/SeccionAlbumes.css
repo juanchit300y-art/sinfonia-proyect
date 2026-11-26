@@ -73,93 +73,18 @@
     scrollbar-width: none;
 }
 
-/* estilo individual de cada targeta del album */
-.seccion-album-targeta{
-    /* en movil ocupa la mitad exacta del contenedor menos el espacio central */
+/* ajuste de medida de cada tarjeta de album en el carrusel horizontal movil */
+.seccion-albumes-cuadricula .tarjeta-album {
+    /* en movil cada tarjeta mide 200px fijos dentro del carrusel */
     flex: 0 0 200px;
+    /* ancho fijo en movil */
     width: 200px;
-    /* ajuste magnetico de parada */
+    /* ancho minimo para evitar compresion */
     min-width: 200px;
+    /* ancho maximo en carrusel movil */
     max-width: 200px;
+    /* ajuste magnetico de parada al deslizar */
     scroll-snap-align: start;
-    /* fondo de cada targeta */
-    background-color: var(--fondo-superficie);
-    /* relleno interno alrededor de la caratula y el texto */
-    padding: var(--espacio-3);
-    border-radius: var(--radio-lg);
-    /* manita para indicar interactividad */
-    cursor: pointer;
-    /* disposicion en clumna vertical */
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid transparent;
-}
-
-/* efecto hover al pasar el raton por encima de la targeta */
-.seccion-album-targeta:hover{
-    /* elevamos la targeta ligeramente */
-    transform: translateY(-4px);
-    background-color: var(--fondo-elevada);
-    box-shadow: var(--sombra-tarjeta);
-    border-color: var(--borde-sutil);
-}
-
-/* foco visible mediante teclado (tab)*/
-.seccion-album-targeta:focus-visible{
-    outline: 2px solid var(--marca-primario);
-    outline-offset: 2px;
-}
-
-/* caja de la portada del album*/
-.seccion-album-portada-caja{
-    aspect-ratio: 1/1;
-    width: 100%;
-    border-radius: var(--radio-lg);
-    overflow: hidden;
-    /* separacion inferior antes del texto */
-    margin-bottom: var(--espacio-3);
-}
-
-/* portada SVG interior */
-.seccion-album-portada-svg{
-    /* ocupe el 100% de su contenedor */
-    width: 100%;
-    height: 100%;
-    /* forma de bloque */
-    display: block;
-}
-
-/* contenedor de textos de la targeta */
-.seccion-album-info{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    /* separacion minima entre titulo y artista */
-    gap: var(--espacio-1);
-}
-
-/* titulo del album */
-.seccion-album-titulo{
-    margin: 0;
-    color: var(--texto-principal);
-    font-family: var(--fuente-inter);
-    font-size: 16px;
-    font-weight: 600;
-    /* puntos suspensivos si el titulo es muy largo */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* nombre del artista */
-.seccion-album-artista{
-    margin: 0;
-    color: var(--texto-secundario);
-    /* puntos suspensivos si es muy largo */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* para escritorio */
@@ -174,10 +99,12 @@
     gap: var(--espacio-4);
   }
 
-  .seccion-album-targeta {
+  .seccion-albumes-cuadricula .tarjeta-album {
     /* quito el ancho fijo de móvil para que se adapte a su columna */
     flex: auto;
     width: 100%;
+    /* permite encoger dentro de la celda del grid en 900px */
+    min-width: 0;
     max-width: none;
   }
 }

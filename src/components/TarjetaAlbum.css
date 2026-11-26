@@ -1,0 +1,137 @@
+/* Estilo base de la tarjeta reutilizable de album */
+.tarjeta-album {
+  /* Ocupa todo el ancho asignado por la grilla o carrusel padre */
+  width: 100%;
+  /* Evita que textos largos expandan la columna del grid */
+  min-width: 0;
+  /* Fondo de superficie definido en tokens.css */
+  background-color: var(--fondo-superficie);
+  /* Relleno interno alrededor de la portada y los textos */
+  padding: var(--espacio-3);
+  /* Bordes redondeados coherentes con el sistema de diseno */
+  border-radius: var(--radio-lg);
+  /* Cursor de enlace interactivo */
+  cursor: pointer;
+  /* Disposicion vertical de portada arriba y textos abajo */
+  display: flex;
+  /* Direccion en columna */
+  flex-direction: column;
+  /* Quita el subrayado por defecto de los enlaces <a> */
+  text-decoration: none;
+  /* Mantiene el color heredado anulando el color global de <a> */
+  color: inherit;
+  /* Borde transparente para evitar saltos al activarse en hover */
+  border: 1px solid transparent;
+  /* Transicion suave al pasar el cursor */
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Estado hover al pasar el raton por encima de la tarjeta */
+.tarjeta-album:hover {
+  /* Elevacion ligera hacia arriba */
+  transform: translateY(-4px);
+  /* Superficie elevada en modo oscuro y claro */
+  background-color: var(--fondo-elevada);
+  /* Sombra de tarjeta desde tokens */
+  box-shadow: var(--sombra-tarjeta);
+  /* Borde sutil visible al resaltar */
+  border-color: var(--borde-sutil);
+  /* Anula el color verde global de a:hover para proteger la jerarquia */
+  color: inherit;
+  /* Garantiza que el enlace no muestre subrayado al pasar el cursor */
+  text-decoration: none;
+}
+
+/* Contorno accesible visible al navegar con teclado (Tab) */
+.tarjeta-album:focus-visible {
+  /* Contorno del color principal de la marca */
+  outline: 2px solid var(--marca-primario);
+  /* Separacion visual respecto al borde de la tarjeta */
+  outline-offset: 2px;
+}
+
+/* Variante plana sin fondo ni relleno para usarse sobre contenedores que ya tienen superficie gris */
+.tarjeta-album--plana {
+  /* Fondo transparente para evitar efecto de doble tarjeta */
+  background-color: transparent;
+  /* Sin relleno interno para que la portada cubra el 100% del ancho de su celda */
+  padding: 0;
+  /* Sin borde externo */
+  border: none;
+}
+
+/* Hover de la variante plana: conserva la elevacion sin pintar caja ni sombra */
+.tarjeta-album--plana:hover {
+  /* Mantiene el fondo transparente */
+  background-color: transparent;
+  /* Sin sombra envolvente */
+  box-shadow: none;
+  /* Sin borde al pasar el cursor */
+  border-color: transparent;
+}
+
+/* Caja cuadrada 1:1 que envuelve la portada vectorial */
+.tarjeta-album-portada-caja {
+  /* Proporcion cuadrada fija */
+  aspect-ratio: 1 / 1;
+  /* Ancho completo disponible dentro de la tarjeta */
+  width: 100%;
+  /* Bordes redondeados de la caratula */
+  border-radius: var(--radio-lg);
+  /* Recorta el SVG dentro del borde redondeado */
+  overflow: hidden;
+  /* Separacion inferior antes del bloque de textos */
+  margin-bottom: var(--espacio-3);
+}
+
+/* Portada SVG interior ajustada al 100% de la caja */
+.tarjeta-album-portada-svg {
+  /* Cubre todo el ancho de la caja */
+  width: 100%;
+  /* Cubre todo el alto de la caja */
+  height: 100%;
+  /* Evita espacios en linea debajo del elemento */
+  display: block;
+}
+
+/* Contenedor de titulo y subtitulo de la tarjeta */
+.tarjeta-album-info {
+  /* Ocupa todo el ancho disponible */
+  width: 100%;
+  /* Permite el recorte con puntos suspensivos dentro de flex */
+  min-width: 0;
+  /* Disposicion vertical de los textos */
+  display: flex;
+  /* Direccion columna */
+  flex-direction: column;
+  /* Separacion minima entre titulo y subtitulo */
+  gap: var(--espacio-1);
+}
+
+/* Titulo del album (usa tipografia base desde .cuerpo-m-fuerte en tokens.css) */
+.tarjeta-album-titulo {
+  /* Elimina margenes predeterminados del h3 */
+  margin: 0;
+  /* Color principal de alto contraste */
+  color: var(--texto-principal);
+  /* Mantiene el titulo en una sola linea */
+  white-space: nowrap;
+  /* Oculta el desbordamiento horizontal */
+  overflow: hidden;
+  /* Muestra puntos suspensivos si el nombre es muy largo */
+  text-overflow: ellipsis;
+}
+
+/* Subtitulo del album (artista en catalogo o anio y tipo en detalle) */
+.tarjeta-album-subtitulo {
+  /* Elimina margenes predeterminados del parrafo */
+  margin: 0;
+  /* Color secundario tenue desde tokens */
+  color: var(--texto-secundario);
+  /* Mantiene el subtitulo en una sola linea */
+  white-space: nowrap;
+  /* Oculta el desbordamiento horizontal */
+  overflow: hidden;
+  /* Muestra puntos suspensivos si el texto es muy largo */
+  text-overflow: ellipsis;
+}

@@ -61,7 +61,7 @@
     }
 
     /* en escritorio los albumes descansan directo sobre el fondo gris del contenedor */
-    #catalogo .seccion-album-targeta {
+    #catalogo .tarjeta-album {
         /* fondo transparente para evitar doble tarjeta en escritorio */
         background-color: transparent;
         /* eliminamos relleno para que la caratula use el ancho de columna */
@@ -70,7 +70,7 @@
     }
 
     /* efecto hover de las tarjetas en escritorio */
-    #catalogo .seccion-album-targeta:hover {
+    #catalogo .tarjeta-album:hover {
         /* mantiene fondo transparente */
         background-color: transparent;
         box-shadow: none;
@@ -88,11 +88,12 @@
     }
     
     /* tamaño de las tarjetas de album bajo la distribucion space-between */
-    #catalogo-albumes-genero .seccion-album-targeta {
+    #catalogo-albumes-genero .tarjeta-album {
         /* base flexible equivalente a una columna de escritorio */
         flex: 0 1 calc((100% - 5 * var(--espacio-4)) / 6);
         max-width: 180px;
         width: 100%;
+        min-width: 0;
     }
 
     /* evita que el margen inferior del ultimo bloque (albumes o canciones) sume espacio vacio extra dentro de la caja gris */
