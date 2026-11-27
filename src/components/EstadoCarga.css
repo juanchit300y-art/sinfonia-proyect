@@ -404,6 +404,7 @@
   display: none;
 }
 
+
 /* Reglas adaptadas a escritorio (>= 900px) */
 @media (min-width: 900px) {
   /* Rejilla de 4 columnas para generos igual que SeccionGeneros */

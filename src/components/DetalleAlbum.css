@@ -484,6 +484,43 @@
     margin: 0;
     color: var(--texto-secundario);
   }
+
+
+  .solo-letra{
+    text-decoration: none;
+    display: inline-flex;
+    /* Centra verticalmente el contenido */
+    align-items: center;
+    /* Centra horizontalmente el contenido */
+    justify-content: center;
+    /* Ajusta el ancho exactamente al texto sin estirarse */
+    width: fit-content;
+    /* Relleno compacto de 4px arriba/abajo y 12px a los lados */
+    padding: var(--espacio-1) var(--espacio-3);
+    border-radius: var(--radio-completo);
+    border: none;
+    /* Evita que el texto de la etiqueta salte a dos renglones */
+    white-space: nowrap;
+    background-color: var(--marca-suave);
+    color: var(--texto-secundario);
+  }
+
+  .navbar-movil-enlace-ingresar{
+    color: var(--texto-principal);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: var(--espacio-2) var(--espacio-3);
+    border-radius: var(--radio-sm);
+    /* transicion suave al pasar el cursor */
+    transition: color 150ms ease;
+  }
+
+  /* efecto hover sobre el enlace ingresar en movil */
+  .navbar-movil-enlace-ingresar:hover{
+    color: var(--marca-primario);
+  }
+
+  
 }
 
 /* En escritorio amplio (1440px) compensa el relleno de la caja gris para alinear el contenido a 80px */

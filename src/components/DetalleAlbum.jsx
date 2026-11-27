@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // Importamos nuestro hook generico unificado para consultar GET /albumes/:id
 import { useConsulta } from "../hooks/useConsulta.js";
 // Importamos las funciones puras de formato (sin new Date para evitar desfases de zona horaria)
@@ -61,9 +61,14 @@ export default function DetalleAlbum({
 }) {
   // ------------------------------------------------- Datos de cada album
   // Consultamos el detalle completo del album usando el hook unificado (si albumId es null no dispara fetch)
-  const { datos: album, cargando, error, recargar } = useConsulta(
+  const {
+    datos: album,
+    cargando,
+    error,
+    recargar,
+  } = useConsulta(
     // Construimos la ruta segura codificando el identificador de la URL
-    albumId ? `/albumes/${encodeURIComponent(albumId)}` : null
+    albumId ? `/albumes/${encodeURIComponent(albumId)}` : null,
   );
 
   // Extraemos de forma segura el subobjeto de textos propios de la pagina de album
@@ -79,7 +84,7 @@ export default function DetalleAlbum({
   const esNoEncontrado =
     // Comprobamos tanto el codigo HTTP 404 como el codigo semantico de la API
     error?.status === 404 || error?.codigo === "no_encontrado";
-
+  const [mostrarLetra, setMostrarLetra] = useState(false);
   // Efecto que actualiza el titulo de la pestana y la meta descripcion a partir del album cargado
   useEffect(() => {
     // Separador oficial de la API (" · ")
@@ -97,7 +102,7 @@ export default function DetalleAlbum({
             // Incluimos artista.nombre si esta presente
             album.artista?.nombre
               ? `${album.titulo}${separador}${album.artista.nombre}`
-              : album.titulo
+              : album.titulo,
           )
         : [album.titulo, album.artista?.nombre, nombreSitio]
             // Filtramos valores vacios antes de unir
@@ -153,11 +158,20 @@ export default function DetalleAlbum({
     return (
       <NoEncontrado
         // Titulo especifico del 404 de album o respaldo generico de estados
-        titulo={textosAlbum?.noEncontrado?.titulo ?? textosEstados?.noEncontrado?.titulo}
+        titulo={
+          textosAlbum?.noEncontrado?.titulo ??
+          textosEstados?.noEncontrado?.titulo
+        }
         // Descripcion traducida del 404 de album
-        descripcion={textosAlbum?.noEncontrado?.texto ?? textosEstados?.noEncontrado?.descripcion}
+        descripcion={
+          textosAlbum?.noEncontrado?.texto ??
+          textosEstados?.noEncontrado?.descripcion
+        }
         // Texto del boton "Volver al catalogo" desde la API
-        textoBoton={textosAlbum?.noEncontrado?.botones?.volver ?? textosEstados?.noEncontrado?.botones?.irAlInicio}
+        textoBoton={
+          textosAlbum?.noEncontrado?.botones?.volver ??
+          textosEstados?.noEncontrado?.botones?.irAlInicio
+        }
         destinoBoton="/catalogo"
         onNavegar={onNavegar}
       />
@@ -206,7 +220,9 @@ export default function DetalleAlbum({
   // Lista segura de canciones del album (la API entrega todas las pistas reales del disco)
   const pistas = Array.isArray(album.pistas) ? album.pistas : [];
   // Lista segura de otros lanzamientos del mismo artista (solo se muestra en escritorio)
-  const masDelArtista = Array.isArray(album.masDelArtista) ? album.masDelArtista : [];
+  const masDelArtista = Array.isArray(album.masDelArtista)
+    ? album.masDelArtista
+    : [];
   // Separador oficial de textos (" · ")
   const separador = textosGeneral?.formatos?.separador ?? " · ";
   // Punto separador sin espacios extra para usarlo limpio dentro de contenedores flex con gap
@@ -217,7 +233,11 @@ export default function DetalleAlbum({
   // Formateamos la fecha larga para el pie de la tabla en web sin usar new Date()
   const fechaLarga = formatearFechaLarga(album.fechaPublicacion, idioma);
   // Traducimos el tipo ("album" -> "Album", "ep" -> "EP", "sencillo" -> "Sencillo")
-  const etiquetaTipo = obtenerEtiquetaTipo(album.tipo, textosAlbum, textosGeneral);
+  const etiquetaTipo = obtenerEtiquetaTipo(
+    album.tipo,
+    textosAlbum,
+    textosGeneral,
+  );
 
   // Numero total de canciones del disco
   const totalCanciones = album.totalPistas;
@@ -235,7 +255,7 @@ export default function DetalleAlbum({
   const textoDuracion = formatearDuracionTotal(
     album.duracionSeg,
     textosAlbum,
-    textosGeneral
+    textosGeneral,
   );
 
   // Armamos los metadatos complementarios (anio · canciones · duracion)
@@ -248,13 +268,17 @@ export default function DetalleAlbum({
   // Construimos el titulo "Mas de {artista}" con la plantilla traducida de la API
   const tituloMasDelArtista = textosAlbum?.masDelArtista?.titulo?.replace(
     "{artista}",
-    album.artista?.nombre ?? ""
+    album.artista?.nombre ?? "",
   );
 
   // Ruta destino para el enlace "Ver discografia" (filtra el catalogo por el genero del album)
   const rutaDiscografia = album.genero?.id
     ? `/catalogo?genero=${encodeURIComponent(album.genero.id)}`
     : "/catalogo";
+
+  const letra = idioma === "es" ? "Solo con letra" : "Just with letter";
+  // const canciones = idioma === "es" ?
+  const visibles = mostrarLetra ? pistas.filter((p) => p.tieneLetra) : pistas;
 
   // ---------------------------- Retornamos la estructura completa de la Vista 3
   return (
@@ -299,22 +323,42 @@ export default function DetalleAlbum({
           <div className="detalle-album-etiquetas">
             {/* Pastilla de tipo ("Album" / "EP" / "Sencillo"): morada en movil y gris en web */}
             {etiquetaTipo && (
-              <Etiqueta variante="neutra" className="detalle-album-etiqueta-tipo">
+              <Etiqueta
+                variante="neutra"
+                className="detalle-album-etiqueta-tipo"
+              >
                 {etiquetaTipo}
               </Etiqueta>
             )}
           </div>
 
           {/* Titulo del album usando clase predefinida titular-h2 (escala a 64px en web) */}
-          <h1 id="detalle-album-titulo" className="detalle-album-titulo titular-h2">
+          <h1
+            id="detalle-album-titulo"
+            className="detalle-album-titulo titular-h2"
+          >
             {album.titulo}
           </h1>
+          
+          <div className="navbar-movil-enlace-ingresar solo-letra">
+            <a
+              href="/ingresar"
+              className="navbar-movil-enlace-ingresar .solo-letra"
+              onClick={(evento) => manejarNavegacion(evento, "/ingresar")}
+            >
+              {textos?.navbar?.botones?.invitado?.ingresar}
+            </a>
+          </div>
+          
 
           {/* Fila de resumen usando clase predefinida cuerpo-p */}
           <div className="detalle-album-resumen cuerpo-p">
             {/* Mini portada circular visible solo en escritorio junto al nombre del artista */}
             <span className="detalle-album-avatar-mini" aria-hidden="true">
-              <Portada portada={album.portada} className="detalle-album-portada-svg" />
+              <Portada
+                portada={album.portada}
+                className="detalle-album-portada-svg"
+              />
             </span>
             {/* Nombre del artista (blanco negrita en web, gris regular en movil) */}
             {album.artista?.nombre && (
@@ -329,12 +373,27 @@ export default function DetalleAlbum({
               </span>
             )}
             {/* Anio, cantidad de canciones y duracion total */}
-            {detallesResumen && (
-              <span>{detallesResumen}</span>
-            )}
+            {detallesResumen && <span>{detallesResumen}</span>}
           </div>
         </div>
       </header>
+
+      <div>
+        <div className="solo-letra">
+          <input
+            type="checkbox"
+            onClick={() => {
+              mostrarLetra ? setMostrarLetra(false) : setMostrarLetra(true);
+            }}
+          ></input>
+          <label htmlFor="">{letra}</label>
+        </div>
+
+        <span> </span>
+        {mostrarLetra && (
+          <span>{`${visibles.length} de ${pistas.length} canciones`}</span>
+        )}
+      </div>
 
       {/* Bloque de la tabla / lista de canciones (sin reproduccion de audio segun contrato) */}
       <div className="detalle-album-pistas">
@@ -344,7 +403,10 @@ export default function DetalleAlbum({
         ) : (
           <>
             {/* Cabecera de 4 columnas visible solo en escritorio usando clase predefinida detalle-etiqueta */}
-            <div className="detalle-album-tabla-cabecera detalle-etiqueta" aria-hidden="true">
+            <div
+              className="detalle-album-tabla-cabecera detalle-etiqueta"
+              aria-hidden="true"
+            >
               {/* Encabezado de numero de pista (#) */}
               <span className="detalle-album-col-num">
                 {textosAlbum?.tabla?.etiquetas?.numero}
@@ -374,14 +436,15 @@ export default function DetalleAlbum({
               {/* Recorremos cada pista del arreglo album.pistas */}
               {pistas.map((pista, indice) => {
                 // Tomamos el artista propio de la pista o el del album como respaldo
-                const nombreArtistaPista =
-                  pista.artista?.nombre;
+                const nombreArtistaPista = pista.artista?.nombre;
                 // Duracion ya formateada en "m:ss" (ej. 70 -> "1:10")
                 const duracionFormateada = formatearDuracion(pista.duracionSeg);
-
                 // Retornamos la fila individual de la cancion
                 return (
-                  <li key={pista.id || indice} className="detalle-album-fila-pista">
+                  <li
+                    key={pista.id || indice}
+                    className="detalle-album-fila-pista"
+                  >
                     {/* Columna 1 (solo web): numero de pista con clase predefinida cuerpo-p */}
                     <span className="detalle-album-col-num cuerpo-p">
                       {pista.numero ?? indice + 1}
@@ -390,7 +453,10 @@ export default function DetalleAlbum({
                     {/* Columna 2: miniatura de portada + titulo y artista */}
                     <div className="detalle-album-col-titulo">
                       {/* Mini portada cuadrada (48px movil / 40px web) */}
-                      <div className="detalle-album-pista-portada" aria-hidden="true">
+                      <div
+                        className="detalle-album-pista-portada"
+                        aria-hidden="true"
+                      >
                         {/* Reutilizamos Portada tomando la portada de la pista o la del album */}
                         <Portada
                           portada={pista.portada ?? album.portada}
@@ -413,6 +479,21 @@ export default function DetalleAlbum({
                           </span>
                         )}
                       </div>
+                      {/* {mostrarLetra && (
+                        visibles.incudes(pista) &&(
+                          <span>{"dsada"}</span>
+                        ):
+                        <span>{"dsadsa"}</span>
+
+                      )} */}
+                      {mostrarLetra &&
+                        (visibles.includes(pista) ? (
+                          <Etiqueta key={pista.id} variante="secundaria">
+                            {textos?.componentes?.reproductor?.controles?.letra}
+                          </Etiqueta>
+                        ) : (
+                          ""
+                        ))}
                     </div>
 
                     {/* Columna 3 (solo web): reproducciones alineadas a la izquierda con clase cuerpo-p */}
@@ -476,7 +557,10 @@ export default function DetalleAlbum({
           {/* Cabecera con titulo a la izquierda y "Ver discografia" a la derecha */}
           <div className="detalle-album-mas-cabecera">
             {/* Titulo "Mas de {artista}" usando clase predefinida titular-h2 */}
-            <h2 id="detalle-album-mas-titulo" className="detalle-album-mas-titulo titular-h2">
+            <h2
+              id="detalle-album-mas-titulo"
+              className="detalle-album-mas-titulo titular-h2"
+            >
               {tituloMasDelArtista}
             </h2>
             {/* Enlace derecho "Ver discografia" usando clase predefinida detalle-nota-fuerte */}
@@ -507,9 +591,14 @@ export default function DetalleAlbum({
               // Extraemos el anio sin new Date()
               const anioOtro = extraerAnio(otro.fechaPublicacion);
               // Traducimos el tipo ("Album", "EP", "Sencillo")
-              const tipoOtro = obtenerEtiquetaTipo(otro.tipo, textosAlbum, textosGeneral);
+              const tipoOtro = obtenerEtiquetaTipo(
+                otro.tipo,
+                textosAlbum,
+                textosGeneral,
+              );
               // Armamos el subtitulo "{anio} · {tipo}" usando la plantilla de la API
-              const subtituloOtro = textosAlbum?.masDelArtista?.etiquetas?.anioYTipo
+              const subtituloOtro = textosAlbum?.masDelArtista?.etiquetas
+                ?.anioYTipo
                 ? textosAlbum.masDelArtista.etiquetas.anioYTipo
                     .replace("{anio}", anioOtro)
                     .replace("{tipo}", tipoOtro)
